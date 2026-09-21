@@ -1,0 +1,65 @@
+[
+  {
+    "id": "deliv-01",
+    "scenario": "delivery",
+    "glosses": ["GATE_LEFT"],
+    "expectedEmergency": false,
+    "keywordsEn": ["left", "gate", "building"]
+  },
+  {
+    "id": "deliv-02",
+    "scenario": "delivery",
+    "glosses": ["DOOR"],
+    "expectedEmergency": false,
+    "keywordsEn": ["package", "door", "flat"]
+  },
+  {
+    "id": "deliv-03",
+    "scenario": "delivery",
+    "glosses": ["COMING_DOWN"],
+    "expectedEmergency": false,
+    "keywordsEn": ["elevator", "lobby", "wait"]
+  },
+  {
+    "id": "deliv-04",
+    "scenario": "delivery",
+    "glosses": ["FLOOR_2"],
+    "expectedEmergency": false,
+    "keywordsEn": ["floor", "lift"]
+  },
+  {
+    "id": "deliv-05",
+    "scenario": "delivery",
+    "glosses": ["OTP", "#4821"],
+    "expectedEmergency": false,
+    "keywordsEn": ["OTP", "verification"]
+  },
+  {
+    "id": "deliv-06",
+    "scenario": "delivery",
+    "glosses": ["YES"],
+    "expectedEmergency": false,
+    "keywordsEn": ["correct", "thank you"]
+  },
+  {
+    "id": "transit-01",
+    "scenario": "transit",
+    "glosses": ["GATE_RIGHT"],
+    "expectedEmergency": false,
+    "keywordsEn": ["right", "gate", "tower"]
+  },
+  {
+    "id": "gen-01",
+    "scenario": "general",
+    "glosses": ["THANK-YOU"],
+    "expectedEmergency": false,
+    "keywordsEn": ["thank", "support"]
+  },
+  {
+    "id": "emerg-01",
+    "scenario": "emergency",
+    "glosses": ["PAIN", "HELP"],
+    "expectedEmergency": true,
+    "keywordsEn": ["emergency", "pain", "medical"]
+  }
+]
