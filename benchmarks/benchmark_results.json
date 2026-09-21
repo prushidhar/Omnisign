@@ -1,0 +1,91 @@
+{
+  "timestamp": "2026-09-21T16:41:06.049Z",
+  "benchmarkProtocol": "OmniSign-Biomechanical-Invariant-Protocol-150",
+  "totalClasses": 150,
+  "vectorDimensions": 72,
+  "threshold": 0.42,
+  "metrics": {
+    "scaleInvariance": {
+      "testedScales": [
+        0.5,
+        0.75,
+        1,
+        1.25,
+        1.5,
+        1.8,
+        2
+      ],
+      "accuracyPercent": 100,
+      "maxDeviation": 1.297756939576792e-16
+    },
+    "translationInvariance": {
+      "testedOffsets": [
+        {
+          "x": -0.4,
+          "y": -0.3,
+          "z": 0.1
+        },
+        {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        {
+          "x": 0.35,
+          "y": -0.2,
+          "z": -0.15
+        },
+        {
+          "x": -0.2,
+          "y": 0.4,
+          "z": 0.25
+        },
+        {
+          "x": 0.4,
+          "y": 0.35,
+          "z": -0.3
+        }
+      ],
+      "accuracyPercent": 100,
+      "maxDeviation": 1.4693584581222348e-16
+    },
+    "noiseRobustness": {
+      "0.01": {
+        "top1Acc": "100.00",
+        "top3Acc": "100.00",
+        "avgDist": "0.0131"
+      },
+      "0.02": {
+        "top1Acc": "99.70",
+        "top3Acc": "100.00",
+        "avgDist": "0.0260"
+      },
+      "0.03": {
+        "top1Acc": "97.97",
+        "top3Acc": "100.00",
+        "avgDist": "0.0387"
+      },
+      "0.05": {
+        "top1Acc": "90.97",
+        "top3Acc": "99.30",
+        "avgDist": "0.0631"
+      }
+    },
+    "interClassMargins": {
+      "minMargin": 0.0219,
+      "closestPair": {
+        "a": "PLEASE",
+        "b": "OFFICE",
+        "dist": 0.021917206311382786
+      },
+      "tenthPercentile": 0.0345,
+      "medianMargin": 0.0674,
+      "meanMargin": 0.0746
+    },
+    "latency": {
+      "averageMicroseconds": 35.51,
+      "averageMilliseconds": 0.036,
+      "throughputFps": 28163
+    }
+  }
+}
