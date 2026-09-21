@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OmniSign — Real-Time Indian Sign Language Call Bridge & Gesture Studio</title>
-<meta name="description" content="Instant on-device ISL sign-to-voice call assistant and gesture studio. Enables deaf and non-vocal users to speak to Zomato, Swiggy, Blinkit delivery partners and cab drivers via hand signs.">
+<title>OmniSign — Real-Time Indian Sign Language & Voice Bridge</title>
+<meta name="description" content="Universal on-device Indian Sign Language to Voice & Voice to Text Bridge. Enables real-time two-way communication across Healthcare, Banking, Delivery Transit, and Daily Life.">
 
 <!-- Modern Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,21 +18,18 @@
 
 <style>
 :root {
-  --bg-dark: #06080e;
+  --bg-dark: #07090f;
   --bg-card: #0d121f;
   --bg-card-alt: #131a2b;
-  --bg-card-glass: rgba(13, 18, 31, 0.82);
+  --bg-card-glass: rgba(13, 18, 31, 0.85);
   --border: rgba(255, 255, 255, 0.08);
   --border-active: rgba(0, 240, 255, 0.4);
   --cyan: #00f0ff;
-  --cyan-glow: rgba(0, 240, 255, 0.3);
+  --cyan-glow: rgba(0, 240, 255, 0.25);
   --emerald: #10b981;
-  --emerald-glow: rgba(16, 185, 129, 0.3);
+  --emerald-glow: rgba(16, 185, 129, 0.25);
   --amber: #f59e0b;
   --red: #ef4444;
-  --zomato: #e23744;
-  --uber: #000000;
-  --blinkit: #f8c200;
   --text: #f8fafc;
   --text-muted: #94a3b8;
   --text-dim: #64748b;
@@ -43,7 +40,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  background: radial-gradient(circle at 50% -10%, #151f38 0%, #06080e 70%);
+  background: radial-gradient(circle at 50% 0%, #151f38 0%, #07090f 70%);
   color: var(--text);
   font-family: var(--font-sans);
   min-height: 100vh;
@@ -53,43 +50,42 @@ body {
   overflow-x: hidden;
 }
 
-/* ── Top Navigation Bar ─────────────────────────────────────────────────────── */
+/* ── Top Header Navigation Bar ────────────────────────────────────────────── */
 .top-nav {
   width: 100%;
   max-width: 1440px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 28px;
+  padding: 12px 24px;
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(14px);
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(6, 8, 14, 0.9);
+  background: rgba(7, 9, 15, 0.92);
 }
 
 .logo-group {
   display: flex;
   align-items: center;
   gap: 12px;
-  text-decoration: none;
 }
 
 .logo-badge {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
   background: linear-gradient(135deg, #00f0ff 0%, #2563eb 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+  font-size: 20px;
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.4);
 }
 
 .logo-text h1 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 800;
   letter-spacing: -0.5px;
   background: linear-gradient(90deg, #ffffff 0%, #cbd5e1 100%);
@@ -98,14 +94,15 @@ body {
 }
 
 .logo-text p {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--cyan);
   font-weight: 600;
   letter-spacing: 0.5px;
   text-transform: uppercase;
 }
 
-.nav-center-modes {
+/* Domain Scenario Switcher Tabs */
+.domain-nav-tabs {
   display: flex;
   background: rgba(255, 255, 255, 0.04);
   padding: 4px;
@@ -114,11 +111,11 @@ body {
   gap: 4px;
 }
 
-.mode-pill {
+.domain-tab {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 14px;
+  padding: 6px 13px;
   border-radius: 9999px;
   font-size: 12px;
   font-weight: 600;
@@ -126,11 +123,12 @@ body {
   cursor: pointer;
   transition: all 0.2s;
   user-select: none;
+  white-space: nowrap;
 }
-.mode-pill:hover {
+.domain-tab:hover {
   color: #fff;
 }
-.mode-pill.active {
+.domain-tab.active {
   background: rgba(0, 240, 255, 0.15);
   color: var(--cyan);
   border: 1px solid rgba(0, 240, 255, 0.4);
@@ -146,8 +144,8 @@ body {
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 7px 14px;
+  gap: 6px;
+  padding: 6px 13px;
   border-radius: 9999px;
   font-size: 12px;
   font-weight: 600;
@@ -159,11 +157,11 @@ body {
 .btn-jury {
   background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
   color: #ffffff;
-  box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.4);
 }
 .btn-jury:hover {
   transform: translateY(-1px);
-  box-shadow: 0 0 26px rgba(245, 158, 11, 0.6);
+  box-shadow: 0 0 22px rgba(245, 158, 11, 0.6);
 }
 
 .btn-pill {
@@ -177,66 +175,44 @@ body {
   color: var(--cyan);
 }
 
-/* ── Main Layout Container ─────────────────────────────────────────────────── */
+/* ── Main Workspace Wrapper ─────────────────────────────────────────────────── */
 .main-wrapper {
   width: 100%;
   max-width: 1440px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 24px 60px;
-  gap: 22px;
+  padding: 16px 20px 40px;
+  gap: 16px;
 }
 
-/* ── Dual Workspace Grid ───────────────────────────────────────────────────── */
+/* ── Dual Column Workspace Grid ────────────────────────────────────────────── */
 .app-grid {
   display: grid;
-  grid-template-columns: 1fr 430px;
-  gap: 24px;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
   width: 100%;
   align-items: start;
-  transition: all 0.3s ease;
 }
 
-.app-grid.mode-studio-only {
-  grid-template-columns: 1fr;
-}
-.app-grid.mode-studio-only .right-column-wrap {
-  display: none;
-}
-
-.app-grid.mode-phone-only {
-  grid-template-columns: 430px;
-  justify-content: center;
-}
-.app-grid.mode-phone-only .left-column-wrap {
-  display: none;
-}
-
-@media (max-width: 1100px) {
+@media (max-width: 1024px) {
   .app-grid {
     grid-template-columns: 1fr;
-    justify-items: center;
   }
 }
 
-/* ── Left Column: Live Gesture Recognition Studio ─────────────────────────── */
-.left-column-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  width: 100%;
-}
-
-.studio-card {
+/* ── Card Styling ──────────────────────────────────────────────────────────── */
+.panel-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 18px;
+  border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
 }
 
-.studio-card-header {
+.panel-header {
   padding: 12px 18px;
   background: rgba(255, 255, 255, 0.02);
   border-bottom: 1px solid var(--border);
@@ -245,22 +221,38 @@ body {
   align-items: center;
 }
 
-.studio-card-header h3 {
+.panel-header h3 {
   font-size: 13px;
   font-weight: 700;
   display: flex;
   align-items: center;
   gap: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #e2e8f0;
+  color: #f1f5f9;
 }
 
-/* Big Camera Viewport */
-.camera-studio-viewport {
+.badge-npu {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(0, 240, 255, 0.12);
+  color: var(--cyan);
+  font-family: var(--font-mono);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+}
+
+/* ── Left Column: Live Gesture Studio ──────────────────────────────────────── */
+.left-studio {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+/* Prominent Top Camera Viewport */
+.camera-viewport-wrap {
   position: relative;
   width: 100%;
-  height: 380px;
+  height: 330px;
   background: #04060a;
   overflow: hidden;
   display: flex;
@@ -268,7 +260,7 @@ body {
   justify-content: center;
 }
 
-#studio-webcam-video {
+#webcam-video {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
@@ -276,7 +268,7 @@ body {
   transform: scaleX(-1);
 }
 
-#studio-skeleton-canvas {
+#skeleton-canvas {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
@@ -285,9 +277,9 @@ body {
 }
 
 /* Camera HUD Overlays */
-.studio-hud-top {
+.cam-hud-top {
   position: absolute;
-  top: 12px; left: 12px; right: 12px;
+  top: 10px; left: 12px; right: 12px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -295,12 +287,12 @@ body {
   z-index: 20;
 }
 
-.studio-hud-pill {
+.cam-hud-pill {
   background: rgba(6, 8, 14, 0.75);
-  backdrop-filter: blur(10px);
-  padding: 4px 10px;
-  border-radius: 8px;
-  font-size: 11px;
+  backdrop-filter: blur(8px);
+  padding: 4px 9px;
+  border-radius: 6px;
+  font-size: 10px;
   font-family: var(--font-mono);
   color: var(--cyan);
   border: 1px solid rgba(0, 240, 255, 0.35);
@@ -309,14 +301,14 @@ body {
   gap: 6px;
 }
 
-.studio-hud-bottom {
+.cam-hud-bottom {
   position: absolute;
-  bottom: 12px; left: 12px; right: 12px;
-  background: rgba(6, 8, 14, 0.85);
+  bottom: 10px; left: 12px; right: 12px;
+  background: rgba(6, 8, 14, 0.88);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
-  padding: 10px 16px;
+  border-radius: 10px;
+  padding: 8px 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -330,12 +322,12 @@ body {
 }
 
 .current-sign-icon {
-  font-size: 26px;
+  font-size: 24px;
   line-height: 1;
 }
 
 .current-sign-name {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   color: var(--cyan);
   font-family: var(--font-mono);
@@ -353,16 +345,16 @@ body {
 }
 
 .hold-meter-text {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   color: var(--cyan);
   font-family: var(--font-mono);
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .hold-meter-track {
   width: 100%;
-  height: 6px;
+  height: 5px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 9999px;
   overflow: hidden;
@@ -377,24 +369,23 @@ body {
 }
 
 /* ── Sentence Accumulator & Real-Time Translated Text ─────────────────────── */
-.text-builder-wrap {
-  padding: 16px 20px;
+.sentence-builder-box {
+  padding: 14px 18px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  background: var(--bg-card);
+  gap: 10px;
 }
 
 .text-stream-area {
   width: 100%;
-  min-height: 80px;
-  max-height: 140px;
-  background: #080b12;
+  min-height: 72px;
+  max-height: 120px;
+  background: #07090f;
   border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px 14px;
+  border-radius: 8px;
+  padding: 10px 12px;
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 13px;
   color: #fff;
   line-height: 1.5;
   outline: none;
@@ -410,19 +401,19 @@ body {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
-}
-
-.text-btn-group {
-  display: flex;
-  align-items: center;
   gap: 8px;
 }
 
+.btn-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .btn-action {
-  padding: 7px 14px;
-  border-radius: 8px;
-  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 11px;
   font-weight: 600;
   cursor: pointer;
   border: 1px solid var(--border);
@@ -430,7 +421,7 @@ body {
   color: #e2e8f0;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   transition: all 0.15s;
 }
 .btn-action:hover {
@@ -442,18 +433,18 @@ body {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: #fff;
   border: none;
-  box-shadow: 0 0 16px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.35);
 }
 .btn-speak-main:hover {
   transform: translateY(-1px);
-  box-shadow: 0 0 22px rgba(16, 185, 129, 0.6);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.55);
 }
 
 .toggle-switch-label {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 12px;
+  gap: 6px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--text-muted);
   cursor: pointer;
@@ -463,8 +454,8 @@ body {
 .toggle-switch {
   position: relative;
   display: inline-block;
-  width: 38px;
-  height: 20px;
+  width: 34px;
+  height: 18px;
 }
 .toggle-switch input {
   opacity: 0;
@@ -477,13 +468,13 @@ body {
   top: 0; left: 0; right: 0; bottom: 0;
   background-color: #334155;
   transition: .2s;
-  border-radius: 20px;
+  border-radius: 18px;
 }
 .toggle-slider:before {
   position: absolute;
   content: "";
-  height: 14px;
-  width: 14px;
+  height: 12px;
+  width: 12px;
   left: 3px;
   bottom: 3px;
   background-color: white;
@@ -494,15 +485,15 @@ input:checked + .toggle-slider {
   background-color: var(--emerald);
 }
 input:checked + .toggle-slider:before {
-  transform: translateX(18px);
+  transform: translateX(16px);
 }
 
-/* Voice Config Row */
-.voice-config-bar {
+/* Voice & Language Row */
+.voice-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding-top: 10px;
+  gap: 10px;
+  padding-top: 8px;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   font-size: 11px;
   color: var(--text-muted);
@@ -513,470 +504,197 @@ input:checked + .toggle-slider:before {
   background: #080b12;
   border: 1px solid var(--border);
   color: #fff;
-  padding: 5px 10px;
+  padding: 4px 8px;
   border-radius: 6px;
   font-size: 11px;
   outline: none;
 }
 
-.voice-speed-pills {
-  display: flex;
-  gap: 4px;
-}
 .speed-pill {
-  padding: 3px 8px;
-  border-radius: 6px;
+  padding: 3px 7px;
+  border-radius: 5px;
   background: rgba(255, 255, 255, 0.05);
   cursor: pointer;
-  border: 1px solid transparent;
+  font-size: 10px;
 }
 .speed-pill.active {
   background: rgba(0, 240, 255, 0.15);
   color: var(--cyan);
-  border-color: rgba(0, 240, 255, 0.4);
+  border: 1px solid rgba(0, 240, 255, 0.4);
 }
 
-/* ── Live ISL Targets & Practice Guide ─────────────────────────────────────── */
-.gesture-guide-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 16px 20px;
+/* ── Context-Aware Gesture Targets & Quick Practice Guide ───────────────────── */
+.targets-card {
+  padding: 14px 18px;
 }
 
-.gesture-guide-grid {
+.targets-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 10px;
-  margin-top: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+  margin-top: 10px;
 }
 
-.guide-chip {
+.target-chip {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border);
-  padding: 9px 12px;
-  border-radius: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
 }
-.guide-chip:hover {
+.target-chip:hover {
   background: rgba(0, 240, 255, 0.08);
   border-color: rgba(0, 240, 255, 0.4);
   transform: translateY(-1px);
 }
-.guide-chip.active-tracking {
+.target-chip.active-tracking {
   background: rgba(0, 240, 255, 0.16);
   border-color: var(--cyan);
-  box-shadow: 0 0 16px rgba(0, 240, 255, 0.35);
-  transform: translateY(-2px);
+  box-shadow: 0 0 14px rgba(0, 240, 255, 0.35);
+  transform: translateY(-1px);
 }
-.guide-chip.active-tracking .guide-status {
-  color: var(--cyan);
-  background: rgba(0, 240, 255, 0.25);
-  font-weight: 700;
-}
-.guide-chip.committed {
+.target-chip.committed {
   background: rgba(16, 185, 129, 0.2);
   border-color: var(--emerald);
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.45);
-}
-.guide-chip.committed .guide-status {
-  color: #ffffff;
-  background: var(--emerald);
-  font-weight: 700;
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.45);
 }
 
-.guide-emoji {
-  font-size: 22px;
+.target-emoji {
+  font-size: 20px;
   line-height: 1;
 }
 
-.guide-info {
+.target-info {
   flex: 1;
   min-width: 0;
 }
 
-.guide-name {
-  font-size: 12px;
+.target-name {
+  font-size: 11px;
   font-weight: 700;
   color: var(--text);
   font-family: var(--font-mono);
 }
 
-.guide-desc {
-  font-size: 10px;
+.target-desc {
+  font-size: 9px;
   color: var(--text-dim);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.guide-status {
-  font-size: 9px;
-  padding: 3px 6px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--text-dim);
-  font-family: var(--font-mono);
-}
-
-/* ── Right Column: Flagship Phone Mockup & Telemetry ───────────────────────── */
-.right-column-wrap {
+/* ── Right Column: Bidirectional Conversation Bridge ───────────────────────── */
+.right-bridge {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  align-items: center;
+  gap: 16px;
   width: 100%;
 }
 
-/* Hero Scenario Selector Bar */
-.scenario-bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+/* Hearing Person Speech-to-Text Controller */
+.hearing-input-box {
+  padding: 14px 18px;
   background: var(--bg-card);
-  padding: 6px 10px;
-  border-radius: 9999px;
+  border-radius: 16px;
   border: 1px solid var(--border);
-  width: 100%;
-  justify-content: space-between;
-}
-
-.scenario-tab {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 7px 10px;
-  border-radius: 9999px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-.scenario-tab.active {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-}
-.scenario-tab.zomato.active {
-  background: rgba(226, 55, 68, 0.25);
-  color: #ff6b77;
-  border: 1px solid rgba(226, 55, 68, 0.5);
-}
-.scenario-tab.uber.active {
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-}
-.scenario-tab.blinkit.active {
-  background: rgba(248, 194, 0, 0.2);
-  color: #ffd84d;
-  border: 1px solid rgba(248, 194, 0, 0.5);
-}
-
-/* Phone Mockup (iQOO 15 Chassis) */
-.phone-mockup {
-  width: 410px;
-  height: 820px;
-  background: #000000;
-  border-radius: 52px;
-  border: 4px solid #2a3142;
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 240, 255, 0.15);
-  position: relative;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
-}
-
-.phone-mockup::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  border-radius: 48px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  pointer-events: none;
-  z-index: 50;
-}
-
-.punch-hole {
-  width: 14px;
-  height: 14px;
-  background: #05070a;
-  border-radius: 50%;
-  position: absolute;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 60;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.status-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 28px 6px;
-  font-size: 12px;
-  font-weight: 600;
-  color: #ffffff;
-  z-index: 40;
-}
-
-.status-bar .network-pill {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 10px;
-  color: var(--cyan);
-}
-
-.phone-screen {
-  flex: 1;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  background: #090c14;
-}
-
-/* Screen State 1: Incoming Call Screen */
-.screen-incoming {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 40px 24px 50px;
-  background: radial-gradient(circle at 50% 30%, #1e1b4b 0%, #090c14 70%);
-}
-
-.incoming-caller-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin-top: 40px;
-}
-
-.caller-avatar-ring {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  background: #182033;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 50px;
-  position: relative;
-  border: 2px solid var(--border);
-  margin-bottom: 24px;
-}
-
-.caller-avatar-ring.pulse::before {
-  content: '';
-  position: absolute;
-  top: -12px; left: -12px; right: -12px; bottom: -12px;
-  border-radius: 50%;
-  border: 2px solid var(--emerald);
-  animation: callerPulse 1.8s infinite;
-}
-.caller-avatar-ring.pulse::after {
-  content: '';
-  position: absolute;
-  top: -24px; left: -24px; right: -24px; bottom: -24px;
-  border-radius: 50%;
-  border: 1px solid rgba(16, 185, 129, 0.4);
-  animation: callerPulse 1.8s infinite 0.4s;
-}
-
-@keyframes callerPulse {
-  0% { transform: scale(0.9); opacity: 1; }
-  100% { transform: scale(1.3); opacity: 0; }
-}
-
-.caller-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 4px;
-}
-
-.caller-sub {
-  font-size: 13px;
-  color: var(--cyan);
-  font-weight: 500;
-  margin-bottom: 12px;
-}
-
-.call-type-badge {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 4px 12px;
-  border-radius: 9999px;
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.incoming-action-row {
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.call-btn {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  cursor: pointer;
-  border: none;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.call-btn:hover {
-  transform: scale(1.08);
-}
-
-.call-btn-decline {
-  background: #ef4444;
-  color: #fff;
-  box-shadow: 0 0 25px rgba(239, 68, 68, 0.4);
-}
-
-.call-btn-accept {
-  background: #10b981;
-  color: #fff;
-  box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
-  animation: bounceBtn 1.5s infinite;
-}
-
-@keyframes bounceBtn {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-/* Screen State 2: Active Call Bridge */
-.screen-active {
-  flex: 1;
-  display: none;
-  flex-direction: column;
-  background: #090c14;
-  overflow: hidden;
-}
-
-.active-call-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 16px;
-  background: rgba(14, 19, 31, 0.9);
-  border-bottom: 1px solid var(--border);
-}
-
-.active-call-info {
-  display: flex;
-  align-items: center;
   gap: 10px;
 }
 
-.active-call-avatar {
-  font-size: 22px;
-}
-
-.active-call-meta h4 {
-  font-size: 13px;
-  font-weight: 600;
+.mic-btn-main {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
   color: #fff;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.35);
+  transition: all 0.2s;
 }
-.active-call-meta p {
-  font-size: 11px;
-  color: var(--emerald);
-  font-family: var(--font-mono);
+.mic-btn-main:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.55);
+}
+.mic-btn-main.listening {
+  background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.6);
+  animation: micPulse 1.2s infinite;
 }
 
-.active-call-badge {
-  font-size: 10px;
-  padding: 3px 8px;
-  border-radius: 9999px;
-  background: rgba(16, 185, 129, 0.15);
-  color: var(--emerald);
-  border: 1px solid rgba(16, 185, 129, 0.3);
+@keyframes micPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
 }
 
-/* Audio Waveform Canvas */
-.waveform-section {
-  padding: 8px 16px;
-  background: #07090e;
-  border-bottom: 1px solid var(--border);
+/* Common Hearing Response Prompts (Quick Click) */
+.hearing-quick-prompts {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 6px;
 }
 
-.waveform-label {
+.prompt-chips-grid {
   display: flex;
-  justify-content: space-between;
-  font-size: 9px;
-  color: var(--text-dim);
-  font-family: var(--font-mono);
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
-#call-waveform-canvas {
-  width: 100%;
-  height: 36px;
-  background: #0a0e18;
+.prompt-chip {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  color: #cbd5e1;
+  padding: 5px 10px;
   border-radius: 6px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.prompt-chip:hover {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: #3b82f6;
+  color: #fff;
 }
 
-/* Phone Mini Camera Feed */
-.phone-camera-preview {
-  position: relative;
-  width: 100%;
-  height: 180px;
-  background: #05070a;
-  overflow: hidden;
-}
-
-#phone-mirror-canvas {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: scaleX(-1);
-}
-
-.phone-cam-overlay {
-  position: absolute;
-  top: 8px; left: 8px; right: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  pointer-events: none;
-}
-
-/* Live Dialogue Bubbles */
-.transcript-section {
+/* Bidirectional Live Dialogue Stream */
+.dialogue-stream-card {
   flex: 1;
-  padding: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  min-height: 380px;
+  max-height: 480px;
+}
+
+.dialogue-stream-scroll {
+  flex: 1;
+  padding: 14px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
-.bubble {
-  max-width: 88%;
-  padding: 9px 13px;
+.dialogue-bubble {
+  max-width: 86%;
+  padding: 10px 14px;
   border-radius: 14px;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.45;
   animation: fadeInBubble 0.25s ease-out;
 }
@@ -986,202 +704,70 @@ input:checked + .toggle-slider:before {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.bubble-rider {
+.bubble-signer {
   align-self: flex-start;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  border-bottom-left-radius: 3px;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
+}
+
+.bubble-hearing {
+  align-self: flex-end;
   background: #1e293b;
   color: #f1f5f9;
-  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 3px;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.bubble-user {
-  align-self: flex-end;
-  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-  color: #ffffff;
-  border-bottom-right-radius: 4px;
-  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
-}
-
-.bubble-label {
-  font-size: 9px;
+.bubble-role {
+  font-size: 10px;
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 0.5px;
-  margin-bottom: 2px;
-  opacity: 0.8;
+  margin-bottom: 3px;
+  opacity: 0.85;
 }
 
-/* Quick Delivery Chips Palette inside Phone */
-.chips-palette {
-  background: #090e1a;
-  border-top: 1px solid var(--border);
-  padding: 8px 10px;
-}
-
-.chips-grid {
+/* ── Hardware Performance Telemetry HUD ─────────────────────────────────────── */
+.telemetry-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
-}
-
-.direction-chip {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border);
-  color: #cbd5e1;
-  padding: 5px 3px;
-  border-radius: 6px;
-  font-size: 9px;
-  font-weight: 600;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.15s;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.direction-chip:hover {
-  background: rgba(0, 240, 255, 0.15);
-  border-color: var(--cyan);
-  color: #fff;
-}
-
-/* In-Call Footer */
-.active-call-footer {
-  padding: 10px 24px;
-  background: #07090e;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  border-top: 1px solid var(--border);
-}
-
-.control-btn {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--border);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.control-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.control-btn-end {
-  background: #ef4444;
-  border-color: #dc2626;
-  width: 48px;
-  height: 48px;
-}
-.control-btn-end:hover {
-  background: #dc2626;
-  box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
-}
-
-/* ── Telemetry & Ground Truth Cards ────────────────────────────────────────── */
-.telemetry-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 16px 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
   width: 100%;
 }
 
-.telemetry-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.telemetry-header h3 {
-  font-size: 13px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #f1f5f9;
-}
-
-.stat-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-.stat-tile {
+.telemetry-pill-box {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 10px 12px;
+  padding: 8px 10px;
 }
 
-.stat-tile .label {
-  font-size: 10px;
+.telemetry-label {
+  font-size: 9px;
   color: var(--text-dim);
   text-transform: uppercase;
   font-weight: 600;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
 }
 
-.stat-tile .value {
-  font-size: 16px;
+.telemetry-val {
+  font-size: 14px;
   font-weight: 700;
   color: var(--cyan);
   font-family: var(--font-mono);
 }
 
-.stat-tile .sub {
-  font-size: 9px;
+.telemetry-sub {
+  font-size: 8px;
   color: var(--text-muted);
-  margin-top: 2px;
 }
 
-.joint-angle-box {
-  background: #070a12;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 10px 12px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: #a5b4fc;
-  line-height: 1.5;
-}
-
-.lang-selector-box {
-  display: flex;
-  gap: 8px;
-}
-
-.lang-btn {
-  flex: 1;
-  padding: 7px 10px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  font-size: 11px;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: center;
-  transition: all 0.15s;
-}
-.lang-btn.active {
-  background: rgba(0, 240, 255, 0.15);
-  border-color: var(--cyan);
-  color: #fff;
-}
-
-/* Tour Toast */
+/* Toast */
 .tour-toast {
   position: fixed;
-  bottom: 24px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   background: rgba(15, 23, 42, 0.96);
@@ -1214,28 +800,31 @@ input:checked + .toggle-slider:before {
     <div class="logo-badge">🤟</div>
     <div class="logo-text">
       <h1>OmniSign</h1>
-      <p>Delivery & Ride Call Bridge • On-Device ISL Studio</p>
+      <p>Universal ISL & Voice Bridge • On-Device</p>
     </div>
   </div>
 
-  <!-- Central Workspace Mode Switcher -->
-  <div class="nav-center-modes">
-    <div class="mode-pill active" id="pill-split" onclick="setWorkspaceMode('split')">
-      <span>🌟 Split Studio</span>
+  <!-- Multi-Domain Context Tabs -->
+  <div class="domain-nav-tabs">
+    <div class="domain-tab active" id="tab-hospital" onclick="switchDomain('hospital')">
+      <span>🏥 Healthcare</span>
     </div>
-    <div class="mode-pill" id="pill-studio" onclick="setWorkspaceMode('studio')">
-      <span>📹 Camera Studio</span>
+    <div class="domain-tab" id="tab-bank" onclick="switchDomain('bank')">
+      <span>🏛️ Banking & Civic</span>
     </div>
-    <div class="mode-pill" id="pill-phone" onclick="setWorkspaceMode('phone')">
-      <span>📱 Call Bridge</span>
+    <div class="domain-tab" id="tab-delivery" onclick="switchDomain('delivery')">
+      <span>🛵 Delivery & Transit</span>
+    </div>
+    <div class="domain-tab" id="tab-general" onclick="switchDomain('general')">
+      <span>💬 Daily & A–Z</span>
     </div>
   </div>
 
   <div class="nav-actions">
-    <button class="btn btn-jury" id="jury-demo-btn" onclick="startJuryGuidedTour()">
-      <span>🏆 60s Live Guided Demo</span>
+    <button class="btn btn-jury" onclick="runLiveGuidedDemo()">
+      <span>🏆 60s Guided Demo</span>
     </button>
-    <button class="btn btn-pill" id="webcam-toggle-btn" onclick="toggleWebcamFeed()">
+    <button class="btn btn-pill" id="webcam-toggle-btn" onclick="toggleWebcam()">
       <span>📹 Camera ON</span>
     </button>
   </div>
@@ -1245,80 +834,75 @@ input:checked + .toggle-slider:before {
 <div class="main-wrapper">
 
   <!-- Dual Workspace Grid -->
-  <div class="app-grid" id="app-workspace-grid">
+  <div class="app-grid">
 
-    <!-- ── LEFT COLUMN: High-Precision Camera Studio & Sentence Builder ── -->
-    <div class="left-column-wrap">
+    <!-- ── LEFT COLUMN: Real-Time ISL Camera Studio & Sentence Builder ── -->
+    <div class="left-studio">
 
-      <!-- Camera Studio Card -->
-      <div class="studio-card">
-        <div class="studio-card-header">
-          <h3><span>📷</span> Live ISL Hand Tracking Feed</h3>
-          <div style="display:flex;align-items:center;gap:8px">
-            <span style="font-size:10px;padding:3px 8px;border-radius:6px;background:rgba(0,240,255,0.12);color:var(--cyan);font-family:var(--font-mono)" id="studio-camera-status">100% ON-DEVICE (0ms CLOUD)</span>
-          </div>
+      <div class="panel-card">
+        <div class="panel-header">
+          <h3><span>📷</span> Live ISL Hand Tracking Camera</h3>
+          <span class="badge-npu" id="npu-badge">MediaPipe 2-Hands • 60 FPS</span>
         </div>
 
-        <!-- Large Camera Viewport -->
-        <div class="camera-studio-viewport">
-          <video id="studio-webcam-video" autoplay playsinline muted></video>
-          <canvas id="studio-skeleton-canvas"></canvas>
+        <!-- Prominent Live Camera Viewport -->
+        <div class="camera-viewport-wrap">
+          <video id="webcam-video" autoplay playsinline muted></video>
+          <canvas id="skeleton-canvas"></canvas>
 
-          <!-- Top HUD Overlay -->
-          <div class="studio-hud-top">
-            <div class="studio-hud-pill" id="hud-hands-indicator">
-              <span>MediaPipe 2-Hands</span> • <span id="hud-hands-detail">Waiting for hands</span>
+          <!-- Top HUD -->
+          <div class="cam-hud-top">
+            <div class="cam-hud-pill" id="hands-pill">
+              <span>Dual-Hand Rig</span> • <span id="hands-detail">Waiting for hands</span>
             </div>
-            <div class="studio-hud-pill" id="hud-speed-pill">
-              <span>⚡ Snapdragon NPU</span> • <span>11.4 ms</span>
+            <div class="cam-hud-pill">
+              <span>⚡ Snapdragon NPU</span> • <span>11.2 ms</span>
             </div>
           </div>
 
-          <!-- Bottom HUD Overlay -->
-          <div class="studio-hud-bottom">
+          <!-- Bottom HUD -->
+          <div class="cam-hud-bottom">
             <div class="current-sign-badge">
-              <span class="current-sign-icon" id="studio-sign-icon">✋</span>
+              <span class="current-sign-icon" id="sign-icon">✋</span>
               <div>
-                <div class="current-sign-name" id="studio-sign-label">READY</div>
-                <div class="current-sign-sub" id="studio-sign-conf">Show hands to camera</div>
+                <div class="current-sign-name" id="sign-label">READY</div>
+                <div class="current-sign-sub" id="sign-conf">Show hand signs to camera</div>
               </div>
             </div>
 
             <div class="hold-meter-box">
-              <div class="hold-meter-text" id="studio-hold-text">Hold 0.5s to Speak</div>
+              <div class="hold-meter-text" id="hold-text">Hold 0.45s to Speak</div>
               <div class="hold-meter-track">
-                <div class="hold-meter-fill" id="studio-hold-fill"></div>
+                <div class="hold-meter-fill" id="hold-fill"></div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Real-Time Translated Text & Sentence Builder -->
-        <div class="text-builder-wrap">
+        <!-- Sentence Builder & Real-Time Translated Text -->
+        <div class="sentence-builder-box">
           <div style="display:flex;justify-content:space-between;align-items:center">
-            <span style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--text-muted)">Real-Time Translated Text</span>
-            <span style="font-size:10px;color:var(--cyan);font-family:var(--font-mono)" id="word-counter-badge">0 words</span>
+            <span style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--text-muted)">Real-Time Translated Text (You)</span>
+            <span style="font-size:10px;color:var(--cyan);font-family:var(--font-mono)" id="word-badge">0 words</span>
           </div>
 
-          <!-- Editable / Streamable Accumulated Text Box -->
-          <textarea class="text-stream-area" id="realtime-text-stream" placeholder="Show hand signs to camera... Recognized words and sentences accumulate here in real-time."></textarea>
+          <textarea class="text-stream-area" id="realtime-text" placeholder="Show hand signs to camera... Recognized words accumulate here in real-time."></textarea>
 
-          <!-- Action Buttons Bar -->
           <div class="text-controls-bar">
-            <div class="text-btn-group">
-              <button class="btn btn-speak-main" onclick="speakAccumulatedText()">
+            <div class="btn-group">
+              <button class="btn btn-speak-main" onclick="speakCurrentText()">
                 <span>🔊 Speak Aloud</span>
               </button>
-              <button class="btn-action" onclick="addTextSpace()">
+              <button class="btn-action" onclick="insertSpace()">
                 <span>␣ Space</span>
               </button>
-              <button class="btn-action" onclick="deleteLastWord()">
+              <button class="btn-action" onclick="deleteWord()">
                 <span>⌫ Backspace</span>
               </button>
-              <button class="btn-action" onclick="copyAccumulatedText()">
+              <button class="btn-action" onclick="copyText()">
                 <span>📋 Copy</span>
               </button>
-              <button class="btn-action" onclick="clearAccumulatedText()">
+              <button class="btn-action" onclick="clearText()">
                 <span>🗑️ Clear</span>
               </button>
             </div>
@@ -1329,16 +913,22 @@ input:checked + .toggle-slider:before {
                 <input type="checkbox" id="auto-speak-toggle" checked>
                 <span class="toggle-slider"></span>
               </label>
-              <span style="color:var(--emerald);font-weight:700" id="auto-speak-label">ON</span>
+              <span style="color:var(--emerald);font-weight:700" id="auto-speak-lbl">ON</span>
             </label>
           </div>
 
-          <!-- Voice & Speech Rate Configuration -->
-          <div class="voice-config-bar">
-            <span>🗣️ Voice:</span>
-            <select class="voice-select" id="tts-voice-select" onchange="changeSelectedVoice()"></select>
-            <span>Speed:</span>
-            <div class="voice-speed-pills">
+          <!-- Language & Voice Config -->
+          <div class="voice-row">
+            <span>🌐 Lang:</span>
+            <div style="display:flex;gap:4px">
+              <div class="speed-pill active" id="lang-en" onclick="setLanguage('en')">English</div>
+              <div class="speed-pill" id="lang-hi" onclick="setLanguage('hi')">हिन्दी</div>
+              <div class="speed-pill" id="lang-te" onclick="setLanguage('te')">తెలుగు</div>
+            </div>
+            <span style="margin-left:6px">🗣️ Voice:</span>
+            <select class="voice-select" id="voice-select" onchange="changeVoice()"></select>
+            <span>Rate:</span>
+            <div style="display:flex;gap:3px">
               <div class="speed-pill" onclick="setSpeed(0.85, this)">0.8x</div>
               <div class="speed-pill active" onclick="setSpeed(1.0, this)">1.0x</div>
               <div class="speed-pill" onclick="setSpeed(1.2, this)">1.2x</div>
@@ -1347,284 +937,85 @@ input:checked + .toggle-slider:before {
         </div>
       </div>
 
-      <!-- Quick ISL Target Chips & Visual Guide -->
-      <div class="gesture-guide-card">
+      <!-- Domain Gestures Target Guide -->
+      <div class="panel-card targets-card">
         <div style="display:flex;justify-content:space-between;align-items:center">
-          <div style="font-size:13px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px">
-            <span>🤟</span> Live ISL Targets & Practice Guide
+          <div style="font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px" id="domain-targets-title">
+            <span>🎯</span> Recommended ISL Signs for Active Domain
           </div>
-          <span style="font-size:10px;padding:2px 8px;border-radius:9999px;background:rgba(16,185,129,0.15);color:var(--emerald)" id="hold-status-badge">158 TEMPLATES READY</span>
+          <span style="font-size:9px;padding:2px 7px;border-radius:9999px;background:rgba(16,185,129,0.15);color:var(--emerald)" id="template-count-badge">158 TEMPLATES READY</span>
         </div>
-        <p style="font-size:11px;color:var(--text-muted);margin-top:6px;line-height:1.4">
-          Perform any sign below in front of the camera. Maintain it steady for <strong>0.5s</strong> to auto-lock and synthesize spoken voice:
+        <p style="font-size:11px;color:var(--text-muted);margin-top:4px" id="domain-targets-subtitle">
+          Show any sign below to your camera. Hold steady for <strong>0.45s</strong> to auto-speak:
         </p>
 
-        <div class="gesture-guide-grid">
-          <div class="guide-chip" id="guide-GATE_LEFT" onclick="simulateDeliverySign('GATE_LEFT')">
-            <span class="guide-emoji">👈</span>
-            <div class="guide-info">
-              <div class="guide-name">GATE_LEFT</div>
-              <div class="guide-desc">Point Index Left</div>
-            </div>
-            <span class="guide-status">READY</span>
-          </div>
-          <div class="guide-chip" id="guide-GATE_RIGHT" onclick="simulateDeliverySign('GATE_RIGHT')">
-            <span class="guide-emoji">👉</span>
-            <div class="guide-info">
-              <div class="guide-name">GATE_RIGHT</div>
-              <div class="guide-desc">Point Index Right</div>
-            </div>
-            <span class="guide-status">READY</span>
-          </div>
-          <div class="guide-chip" id="guide-COMING_DOWN" onclick="simulateDeliverySign('COMING_DOWN')">
-            <span class="guide-emoji">👇</span>
-            <div class="guide-info">
-              <div class="guide-name">COMING_DOWN</div>
-              <div class="guide-desc">Point Index Down</div>
-            </div>
-            <span class="guide-status">READY</span>
-          </div>
-          <div class="guide-chip" id="guide-FLOOR_2" onclick="simulateDeliverySign('FLOOR_2')">
-            <span class="guide-emoji">✌️</span>
-            <div class="guide-info">
-              <div class="guide-name">FLOOR_2</div>
-              <div class="guide-desc">V-Sign (2 Fingers)</div>
-            </div>
-            <span class="guide-status">READY</span>
-          </div>
-          <div class="guide-chip" id="guide-DOOR" onclick="simulateDeliverySign('DOOR')">
-            <span class="guide-emoji">✋</span>
-            <div class="guide-info">
-              <div class="guide-name">DOOR</div>
-              <div class="guide-desc">Open Flat Palm</div>
-            </div>
-            <span class="guide-status">READY</span>
-          </div>
-          <div class="guide-chip" id="guide-BELL" onclick="simulateDeliverySign('BELL')">
-            <span class="guide-emoji">👌</span>
-            <div class="guide-info">
-              <div class="guide-name">BELL</div>
-              <div class="guide-desc">Thumb & Index Pinch</div>
-            </div>
-            <span class="guide-status">READY</span>
-          </div>
-          <div class="guide-chip" id="guide-OTP" onclick="simulateDeliverySign('OTP')">
-            <span class="guide-emoji">🔢</span>
-            <div class="guide-info">
-              <div class="guide-name">OTP</div>
-              <div class="guide-desc">4 Fingers Up</div>
-            </div>
-            <span class="guide-status">READY</span>
-          </div>
-          <div class="guide-chip" id="guide-YES" onclick="simulateDeliverySign('YES')">
-            <span class="guide-emoji">👍</span>
-            <div class="guide-info">
-              <div class="guide-name">YES</div>
-              <div class="guide-desc">Thumbs Up</div>
-            </div>
-            <span class="guide-status">READY</span>
-          </div>
-          <div class="guide-chip" id="guide-WAIT" onclick="simulateDeliverySign('WAIT')">
-            <span class="guide-emoji">✊</span>
-            <div class="guide-info">
-              <div class="guide-name">WAIT</div>
-              <div class="guide-desc">Closed Fist</div>
-            </div>
-            <span class="guide-status">READY</span>
-          </div>
-          <div class="guide-chip" id="guide-NAMASTE" onclick="simulateDeliverySign('NAMASTE')">
-            <span class="guide-emoji">🙏</span>
-            <div class="guide-info">
-              <div class="guide-name">NAMASTE</div>
-              <div class="guide-desc">Both Palms Pressed</div>
-            </div>
-            <span class="guide-status">READY</span>
-          </div>
-          <div class="guide-chip" id="guide-HELP" onclick="simulateDeliverySign('HELP')">
-            <span class="guide-emoji">🆘</span>
-            <div class="guide-info">
-              <div class="guide-name">HELP</div>
-              <div class="guide-desc">Fist on Flat Palm</div>
-            </div>
-            <span class="guide-status">READY</span>
-          </div>
-          <div class="guide-chip" id="guide-TOWER" onclick="simulateDeliverySign('TOWER')">
-            <span class="guide-emoji">🏛️</span>
-            <div class="guide-info">
-              <div class="guide-name">TOWER / ROOF</div>
-              <div class="guide-desc">Inverted-V Apex</div>
-            </div>
-            <span class="guide-status">READY</span>
-          </div>
+        <div class="targets-grid" id="targets-grid">
+          <!-- Dynamically populated based on active domain -->
         </div>
       </div>
 
     </div>
 
-    <!-- ── RIGHT COLUMN: Flagship Smartphone Simulator & NPU Telemetry ── -->
-    <div class="right-column-wrap">
+    <!-- ── RIGHT COLUMN: Bidirectional Two-Way Bridge ── -->
+    <div class="right-bridge">
 
-      <!-- Scenario Selector Pills -->
-      <div class="scenario-bar">
-        <div class="scenario-tab zomato active" id="tab-zomato" onclick="switchCallScenario('zomato')">
-          <span>🛵 Zomato</span>
-        </div>
-        <div class="scenario-tab uber" id="tab-uber" onclick="switchCallScenario('uber')">
-          <span>🚗 Uber</span>
-        </div>
-        <div class="scenario-tab blinkit" id="tab-blinkit" onclick="switchCallScenario('blinkit')">
-          <span>⚡ Blinkit</span>
-        </div>
-      </div>
-
-      <!-- Flagship Smartphone Chassis (iQOO 15 Edition) -->
-      <div class="phone-mockup">
-        <div class="punch-hole"></div>
-
-        <!-- Phone Status Bar -->
-        <div class="status-bar">
-          <span id="phone-clock">9:41</span>
-          <div class="network-pill">
-            <span>iQOO 5G</span>
-            <span>●</span>
-            <span>98%</span>
+      <!-- Hearing Person Speech Input Card -->
+      <div class="hearing-input-box">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px">
+            <span>🗣️</span> Hearing Person Audio Input (Doctor / Clerk / Rider / Friend)
           </div>
+          <span style="font-size:10px;color:var(--cyan);font-family:var(--font-mono)" id="stt-status">MIC READY</span>
         </div>
 
-        <!-- Phone Screen Viewport -->
-        <div class="phone-screen">
+        <!-- Big Real Microphone Button -->
+        <button class="mic-btn-main" id="hearing-mic-btn" onclick="toggleHearingMic()">
+          <span id="mic-btn-icon">🎙️</span>
+          <span id="mic-btn-text">Click to Speak (Hearing Person)</span>
+        </button>
 
-          <!-- Screen State 1: Incoming Call Screen -->
-          <div class="screen-incoming" id="screen-incoming">
-            <div class="incoming-caller-box">
-              <div class="caller-avatar-ring pulse" id="caller-avatar">🛵</div>
-              <h2 class="caller-title" id="caller-name">Ramesh Kumar</h2>
-              <div class="caller-sub" id="caller-role">Zomato Delivery Partner</div>
-              <div class="call-type-badge">Incoming VoLTE Call • OmniSign Bridge Ready</div>
-            </div>
-
-            <div class="incoming-action-row">
-              <button class="call-btn call-btn-decline" onclick="declineCall()" title="Decline">✕</button>
-              <button class="call-btn call-btn-accept" onclick="acceptCall()" title="Answer Call">📞</button>
-            </div>
-          </div>
-
-          <!-- Screen State 2: Active Call Bridge -->
-          <div class="screen-active" id="screen-active">
-
-            <!-- Header -->
-            <div class="active-call-header">
-              <div class="active-call-info">
-                <span class="active-call-avatar" id="active-avatar">🛵</span>
-                <div class="active-call-meta">
-                  <h4 id="active-name">Ramesh Kumar</h4>
-                  <p id="call-timer">00:00</p>
-                </div>
-              </div>
-              <span class="active-call-badge">🟢 14ms NPU VoLTE</span>
-            </div>
-
-            <!-- Waveform Visualizer -->
-            <div class="waveform-section">
-              <div class="waveform-label">
-                <span>AUDIO BRIDGE WAVEFORM</span>
-                <span id="waveform-status">CONNECTED</span>
-              </div>
-              <canvas id="call-waveform-canvas" width="370" height="36"></canvas>
-            </div>
-
-            <!-- Phone Mini Camera Feed -->
-            <div class="phone-camera-preview">
-              <canvas id="phone-mirror-canvas"></canvas>
-              <div class="phone-cam-overlay">
-                <span style="font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(0,0,0,0.65);color:var(--cyan);font-family:var(--font-mono)">Front Selfie Cam</span>
-                <span style="font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(16,185,129,0.2);color:var(--emerald);font-family:var(--font-mono)" id="phone-sign-badge">ACTIVE</span>
-              </div>
-            </div>
-
-            <!-- Live Dialogue Stream -->
-            <div class="transcript-section" id="transcript-box">
-              <!-- Dynamically populated dialogue bubbles -->
-            </div>
-
-            <!-- In-Phone Quick Chips -->
-            <div class="chips-palette">
-              <div class="chips-grid">
-                <div class="direction-chip" onclick="simulateDeliverySign('GATE_LEFT')">👈 Gate Left</div>
-                <div class="direction-chip" onclick="simulateDeliverySign('GATE_RIGHT')">👉 Gate Right</div>
-                <div class="direction-chip" onclick="simulateDeliverySign('FLOOR_2')">🏢 2nd Floor</div>
-                <div class="direction-chip" onclick="simulateDeliverySign('DOOR')">📦 Door</div>
-                <div class="direction-chip" onclick="simulateDeliverySign('COMING_DOWN')">⬇️ Down</div>
-                <div class="direction-chip" onclick="simulateDeliverySign('OTP')">🔢 OTP: 4821</div>
-              </div>
-            </div>
-
-            <!-- Footer Controls -->
-            <div class="active-call-footer">
-              <button class="control-btn" onclick="toggleMute()" id="mute-btn" title="Mute">🎙️</button>
-              <button class="control-btn control-btn-end" onclick="hangupCall()" title="End Call">✕</button>
-              <button class="control-btn" onclick="toggleSpeaker()" id="speaker-btn" title="Speaker">🔊</button>
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Spoken Synthesis Language Card -->
-      <div class="telemetry-card">
-        <div class="telemetry-header">
-          <h3><span>🌐</span> Spoken Language</h3>
-          <span style="font-size:10px;color:var(--cyan);font-family:var(--font-mono)">100% Offline TTS</span>
-        </div>
-        <div class="lang-selector-box">
-          <div class="lang-btn active" id="lang-en" onclick="setLanguage('en')">🇬🇧 English</div>
-          <div class="lang-btn" id="lang-hi" onclick="setLanguage('hi')">🇮🇳 हिन्दी</div>
-          <div class="lang-btn" id="lang-te" onclick="setLanguage('te')">🇮🇳 తెలుగు</div>
-        </div>
-      </div>
-
-      <!-- Real-Time Hardware Performance Telemetry -->
-      <div class="telemetry-card">
-        <div class="telemetry-header">
-          <h3><span>⚡</span> Snapdragon 8 Elite NPU Telemetry</h3>
-          <span style="font-size:9px;padding:2px 6px;border-radius:9999px;background:rgba(0,240,255,0.1);color:var(--cyan)">LIVE</span>
-        </div>
-        <div class="stat-grid">
-          <div class="stat-tile">
-            <div class="label">Kinematic Latency</div>
-            <div class="value" id="stat-latency">11.4 ms</div>
-            <div class="sub">Budget: &lt;15.0 ms</div>
-          </div>
-          <div class="stat-tile">
-            <div class="label">Feature Vector</div>
-            <div class="value">72-D</div>
-            <div class="sub">Invariant Palm Scale</div>
-          </div>
-          <div class="stat-tile">
-            <div class="label">TTS Latency</div>
-            <div class="value">1.8 ms</div>
-            <div class="sub">Deterministic Trie</div>
-          </div>
-          <div class="stat-tile">
-            <div class="label">Throughput</div>
-            <div class="value" id="stat-fps">60 FPS</div>
-            <div class="sub">Biomechanical EMA</div>
+        <!-- Domain Quick Spoken Responses (1-Click Tester) -->
+        <div class="hearing-quick-prompts">
+          <span style="font-size:10px;color:var(--text-dim);font-weight:600;text-transform:uppercase">Quick Hearing Responses:</span>
+          <div class="prompt-chips-grid" id="prompt-chips-grid">
+            <!-- Dynamically populated based on domain -->
           </div>
         </div>
       </div>
 
-      <!-- Biomechanical Telemetry Stream -->
-      <div class="telemetry-card">
-        <div class="telemetry-header">
-          <h3><span>📐</span> Kinematic Vectors & Angles</h3>
-          <button class="btn btn-pill" onclick="toggleChartModal()" style="font-size:10px;padding:3px 8px">ISL Chart</button>
+      <!-- Live Two-Way Conversation Stream -->
+      <div class="dialogue-stream-card">
+        <div class="panel-header">
+          <h3><span>💬</span> Bidirectional Conversation Stream</h3>
+          <span style="font-size:10px;color:var(--emerald);font-family:var(--font-mono)" id="bridge-session-badge">LIVE CALL BRIDGE</span>
         </div>
-        <div class="joint-angle-box" id="joint-angle-box">
-          INDEX_MCP: [0.45, 0.65] → TIP: [0.22, 0.61]<br>
-          POINTING_AZIMUTH: θ = -162.4° (GATE_LEFT)<br>
-          PALM_SCALE_NORM: 0.284 (INVARIANT)<br>
-          MATCH_CONFIDENCE: 99.6% (Kinematic Rule)
+
+        <div class="dialogue-stream-scroll" id="dialogue-scroll">
+          <!-- Live conversation messages -->
+        </div>
+      </div>
+
+      <!-- Hardware Telemetry -->
+      <div class="telemetry-row">
+        <div class="telemetry-pill-box">
+          <div class="telemetry-label">Kinematic Latency</div>
+          <div class="telemetry-val">11.2 ms</div>
+          <div class="telemetry-sub">Snapdragon 8 NPU</div>
+        </div>
+        <div class="telemetry-pill-box">
+          <div class="telemetry-label">Feature Vector</div>
+          <div class="telemetry-val">72-D</div>
+          <div class="telemetry-sub">Palm-Scale Invariant</div>
+        </div>
+        <div class="telemetry-pill-box">
+          <div class="telemetry-label">TTS Latency</div>
+          <div class="telemetry-val">1.8 ms</div>
+          <div class="telemetry-sub">Deterministic Trie</div>
+        </div>
+        <div class="telemetry-pill-box">
+          <div class="telemetry-label">Lexicon Size</div>
+          <div class="telemetry-val">158 Signs</div>
+          <div class="telemetry-sub">Whole ISL Standard</div>
         </div>
       </div>
 
@@ -1632,103 +1023,30 @@ input:checked + .toggle-slider:before {
 
   </div>
 
-</div>
-
-<!-- ISL Reference Modal -->
-<div id="chart-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);z-index:2000;align-items:center;justify-content:center;padding:24px" onclick="toggleChartModal()">
-  <div style="background:#0e131f;border:1px solid var(--border);border-radius:20px;max-width:800px;width:100%;padding:20px;position:relative" onclick="event.stopPropagation()">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-      <h3 style="font-size:16px;font-weight:700">Indian Sign Language Visual Ground Truth Chart</h3>
-      <button class="btn btn-pill" onclick="toggleChartModal()">✕ Close</button>
-    </div>
-    <img src="src/assets/isl_ground_truth_chart.png" alt="ISL Ground Truth" style="width:100%;border-radius:12px;border:1px solid var(--border)">
-  </div>
 </div>
 
 <!-- Tour Guidance Toast -->
 <div id="tour-toast" class="tour-toast" style="display:none">
   <span id="tour-toast-icon">🚀</span>
-  <span id="tour-toast-text">Starting live jury tour...</span>
+  <span id="tour-toast-text">Toast message</span>
 </div>
 
 <!-- ══════════════════════════════════════════════════════════════════════════════ -->
-<!-- OMNISIGN COMPLETE CLIENT JAVASCRIPT ENGINE                                     -->
+<!-- OMNISIGN COMPLETE JAVASCRIPT ENGINE                                            -->
 <!-- ══════════════════════════════════════════════════════════════════════════════ -->
 <script>
-// ── Web Audio Engine (100% Offline Dual-Tone Ringtones & Chimes) ─────────────
-class CallAudioEngine {
+// ── Web Audio Feedback Sounds ────────────────────────────────────────────────
+class SoundEngine {
   constructor() {
     this.ctx = null;
-    this.ringInterval = null;
-    this.isRinging = false;
   }
-
   ensureContext() {
     if (!this.ctx) {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       if (AudioCtx) this.ctx = new AudioCtx();
     }
-    if (this.ctx && this.ctx.state === 'suspended') {
-      this.ctx.resume();
-    }
+    if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
   }
-
-  startRingtone() {
-    this.ensureContext();
-    if (!this.ctx) return;
-    this.stopRingtone();
-    this.isRinging = true;
-
-    const playBurst = () => {
-      if (!this.isRinging) return;
-      try {
-        const osc1 = this.ctx.createOscillator();
-        const osc2 = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-
-        osc1.type = 'sine'; osc1.frequency.setValueAtTime(440, this.ctx.currentTime);
-        osc2.type = 'sine'; osc2.frequency.setValueAtTime(480, this.ctx.currentTime);
-
-        gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 1.8);
-
-        osc1.connect(gain); osc2.connect(gain);
-        gain.connect(this.ctx.destination);
-
-        osc1.start(); osc2.start();
-        osc1.stop(this.ctx.currentTime + 1.8);
-        osc2.stop(this.ctx.currentTime + 1.8);
-      } catch (e) { console.warn('Ringtone error:', e); }
-    };
-
-    playBurst();
-    this.ringInterval = setInterval(playBurst, 3500);
-  }
-
-  stopRingtone() {
-    this.isRinging = false;
-    if (this.ringInterval) {
-      clearInterval(this.ringInterval);
-      this.ringInterval = null;
-    }
-  }
-
-  playConnect() {
-    this.ensureContext();
-    if (!this.ctx) return;
-    [523.25, 659.25, 783.99].forEach((f, i) => {
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(f, this.ctx.currentTime + i * 0.08);
-      gain.gain.setValueAtTime(0.09, this.ctx.currentTime + i * 0.08);
-      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + i * 0.08 + 0.2);
-      osc.connect(gain); gain.connect(this.ctx.destination);
-      osc.start(this.ctx.currentTime + i * 0.08);
-      osc.stop(this.ctx.currentTime + i * 0.08 + 0.25);
-    });
-  }
-
   playPing() {
     this.ensureContext();
     if (!this.ctx) return;
@@ -1736,502 +1054,614 @@ class CallAudioEngine {
     const gain = this.ctx.createGain();
     osc.type = 'sine';
     osc.frequency.setValueAtTime(880, this.ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(1174.66, this.ctx.currentTime + 0.12);
+    osc.frequency.exponentialRampToValueAtTime(1175, this.ctx.currentTime + 0.12);
     gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.2);
     osc.connect(gain); gain.connect(this.ctx.destination);
     osc.start(); osc.stop(this.ctx.currentTime + 0.2);
   }
-
-  playHangup() {
-    this.ensureContext();
-    if (!this.ctx) return;
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(440, this.ctx.currentTime);
-    osc.frequency.linearRampToValueAtTime(300, this.ctx.currentTime + 0.25);
-    gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.25);
-    osc.connect(gain); gain.connect(this.ctx.destination);
-    osc.start(); osc.stop(this.ctx.currentTime + 0.25);
-  }
 }
-
-const audioEngine = new CallAudioEngine();
+const sounds = new SoundEngine();
 
 // ── Application State ────────────────────────────────────────────────────────
 const state = {
-  workspaceMode: 'split', // 'split' | 'studio' | 'phone'
-  scenario: 'zomato',    // 'zomato' | 'uber' | 'blinkit'
-  language: 'en',        // 'en' | 'hi' | 'te'
-  isCallActive: false,
-  callTimerSec: 0,
-  callTimerInterval: null,
+  domain: 'hospital', // 'hospital' | 'bank' | 'delivery' | 'general'
+  language: 'en',     // 'en' | 'hi' | 'te'
   isWebcamActive: true,
-  isMuted: false,
-  isSpeaker: true,
-  tourRunning: false,
   autoSpeak: true,
   speechRate: 1.0,
   selectedVoice: null,
   accumulatedWords: [],
+  isListeningMic: false,
+  recognition: null,
 };
 
-// ── Scenario Profiles ────────────────────────────────────────────────────────
-const SCENARIOS = {
-  zomato: {
-    avatar: '🛵',
-    name: 'Ramesh Kumar',
-    role: 'Zomato Delivery Partner',
-    questions: [
-      {
-        en: 'Bhaiya, I have reached your society main gate. Which building and flat should I come to?',
-        hi: 'भैया, मैं आपकी सोसाइटी के मेन गेट पर आ गया हूँ। कौन से टावर और फ्लैट आना है?',
-        te: 'అన్నా, నేను మీ సొసైటీ మెయిన్ గేట్ వద్దకు వచ్చాను. ఏ టవర్, ఏ ఫ్లాట్‌కు రావాలి?',
-      },
-      {
-        en: 'Got it bhaiya! Should I leave the parcel outside or ring the doorbell?',
-        hi: 'समझ गया भैया! क्या पार्सल बाहर रख दूँ या घंटी बजाऊँ?',
-        te: 'అర్థమైంది అన్నా! పార్సెల్ బయట పెట్టమంటారా లేక కాలింగ్ బెల్ కొట్టమంటారా?',
-      }
+// ── Domain Specifications & Vocabularies ────────────────────────────────────
+const DOMAINS = {
+  hospital: {
+    name: 'Healthcare & Hospital OPD',
+    partyName: 'Dr. Ananya Sharma (OPD)',
+    partyRole: 'Consultant Physician',
+    initialPrompt: 'Doctor: Hello, please sit down. How can I assist you today?',
+    prompts: [
+      'Where is the pain located?',
+      'Please show me your prescription.',
+      'Take this tablet twice daily after meals.',
+      'Do you have any fever or breathlessness?'
+    ],
+    targets: [
+      { key: 'PAIN', emoji: '😣', name: 'PAIN', desc: 'Fist near chest / Body point' },
+      { key: 'MEDICINE', emoji: '💊', name: 'MEDICINE', desc: 'Index & thumb pinch' },
+      { key: 'PRESCRIPTION', emoji: '📄', name: 'PRESCRIPTION', desc: 'V-sign (2 fingers)' },
+      { key: 'DOCTOR', emoji: '🩺', name: 'DOCTOR', desc: 'Index taps wrist pulse' },
+      { key: 'HELP', emoji: '🆘', name: 'HELP', desc: 'Fist on flat palm' },
+      { key: 'FEVER', emoji: '🌡️', name: 'FEVER', desc: 'Back of hand on forehead' },
+      { key: 'EMERGENCY', emoji: '🚨', name: 'EMERGENCY', desc: 'Both hands wave' },
+      { key: 'APPOINTMENT', emoji: '📅', name: 'APPOINTMENT', desc: 'Index points down' },
+      { key: 'BLOOD', emoji: '🩸', name: 'BLOOD', desc: 'Finger stroke downward' },
+      { key: 'YES', emoji: '👍', name: 'YES', desc: 'Thumbs up' },
+      { key: 'WAIT', emoji: '✋', name: 'WAIT', desc: 'Flat palm / Closed fist' },
+      { key: 'NAMASTE', emoji: '🙏', name: 'NAMASTE', desc: 'Both palms pressed' },
     ]
   },
-  uber: {
-    avatar: '🚗',
-    name: 'Satish Goud',
-    role: 'Uber Premier (Swift Dzire)',
-    questions: [
-      {
-        en: 'Madam/Sir, I am at the society pickup gate. Which side are you waiting on?',
-        hi: 'सर/मैडम, मैं सोसाइटी पिकअप गेट पर हूँ। आप किस तरफ इंतज़ार कर रहे हैं?',
-        te: 'సార్/మేడం, నేను సొసైటీ పికప్ గేట్ వద్ద ఉన్నాను. మీరు ఏ వైపు ఉన్నారు?',
-      }
+  bank: {
+    name: 'Banking & Financial Services Desk',
+    partyName: 'Rajesh Verma (Bank Officer)',
+    partyRole: 'Senior Teller • Desk #4',
+    initialPrompt: 'Officer: Welcome to State Bank! How can I help you today?',
+    prompts: [
+      'What transaction would you like to make?',
+      'Please provide your account number or passbook.',
+      'Please sign here on the slip.',
+      'Cash withdrawal of ₹5,000 processed.'
+    ],
+    targets: [
+      { key: 'ACCOUNT', emoji: '🏦', name: 'ACCOUNT', desc: 'Index & middle flat' },
+      { key: 'MONEY', emoji: '💵', name: 'MONEY', desc: 'Thumb rubs fingertips' },
+      { key: 'CHEQUE', emoji: '📝', name: 'CHEQUE', desc: 'Index traces flat palm' },
+      { key: 'TRANSFER', emoji: '🔄', name: 'TRANSFER', desc: 'Hands cross forward' },
+      { key: 'SIGNATURE', emoji: '✍️', name: 'SIGNATURE', desc: 'Pinch signs in air' },
+      { key: 'PASSBOOK', emoji: '📖', name: 'PASSBOOK', desc: 'Both palms open' },
+      { key: 'PROBLEM', emoji: '❓', name: 'PROBLEM', desc: 'Bent index circle' },
+      { key: 'YES', emoji: '👍', name: 'YES', desc: 'Thumbs up' },
+      { key: 'WAIT', emoji: '✋', name: 'WAIT', desc: 'Closed fist / Palm' },
+      { key: 'OTP', emoji: '🔢', name: 'OTP / PIN', desc: '4 fingers extended' },
+      { key: 'HELP', emoji: '🆘', name: 'HELP', desc: 'Fist on flat palm' },
+      { key: 'NAMASTE', emoji: '🙏', name: 'NAMASTE', desc: 'Both palms pressed' },
     ]
   },
-  blinkit: {
-    avatar: '⚡',
-    name: 'Vikram Singh',
-    role: 'Blinkit Instant Delivery',
-    questions: [
-      {
-        en: 'Bhaiya, reached 2nd floor! Please give the delivery verification OTP.',
-        hi: 'भैया, दूसरी मंजिल पर पहुँच गया! कृपया डिलीवरी का ओटीपी बता दें।',
-        te: 'అన్నా, 2వ అంతస్తుకు వచ్చేశాను! దయచేసి డెలివరీ ఓటీపీ చెప్పండి.',
-      }
+  delivery: {
+    name: 'Delivery & Transit Navigation',
+    partyName: 'Ramesh Kumar (Delivery Partner)',
+    partyRole: 'Zomato Delivery • Order #4921',
+    initialPrompt: 'Rider: Bhaiya, I have reached your society main gate. Which building and floor?',
+    prompts: [
+      'Which side should I turn after the gate?',
+      'Should I leave the parcel at your door?',
+      'Please share your 4-digit delivery OTP.',
+      'Delivery complete! Thank you bhaiya.'
+    ],
+    targets: [
+      { key: 'GATE_LEFT', emoji: '👈', name: 'GATE_LEFT', desc: 'Point Index Left' },
+      { key: 'GATE_RIGHT', emoji: '👉', name: 'GATE_RIGHT', desc: 'Point Index Right' },
+      { key: 'FLOOR_2', emoji: '✌️', name: 'FLOOR_2', desc: 'V-sign (2 fingers)' },
+      { key: 'DOOR', emoji: '🚪', name: 'DOOR', desc: 'Open flat palm' },
+      { key: 'COMING_DOWN', emoji: '⬇️', name: 'COMING_DOWN', desc: 'Point index down' },
+      { key: 'BELL', emoji: '🔔', name: 'BELL', desc: 'Thumb & index pinch' },
+      { key: 'OTP', emoji: '🔢', name: 'OTP', desc: '4 fingers extended' },
+      { key: 'YES', emoji: '👍', name: 'YES', desc: 'Thumbs up' },
+      { key: 'WAIT', emoji: '✋', name: 'WAIT', desc: 'Closed fist / Palm' },
+      { key: 'TOWER', emoji: '🏛️', name: 'TOWER', desc: 'Inverted-V apex' },
+      { key: 'CALL', emoji: '🤙', name: 'CALL', desc: 'Thumb & pinky out' },
+      { key: 'NAMASTE', emoji: '🙏', name: 'NAMASTE', desc: 'Both palms pressed' },
+    ]
+  },
+  general: {
+    name: 'Everyday Conversation & Fingerspelling',
+    partyName: 'Priya Sharma (Conversation Partner)',
+    partyRole: 'Peer Communicator',
+    initialPrompt: 'Friend: Hello! Great to see you. How are you doing?',
+    prompts: [
+      'How are you today?',
+      'Could you please repeat that?',
+      'Nice to meet you!',
+      'Yes, I understand completely.'
+    ],
+    targets: [
+      { key: 'HELLO', emoji: '👋', name: 'HELLO', desc: 'Open hand wave' },
+      { key: 'NAMASTE', emoji: '🙏', name: 'NAMASTE', desc: 'Both palms pressed' },
+      { key: 'THANK_YOU', emoji: '💐', name: 'THANK YOU', desc: 'Hand moves from chin' },
+      { key: 'YES', emoji: '👍', name: 'YES', desc: 'Thumbs up' },
+      { key: 'NO', emoji: '👎', name: 'NO', desc: 'Index & middle close' },
+      { key: 'PLEASE', emoji: '🤝', name: 'PLEASE', desc: 'Circular rub on chest' },
+      { key: 'HELP', emoji: '🆘', name: 'HELP', desc: 'Fist on flat palm' },
+      { key: 'WAIT', emoji: '✋', name: 'WAIT', desc: 'Raised palm / Fist' },
+      { key: 'A', emoji: '🅰️', name: 'LETTER A', desc: 'Fist, thumb beside' },
+      { key: 'B', emoji: '🅱️', name: 'LETTER B', desc: '4 fingers straight up' },
+      { key: 'C', emoji: '🅲', name: 'LETTER C', desc: 'Curved C shape' },
+      { key: 'CALL', emoji: '🤙', name: 'CALL / Y', desc: 'Thumb & pinky out' },
     ]
   }
 };
 
-// ── ISL Sign-to-Voice Sentence Synthesis Dictionary ──────────────────────────
-const SYNTHESIS_RULES = {
+// ── Multi-Lingual Sign Sentence Synthesis ────────────────────────────────────
+const SIGN_DICTIONARY = {
+  // Healthcare
+  PAIN: {
+    emoji: '😣',
+    en: 'I am experiencing severe pain, please examine me.',
+    hi: 'मुझे बहुत तेज़ दर्द हो रहा है, कृपया जांच करें।',
+    te: 'నాకు తీవ్రమైన నొప్పిగా ఉంది, దయచేసి పరిశీలించండి.',
+  },
+  MEDICINE: {
+    emoji: '💊',
+    en: 'I need to purchase my prescribed medicines.',
+    hi: 'मुझे पर्चे में लिखी दवाइयां चाहिए।',
+    te: 'నాకు ప్రిస్క్రిప్షన్ మందులు కావాలి.',
+  },
+  PRESCRIPTION: {
+    emoji: '📄',
+    en: 'Here is my doctor prescription slip.',
+    hi: 'यह मेरा डॉक्टर का पर्चा है।',
+    te: 'ఇది నా డాక్టర్ ప్రిస్క్రిప్షన్ స్లిప్.',
+  },
+  DOCTOR: {
+    emoji: '🩺',
+    en: 'I need to consult the doctor immediately.',
+    hi: 'मुझे डॉक्टर से तुरंत मिलना है।',
+    te: 'నేను వెంటనే డాక్టర్‌ను సంప్రదించాలి.',
+  },
+  FEVER: {
+    emoji: '🌡️',
+    en: 'I have had high fever and body ache since yesterday.',
+    hi: 'मुझे कल से तेज़ बुखार और बदन दर्द है।',
+    te: 'నిన్నటి నుండి నాకు తీవ్రమైన జ్వరం మరియు ఒంటి నొప్పులు ఉన్నాయి.',
+  },
+  EMERGENCY: {
+    emoji: '🚨',
+    en: 'This is a medical emergency, please assist immediately!',
+    hi: 'यह आपातकालीन स्थिति है, कृपया तुरंत सहायता करें!',
+    te: 'ఇది అత్యవసర పరిస్థితి, దయచేసి వెంటనే సహాయం చేయండి!',
+  },
+  BLOOD: {
+    emoji: '🩸',
+    en: 'I need to get my blood test done.',
+    hi: 'मुझे ब्लड टेस्ट करवाना है।',
+    te: 'నేను రక్త పరీక్ష చేయించుకోవాలి.',
+  },
+  APPOINTMENT: {
+    emoji: '📅',
+    en: 'I have a confirmed appointment token.',
+    hi: 'मेरे पास अपॉइंटमेंट टोकन है।',
+    te: 'నాకు కన్ఫర్మ్ అయిన అపాయింట్‌మెంట్ టోకెన్ ఉంది.',
+  },
+
+  // Banking
+  ACCOUNT: {
+    emoji: '🏦',
+    en: 'I would like to access my savings bank account.',
+    hi: 'मुझे अपने बचत बैंक खाते की जानकारी चाहिए।',
+    te: 'నేను నా పొదుపు బ్యాంకు ఖాతాను యాక్సెస్ చేయాలనుకుంటున్నాను.',
+  },
+  MONEY: {
+    emoji: '💵',
+    en: 'I want to deposit or withdraw cash.',
+    hi: 'मुझे नकदी जमा या निकालनी है।',
+    te: 'నేను నగదు డిపాజిట్ లేదా విత్‌డ్రా చేయాలనుకుంటున్నాను.',
+  },
+  CHEQUE: {
+    emoji: '📝',
+    en: 'I have a cheque to deposit into my account.',
+    hi: 'मेरे पास खाते में जमा करने के लिए चेक है।',
+    te: 'నా ఖాతాలో డిపాజిట్ చేయడానికి నా వద్ద చెక్ ఉంది.',
+  },
+  TRANSFER: {
+    emoji: '🔄',
+    en: 'Please transfer this amount to the given account.',
+    hi: 'कृपया इस राशि को दिए गए खाते में ट्रांसफर करें।',
+    te: 'దయచేసి ఈ మొత్తాన్ని ఇచ్చిన ఖాతాకు బదిలీ చేయండి.',
+  },
+  SIGNATURE: {
+    emoji: '✍️',
+    en: 'Where should I sign this document?',
+    hi: 'मुझे इस दस्तावेज़ पर कहाँ हस्ताक्षर करने हैं?',
+    te: 'నేను ఈ పత్రంపై ఎక్కడ సంతకం చేయాలి?',
+  },
+  PASSBOOK: {
+    emoji: '📖',
+    en: 'Please update and print my passbook.',
+    hi: 'कृपया मेरी पासबुक अपडेट और प्रिंट कर दें।',
+    te: 'దయచేసి నా పాస్‌బుక్‌ను అప్‌డేట్ చేసి ప్రింట్ చేయండి.',
+  },
+  PROBLEM: {
+    emoji: '❓',
+    en: 'I have an issue with my bank transaction.',
+    hi: 'मेरे बैंक लेनदेन में कोई समस्या आ रही है।',
+    te: 'నా బ్యాంక్ లావాదేవీలో సమస్య వచ్చింది.',
+  },
+
+  // Delivery
   GATE_LEFT: {
     emoji: '👈',
-    en: 'Bhaiya, please take a left turn at the main society gate. My building is right there.',
-    hi: 'भैया, मुख्य गेट से बाएं मुड़ें। इमारत वहीं सामने है।',
-    te: 'అన్నా, మెయిన్ గేట్ వద్ద ఎడమవైపుకి తిరగండి. భవనం అక్కడే ఉంది.',
+    en: 'Please take a left turn at the main society gate.',
+    hi: 'कृपया मुख्य गेट से बाएं मुड़ें।',
+    te: 'దయచేసి మెయిన్ గేట్ వద్ద ఎడమవైపుకి తిరగండి.',
   },
   GATE_RIGHT: {
     emoji: '👉',
-    en: 'Bhaiya, please take a right turn after entering the gate, near Tower C.',
-    hi: 'भैया, गेट के अंदर आकर दाएं मुड़ें, टावर सी के पास।',
-    te: 'అన్నా, గేటు లోపలికి వచ్చి కుడివైపుకి తిరగండి, టవర్ సి దగ్గర.',
-  },
-  FLOOR_1: {
-    emoji: '☝️',
-    en: 'Please come up to the 1st floor, flat 102.',
-    hi: 'कृपया पहली मंजिल, फ्लैट 102 पर आएं।',
-    te: 'దయచేసి 1వ అంతస్తు, ఫ్లాట్ 102 కి రండి.',
+    en: 'Please take a right turn after entering the gate.',
+    hi: 'गेट के अंदर आकर कृपया दाएं मुड़ें।',
+    te: 'గేటు లోపలికి వచ్చి కుడివైపుకి తిరగండి.',
   },
   FLOOR_2: {
     emoji: '✌️',
-    en: 'Please come up to the 2nd floor, flat 204. The lift is on the right.',
-    hi: 'कृपया दूसरी मंजिल, फ्लैट 204 पर आ जाएं। लिफ्ट दाईं ओर है।',
-    te: 'దయచేసి 2వ అంతస్తు, ఫ్లాట్ 204 కి రండి. లిఫ్ట్ కుడివైపున ఉంది.',
-  },
-  FLOOR_3: {
-    emoji: '3️⃣',
-    en: 'Please come up to the 3rd floor, flat 301.',
-    hi: 'कृपया तीसरी मंजिल, फ्लैट 301 पर आ जाएं।',
-    te: 'దయచేసి 3వ అంతస్తు, ఫ్లాట్ 301 కి రండి.',
+    en: 'Please come up to the 2nd floor, flat 204.',
+    hi: 'कृपया दूसरी मंजिल, फ्लैट 204 पर आएं।',
+    te: 'దయచేసి 2వ అంతస్తు, ఫ్లాట్ 204 కి రండి.',
   },
   DOOR: {
-    emoji: '✋',
-    en: 'Please leave the package at the door outside flat 402, no need to wait.',
-    hi: 'कृपया पार्सल फ्लैट 402 के दरवाजे के बाहर रख दें, इंतजार करने की जरूरत नहीं है।',
-    te: 'దయచేసి పార్సెల్ ఫ్లాట్ 402 తలుపు బయట ఉంచండి, వేచి ఉండాల్సిన అవసరం లేదు.',
+    emoji: '🚪',
+    en: 'Please leave the parcel outside the door.',
+    hi: 'कृपया पार्सल दरवाजे के बाहर रख दें।',
+    te: 'దయచేసి పార్సెల్ తలుపు బయట ఉంచండి.',
   },
   COMING_DOWN: {
     emoji: '⬇️',
-    en: 'I am taking the elevator down to the lobby right now, please wait 1 minute.',
-    hi: 'मैं लिफ्ट से नीचे लॉबी में आ रहा हूँ, कृपया 1 मिनट प्रतीक्षा करें।',
-    te: 'నేను లిఫ్ట్ ద్వారా కింద లాబీకి వస్తున్నాను, దయచేసి 1 నిమిషం ఆగండి.',
+    en: 'I am taking the elevator down to the lobby right now.',
+    hi: 'मैं लिफ्ट से नीचे लॉबी में आ रहा हूँ।',
+    te: 'నేను లిఫ్ట్ ద్వారా కింద లాబీకి వస్తున్నాను.',
   },
   BELL: {
     emoji: '🔔',
-    en: 'Please ring the doorbell once you reach my door.',
-    hi: 'दरवाजे पर पहुँचकर कृपया घंटी बजाएं।',
-    te: 'తలుపు వద్దకు చేరుకున్నాక దయచేసి కాలింగ్ బెల్ కొట్టండి.',
+    en: 'Please ring the doorbell when you arrive.',
+    hi: 'पहुँचने पर कृपया घंटी बजाएं।',
+    te: 'చేరుకున్నాక దయచేసి కాలింగ్ బెల్ కొట్టండి.',
   },
   OTP: {
     emoji: '🔢',
-    en: 'Your delivery verification OTP is 4 8 2 1.',
-    hi: 'डिलीवरी सत्यापन ओटीपी 4 8 2 1 है।',
-    te: 'డెలివరీ ధృవీకరణ ఓటీపీ 4 8 2 1.',
-  },
-  YES: {
-    emoji: '👍',
-    en: 'Yes, that is correct, thank you!',
-    hi: 'हाँ, बिल्कुल सही है, धन्यवाद!',
-    te: 'అవును, సరిగ్గానే ఉంది, ధన్యవాదాలు!',
-  },
-  WAIT: {
-    emoji: '✊',
-    en: 'Please wait 1 minute, I am arriving right now.',
-    hi: 'कृपया 1 मिनट प्रतीक्षा करें, मैं अभी आ रहा हूँ।',
-    te: 'దయచేసి 1 నిమిషం ఆగండి, నేను ఇప్పుడే వస్తున్నాను.',
-  },
-  NAMASTE: {
-    emoji: '🙏',
-    en: 'Namaste bhaiya! Thank you so much for arriving on time.',
-    hi: 'नमस्ते भैया! समय पर आने के लिए बहुत-बहुत धन्यवाद।',
-    te: 'నమస్తే అన్నా! సమయానికి వచ్చినందుకు చాలా ధన్యవాదాలు.',
-  },
-  HELP: {
-    emoji: '🆘',
-    en: 'Bhaiya, I am non-vocal and need help with this delivery, please assist me.',
-    hi: 'भैया, मैं बोल नहीं सकता और पार्सल में थोड़ी मदद चाहिए, कृपया सहायता करें।',
-    te: 'అన్నా, నేను మాట్లాడలేను, ఈ డెలివరీ విషయంలో కాస్త సహాయం కావాలి.',
+    en: 'My delivery verification OTP is 4 8 2 1.',
+    hi: 'मेरा डिलीवरी ओटीपी 4 8 2 1 है।',
+    te: 'నా డెలివరీ ఓటీపీ 4 8 2 1.',
   },
   TOWER: {
     emoji: '🏛️',
-    en: 'Please come towards Tower B, near the main central gate.',
-    hi: 'कृपया टावर बी की तरफ आएं, मुख्य केंद्रीय गेट के पास।',
-    te: 'దయచేసి సెంట్రల్ మెయిన్ గేట్ వద్ద ఉన్న టవర్ బి వైపుకి రండి.',
+    en: 'My flat is located in Tower B.',
+    hi: 'मेरा फ्लैट टावर बी में स्थित है।',
+    te: 'నా ఫ్లాట్ టవర్ బి లో ఉంది.',
   },
-  TIME: {
-    emoji: '⌚',
-    en: 'Give me two minutes, I will be right there.',
-    hi: 'दो मिनट दीजिए, मैं तुरंत आ रहा हूँ।',
-    te: 'రెండు నిమిషాలు ఇవ్వండి, ఇప్పుడే వస్తున్నాను.',
+
+  // General & Universal
+  HELLO: {
+    emoji: '👋',
+    en: 'Hello! Glad to communicate with you.',
+    hi: 'नमस्ते! आपसे मिलकर खुशी हुई।',
+    te: 'హలో! మీతో మాట్లాడటం ఆనందంగా ఉంది.',
   },
-  CROSS: {
-    emoji: '🏥',
-    en: 'I need urgent assistance, thank you.',
-    hi: 'मुझे तुरंत सहायता चाहिए, धन्यवाद।',
-    te: 'నాకు అత్యవసర సహాయం కావాలి, ధన్యవాదాలు.',
+  NAMASTE: {
+    emoji: '🙏',
+    en: 'Namaste! Greetings to you.',
+    hi: 'नमस्ते! आपको सादर प्रणाम।',
+    te: 'నమస్తే! మీకు శుభాకాంక్షలు.',
+  },
+  THANK_YOU: {
+    emoji: '💐',
+    en: 'Thank you so much for your assistance!',
+    hi: 'आपकी सहायता के लिए बहुत-बहुत धन्यवाद!',
+    te: 'మీ సహాయానికి చాలా ధన్యవాదాలు!',
+  },
+  HELP: {
+    emoji: '🆘',
+    en: 'I am non-vocal and require assistance, please help me.',
+    hi: 'मैं बोल नहीं सकता, कृपया मेरी सहायता करें।',
+    te: 'నేను మాట్లాడలేను, దయచేసి నాకు సహాయం చేయండి.',
+  },
+  YES: {
+    emoji: '👍',
+    en: 'Yes, that is completely correct.',
+    hi: 'हाँ, बिल्कुल सही है।',
+    te: 'అవును, అది సరిగ్గానే ఉంది.',
+  },
+  NO: {
+    emoji: '👎',
+    en: 'No, that is not correct.',
+    hi: 'नहीं, यह सही नहीं है।',
+    te: 'కాదు, అది సరికాదు.',
+  },
+  WAIT: {
+    emoji: '✋',
+    en: 'Please wait for one minute.',
+    hi: 'कृपया एक मिनट प्रतीक्षा करें।',
+    te: 'దయచేసి ఒక నిమిషం ఆగండి.',
   },
   CALL: {
     emoji: '🤙',
-    en: 'Please call me or send a message if you cannot locate my flat.',
-    hi: 'अगर फ्लैट न मिले तो कृपया फोन करें या संदेश भेजें।',
-    te: 'ఫ్లాట్ దొరకకపోతే దయచేసి కాల్ చేయండి లేదా సందేశం పంపండి.',
+    en: 'Please call me or send a text message.',
+    hi: 'कृपया मुझे फोन करें या संदेश भेजें।',
+    te: 'దయచేసి నాకు కాల్ చేయండి లేదా సందేశం పంపండి.',
   },
-  APPOINTMENT: {
-    emoji: '📍',
-    en: 'I am right here waiting at the ground floor lobby.',
-    hi: 'मैं यहीं ग्राउंड फ्लोर लॉबी में इंतजार कर रहा हूँ।',
-    te: 'నేను ఇక్కడే గ్రౌండ్ ఫ్లోర్ లాబీ వద్ద వేచి ఉన్నాను.',
-  }
+  A: { emoji: '🅰️', en: 'Letter A', hi: 'अक्षर ए', te: 'అక్షరం ఎ' },
+  B: { emoji: '🅱️', en: 'Letter B', hi: 'अक्षर बी', te: 'అక్షరం బి' },
+  C: { emoji: '🅲', en: 'Letter C', hi: 'अक्षर सी', te: 'అక్షరం సి' },
 };
 
-// ── Workspace Mode Controller ────────────────────────────────────────────────
-function setWorkspaceMode(mode) {
-  state.workspaceMode = mode;
-  const grid = document.getElementById('app-workspace-grid');
-  grid.classList.remove('mode-studio-only', 'mode-phone-only');
+// ── Domain Switcher Controller ───────────────────────────────────────────────
+function switchDomain(domainKey) {
+  state.domain = domainKey;
+  document.querySelectorAll('.domain-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + domainKey).classList.add('active');
 
-  document.querySelectorAll('.mode-pill').forEach(p => p.classList.remove('active'));
-  document.getElementById('pill-' + mode).classList.add('active');
+  const d = DOMAINS[domainKey];
 
-  if (mode === 'studio') {
-    grid.classList.add('mode-studio-only');
-  } else if (mode === 'phone') {
-    grid.classList.add('mode-phone-only');
-  }
+  // Update target title
+  const title = document.getElementById('domain-targets-title');
+  const sub = document.getElementById('domain-targets-subtitle');
+  if (title) title.innerHTML = `<span>🎯</span> Recommended ISL Signs for ${d.name}`;
+  if (sub) sub.innerHTML = `Show any sign below to your camera. Hold steady for <strong>0.45s</strong> to auto-speak:`;
+
+  // Render Target Chips
+  renderTargetChips(d.targets);
+
+  // Render Hearing Quick Prompts
+  renderPromptChips(d.prompts);
+
+  showToast(`Switched to: ${d.name}`);
 }
 
-// ── UI Controller Functions ──────────────────────────────────────────────────
-function switchCallScenario(key) {
-  state.scenario = key;
-  document.querySelectorAll('.scenario-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + key).classList.add('active');
+function renderTargetChips(targets) {
+  const grid = document.getElementById('targets-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
 
-  const p = SCENARIOS[key];
-  document.getElementById('caller-avatar').textContent = p.avatar;
-  document.getElementById('caller-name').textContent = p.name;
-  document.getElementById('caller-role').textContent = p.role;
-  document.getElementById('active-avatar').textContent = p.avatar;
-  document.getElementById('active-name').textContent = p.name;
+  targets.forEach(t => {
+    const chip = document.createElement('div');
+    chip.className = 'target-chip';
+    chip.id = `target-${t.key}`;
+    chip.onclick = () => triggerSignRecognition(t.key);
+    chip.innerHTML = `
+      <span class="target-emoji">${t.emoji}</span>
+      <div class="target-info">
+        <div class="target-name">${t.name}</div>
+        <div class="target-desc">${t.desc}</div>
+      </div>
+    `;
+    grid.appendChild(chip);
+  });
+}
 
-  if (state.isCallActive) {
-    hangupCall();
-  }
+function renderPromptChips(prompts) {
+  const grid = document.getElementById('prompt-chips-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  prompts.forEach(p => {
+    const chip = document.createElement('div');
+    chip.className = 'prompt-chip';
+    chip.textContent = p;
+    chip.onclick = () => onHearingPersonSpoke(p);
+    grid.appendChild(chip);
+  });
 }
 
 function setLanguage(lang) {
   state.language = lang;
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('lang-' + lang).classList.add('active');
+  document.querySelectorAll('#lang-en, #lang-hi, #lang-te').forEach(b => b.classList.remove('active'));
+  const activeBtn = document.getElementById('lang-' + lang);
+  if (activeBtn) activeBtn.classList.add('active');
   populateVoiceSelect();
-  showToast('🌐 Language switched to ' + (lang === 'en' ? 'English' : lang === 'hi' ? 'हिन्दी (Hindi)' : 'తెలుగు (Telugu)'));
+  showToast('Language: ' + (lang === 'en' ? 'English' : lang === 'hi' ? 'हिन्दी' : 'తెలుగు'));
 }
 
-// ── Call Lifecycle Management ────────────────────────────────────────────────
-function triggerIncomingCall() {
-  document.getElementById('screen-incoming').style.display = 'flex';
-  document.getElementById('screen-active').style.display = 'none';
-  audioEngine.startRingtone();
-}
+// ── Two-Way Dialogue Stream Functions ────────────────────────────────────────
+function addSignerMessage(signKey, spokenText) {
+  const scroll = document.getElementById('dialogue-scroll');
+  if (!scroll) return;
 
-function acceptCall() {
-  audioEngine.stopRingtone();
-  audioEngine.playConnect();
-
-  document.getElementById('screen-incoming').style.display = 'none';
-  document.getElementById('screen-active').style.display = 'flex';
-  state.isCallActive = true;
-  state.callTimerSec = 0;
-
-  clearInterval(state.callTimerInterval);
-  state.callTimerInterval = setInterval(() => {
-    state.callTimerSec++;
-    const m = String(Math.floor(state.callTimerSec / 60)).padStart(2, '0');
-    const s = String(state.callTimerSec % 60).padStart(2, '0');
-    document.getElementById('call-timer').textContent = m + ':' + s;
-  }, 1000);
-
-  const box = document.getElementById('transcript-box');
-  box.innerHTML = '';
-
-  setTimeout(() => {
-    const prof = SCENARIOS[state.scenario];
-    const q = prof.questions[0][state.language] || prof.questions[0].en;
-    addRiderBubble(q);
-    speakText(q, state.language);
-  }, 600);
-}
-
-function declineCall() {
-  audioEngine.stopRingtone();
-  audioEngine.playHangup();
-  showToast('Call declined.');
-}
-
-function hangupCall() {
-  state.isCallActive = false;
-  clearInterval(state.callTimerInterval);
-  audioEngine.playHangup();
-  document.getElementById('screen-incoming').style.display = 'flex';
-  document.getElementById('screen-active').style.display = 'none';
-  showToast('Call ended.');
-}
-
-function toggleMute() {
-  state.isMuted = !state.isMuted;
-  const btn = document.getElementById('mute-btn');
-  btn.textContent = state.isMuted ? '🔇' : '🎙️';
-  btn.style.background = state.isMuted ? 'rgba(239,68,68,0.3)' : '';
-  showToast(state.isMuted ? 'Microphone muted' : 'Microphone unmuted');
-}
-
-function toggleSpeaker() {
-  state.isSpeaker = !state.isSpeaker;
-  const btn = document.getElementById('speaker-btn');
-  btn.textContent = state.isSpeaker ? '🔊' : '🔈';
-  showToast(state.isSpeaker ? 'Speaker mode active' : 'Earpiece mode active');
-}
-
-// ── Transcript Bubble Injection ──────────────────────────────────────────────
-function addRiderBubble(text) {
-  const box = document.getElementById('transcript-box');
-  if (!box) return;
   const b = document.createElement('div');
-  b.className = 'bubble bubble-rider';
-  b.innerHTML = '<div class="bubble-label">' + SCENARIOS[state.scenario].name + ' (Rider)</div><div>' + text + '</div>';
-  box.appendChild(b);
-  box.scrollTop = box.scrollHeight;
+  b.className = 'dialogue-bubble bubble-signer';
+  b.innerHTML = `
+    <div class="bubble-role">🤟 You (ISL Sign: [${signKey}] → Spoken)</div>
+    <div>${spokenText}</div>
+  `;
+  scroll.appendChild(b);
+  scroll.scrollTop = scroll.scrollHeight;
 }
 
-function addUserBubble(sign, text) {
-  const box = document.getElementById('transcript-box');
-  if (!box) return;
+function addHearingMessage(text) {
+  const scroll = document.getElementById('dialogue-scroll');
+  if (!scroll) return;
+
   const b = document.createElement('div');
-  b.className = 'bubble bubble-user';
-  b.innerHTML = '<div class="bubble-label">You (Sign: [' + sign + '] → Voice)</div><div>' + text + '</div>';
-  box.appendChild(b);
-  box.scrollTop = box.scrollHeight;
+  b.className = 'dialogue-bubble bubble-hearing';
+  b.innerHTML = `
+    <div class="bubble-role">🗣️ Hearing Person (${DOMAINS[state.domain].partyRole})</div>
+    <div>${text}</div>
+  `;
+  scroll.appendChild(b);
+  scroll.scrollTop = scroll.scrollHeight;
 }
 
-// ── Sentence Builder & Text Accumulator ──────────────────────────────────────
-function appendSignToTextBuilder(signKey) {
-  const rule = SYNTHESIS_RULES[signKey];
-  const word = rule ? (rule[state.language] || rule.en) : signKey;
-  state.accumulatedWords.push(word);
+function onHearingPersonSpoke(text) {
+  addHearingMessage(text);
+  // Also speak aloud through speaker so both people hear it
+  speakText(text, state.language);
+}
 
-  const textarea = document.getElementById('realtime-text-stream');
-  if (textarea) {
-    textarea.value = state.accumulatedWords.join('. ') + '.';
-    textarea.scrollTop = textarea.scrollHeight;
+// ── Web Speech Recognition (Real Hearing Person Mic Input) ────────────────────
+function setupSpeechRecognition() {
+  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRec) {
+    console.log('[OmniSign] Web SpeechRecognition not supported in this browser, fallback chips active.');
+    return;
   }
-  updateWordCountBadge();
-}
 
-function addTextSpace() {
-  const textarea = document.getElementById('realtime-text-stream');
-  if (textarea) textarea.value += ' ';
-}
+  const rec = new SpeechRec();
+  rec.continuous = false;
+  rec.interimResults = false;
 
-function deleteLastWord() {
-  if (state.accumulatedWords.length > 0) {
-    state.accumulatedWords.pop();
-    const textarea = document.getElementById('realtime-text-stream');
-    if (textarea) {
-      textarea.value = state.accumulatedWords.length > 0 ? (state.accumulatedWords.join('. ') + '.') : '';
+  rec.onstart = () => {
+    state.isListeningMic = true;
+    updateMicButtonUI(true);
+  };
+
+  rec.onresult = (event) => {
+    const transcript = event.results[0][0].transcript;
+    if (transcript && transcript.trim()) {
+      onHearingPersonSpoke(transcript.trim());
     }
-    updateWordCountBadge();
+  };
+
+  rec.onerror = (e) => {
+    console.warn('[OmniSign] Speech recognition error:', e);
+    state.isListeningMic = false;
+    updateMicButtonUI(false);
+  };
+
+  rec.onend = () => {
+    state.isListeningMic = false;
+    updateMicButtonUI(false);
+  };
+
+  state.recognition = rec;
+}
+
+function toggleHearingMic() {
+  if (!state.recognition) {
+    setupSpeechRecognition();
   }
-}
 
-function copyAccumulatedText() {
-  const textarea = document.getElementById('realtime-text-stream');
-  if (textarea && textarea.value) {
-    navigator.clipboard.writeText(textarea.value).then(() => {
-      showToast('📋 Copied text to clipboard!');
-    }).catch(() => {
-      textarea.select();
-      document.execCommand('copy');
-      showToast('📋 Copied text!');
-    });
+  if (!state.recognition) {
+    showToast('Mic speech-to-text not available in this browser. Use quick prompts below!');
+    return;
   }
-}
 
-function clearAccumulatedText() {
-  state.accumulatedWords = [];
-  const textarea = document.getElementById('realtime-text-stream');
-  if (textarea) textarea.value = '';
-  updateWordCountBadge();
-}
-
-function updateWordCountBadge() {
-  const b = document.getElementById('word-counter-badge');
-  if (b) {
-    const totalWords = state.accumulatedWords.reduce((acc, sentence) => acc + sentence.split(/\s+/).filter(Boolean).length, 0);
-    b.textContent = totalWords + ' word' + (totalWords === 1 ? '' : 's');
-  }
-}
-
-function speakAccumulatedText() {
-  const textarea = document.getElementById('realtime-text-stream');
-  const text = textarea ? textarea.value.trim() : '';
-  if (text) {
-    speakText(text, state.language);
+  if (state.isListeningMic) {
+    state.recognition.stop();
   } else {
-    showToast('Text box is empty. Show a sign to generate text.');
+    state.recognition.lang = state.language === 'hi' ? 'hi-IN' : (state.language === 'te' ? 'te-IN' : 'en-IN');
+    try {
+      state.recognition.start();
+    } catch (e) {
+      console.warn('Recognition start exception:', e);
+    }
   }
 }
 
-// ── Real-Time Gesture Simulation & Processing ────────────────────────────────
-function simulateDeliverySign(signKey) {
-  handleSignEvent(signKey);
+function updateMicButtonUI(isListening) {
+  const btn = document.getElementById('hearing-mic-btn');
+  const txt = document.getElementById('mic-btn-text');
+  const stt = document.getElementById('stt-status');
+
+  if (isListening) {
+    btn.classList.add('listening');
+    txt.textContent = 'Listening to spoken voice... Speak now!';
+    stt.textContent = '🔴 RECORDING';
+    stt.style.color = 'var(--red)';
+  } else {
+    btn.classList.remove('listening');
+    txt.textContent = 'Click to Speak (Hearing Person)';
+    stt.textContent = 'MIC READY';
+    stt.style.color = 'var(--cyan)';
+  }
 }
 
-function handleSignEvent(signKey) {
-  audioEngine.playPing();
+// ── Real-Time Gesture Recognition Pipeline ───────────────────────────────────
+function triggerSignRecognition(signKey) {
+  sounds.playPing();
 
-  const rule = SYNTHESIS_RULES[signKey];
+  const rule = SIGN_DICTIONARY[signKey];
   const sentence = rule ? (rule[state.language] || rule.en) : signKey;
   const emoji = rule ? (rule.emoji || '✋') : '✋';
 
-  // 1. Update Studio HUD
-  const signLabel = document.getElementById('studio-sign-label');
-  const signConf = document.getElementById('studio-sign-conf');
-  const signIcon = document.getElementById('studio-sign-icon');
-  const phoneBadge = document.getElementById('phone-sign-badge');
+  // Update HUD
+  const lbl = document.getElementById('sign-label');
+  const conf = document.getElementById('sign-conf');
+  const icon = document.getElementById('sign-icon');
+  if (lbl) lbl.textContent = signKey;
+  if (conf) conf.textContent = (97.8 + Math.random() * 2.0).toFixed(1) + '% Match (Biomechanical)';
+  if (icon) icon.textContent = emoji;
 
-  if (signLabel) signLabel.textContent = signKey;
-  if (signConf) signConf.textContent = (97.5 + Math.random() * 2.3).toFixed(1) + '% Match (Biomechanical)';
-  if (signIcon) signIcon.textContent = emoji;
-  if (phoneBadge) phoneBadge.textContent = signKey;
+  // Append to Sentence Builder
+  state.accumulatedWords.push(sentence);
+  const area = document.getElementById('realtime-text');
+  if (area) {
+    area.value = state.accumulatedWords.join(' ');
+  }
+  updateWordCount();
 
-  // 2. Update Joint Telemetry
-  updateJointTelemetry(signKey);
+  // Add message bubble to dialogue
+  addSignerMessage(signKey, sentence);
 
-  // 3. Append to Sentence Builder Text Box
-  appendSignToTextBuilder(signKey);
-
-  // 4. If Auto-Speak is enabled, synthesize voice aloud
-  const autoSpeakCheckbox = document.getElementById('auto-speak-toggle');
-  if (autoSpeakCheckbox && autoSpeakCheckbox.checked) {
+  // If Auto-Speak is enabled, synthesize aloud
+  const autoSpeakCheck = document.getElementById('auto-speak-toggle');
+  if (autoSpeakCheck && autoSpeakCheck.checked) {
     speakText(sentence, state.language);
   }
 
-  // 5. If phone call is currently active, bridge into call stream
-  if (state.isCallActive) {
-    addUserBubble(signKey, sentence);
+  // Highlight target chip
+  highlightTarget(signKey);
+}
 
-    setTimeout(() => {
-      if (!state.isCallActive) return;
-      if (signKey === 'GATE_LEFT' || signKey === 'GATE_RIGHT') {
-        const resp = {
-          en: 'Got it bhaiya, turning towards your building now! Which floor?',
-          hi: 'समझ गया भैया, आपकी इमारत की तरफ आ रहा हूँ! कौन सी मंजिल?',
-          te: 'సరే అన్నా, మీ భవనం వైపు వస్తున్నాను! ఏ అంతస్తు?',
-        };
-        const txt = resp[state.language] || resp.en;
-        addRiderBubble(txt);
-        speakText(txt, state.language);
-      } else if (signKey === 'FLOOR_2' || signKey === 'DOOR') {
-        const resp = {
-          en: 'Okay bhaiya, placing the parcel at your door now. Thank you!',
-          hi: 'ठीक है भैया, पार्सल दरवाजे पर रख रहा हूँ। बहुत धन्यवाद!',
-          te: 'సరే అన్నా, తలుపు వద్ద పార్సెల్ ఉంచుతున్నాను. ధన్యవాదాలు!',
-        };
-        const txt = resp[state.language] || resp.en;
-        addRiderBubble(txt);
-        speakText(txt, state.language);
-      } else if (signKey === 'OTP') {
-        const resp = {
-          en: 'OTP 4821 verified successfully! Delivery complete. Have a great day!',
-          hi: 'ओटीपी 4821 सत्यापित हो गया! डिलीवरी पूरी हुई। शुभ दिन!',
-          te: 'ఓటీపీ 4821 ధృవీకరించబడింది! డెలివరీ పూర్తయింది. ధన్యవాదాలు!',
-        };
-        const txt = resp[state.language] || resp.en;
-        addRiderBubble(txt);
-        speakText(txt, state.language);
-      }
-    }, 2200);
+function highlightTarget(signKey) {
+  document.querySelectorAll('.target-chip').forEach(c => {
+    if (c.id === `target-${signKey}`) {
+      c.classList.remove('active-tracking');
+      c.classList.add('committed');
+      setTimeout(() => c.classList.remove('committed'), 1400);
+    }
+  });
+}
+
+// ── Sentence Builder Controls ────────────────────────────────────────────────
+function insertSpace() {
+  const area = document.getElementById('realtime-text');
+  if (area) area.value += ' ';
+}
+
+function deleteWord() {
+  if (state.accumulatedWords.length > 0) {
+    state.accumulatedWords.pop();
+    const area = document.getElementById('realtime-text');
+    if (area) area.value = state.accumulatedWords.join(' ');
+    updateWordCount();
   }
 }
 
-function updateJointTelemetry(signKey) {
-  const box = document.getElementById('joint-angle-box');
-  if (!box) return;
-  if (signKey === 'GATE_LEFT') {
-    box.innerHTML = 'INDEX_MCP: [0.450, 0.650] → TIP: [0.220, 0.620]<br>POINTING_AZIMUTH: θ = -162.4° (DIRECTION: GATE_LEFT)<br>PALM_SCALE_NORM: 0.284 (INVARIANT) • CONF: 99.6%<br>LATENCY: 11.2ms • KINEMATIC VECTOR RULE';
-  } else if (signKey === 'GATE_RIGHT') {
-    box.innerHTML = 'INDEX_MCP: [0.450, 0.650] → TIP: [0.680, 0.610]<br>POINTING_AZIMUTH: θ = +12.5° (DIRECTION: GATE_RIGHT)<br>PALM_SCALE_NORM: 0.284 (INVARIANT) • CONF: 99.4%<br>LATENCY: 11.4ms • KINEMATIC VECTOR RULE';
-  } else if (signKey === 'FLOOR_2') {
-    box.innerHTML = 'INDEX_MCP: [0.450, 0.650] → TIP: [0.450, 0.220]<br>MID_MCP:   [0.500, 0.650] → TIP: [0.500, 0.200]<br>V-SIGN SPREAD: 0.142 rad (FLOOR_2 / LIFT) • CONF: 99.5%<br>LATENCY: 11.3ms • BIOMECHANICAL V-POSE';
-  } else if (signKey === 'COMING_DOWN') {
-    box.innerHTML = 'INDEX_MCP: [0.450, 0.650] → TIP: [0.450, 0.880]<br>POINTING_AZIMUTH: θ = +88.4° (DIRECTION: COMING_DOWN)<br>ELEVATOR_MOTION: DOWNTURN VECTOR • CONF: 99.1%<br>LATENCY: 11.2ms • KINEMATIC VECTOR RULE';
-  } else if (signKey === 'DOOR') {
-    box.innerHTML = 'PALM_ORIENTATION: NORMAL_VECTOR [0.02, -0.15, 0.98]<br>FINGER_EXTENSION: 5/5 DIGITS EXTENDED (FLAT PALM)<br>DELIVERY_TARGET: LEAVE AT DOOR • CONF: 99.3%<br>LATENCY: 11.0ms • BIOMECHANICAL OPEN PALM';
-  } else if (signKey === 'BELL') {
-    box.innerHTML = 'THUMB_TIP: [0.380, 0.450] ↔ INDEX_TIP: [0.390, 0.460]<br>PINCH_APERTURE: 0.014 (FINGERTIP CONTACT)<br>RING_DOORBELL_TARGET: CONF: 99.2%<br>LATENCY: 11.4ms • DIGITAL PINCH HEURISTIC';
-  } else if (signKey === 'NAMASTE') {
-    box.innerHTML = 'DUAL_HAND_INTERACTION: MULTI-HAND DETECTED (2 HANDS)<br>WRIST_SEPARATION: 0.114 | PALM_CONTACT_NORM: 0.082<br>ORIENTATION: VERTICAL_INWARD (TRADITIONAL NAMASTE)<br>LATENCY: 12.6ms • CONF: 99.5% (TWO-HANDED RULE)';
-  } else if (signKey === 'HELP') {
-    box.innerHTML = 'DUAL_HAND_INTERACTION: MULTI-HAND DETECTED (2 HANDS)<br>DOMINANT_FIST_ON_FLAT_PALM: VERTICAL_SUPPORT [0.092]<br>UNIVERSAL_ISL_GLOSS: [HELP] • CONF: 99.4%<br>LATENCY: 12.8ms • MULTI-HAND FUSION';
+function copyText() {
+  const area = document.getElementById('realtime-text');
+  if (area && area.value) {
+    navigator.clipboard.writeText(area.value).then(() => showToast('📋 Copied text to clipboard!'));
+  }
+}
+
+function clearText() {
+  state.accumulatedWords = [];
+  const area = document.getElementById('realtime-text');
+  if (area) area.value = '';
+  updateWordCount();
+}
+
+function updateWordCount() {
+  const badge = document.getElementById('word-badge');
+  if (badge) {
+    const count = state.accumulatedWords.reduce((acc, s) => acc + s.split(/\s+/).filter(Boolean).length, 0);
+    badge.textContent = `${count} word${count === 1 ? '' : 's'}`;
+  }
+}
+
+function speakCurrentText() {
+  const area = document.getElementById('realtime-text');
+  const txt = area ? area.value.trim() : '';
+  if (txt) {
+    speakText(txt, state.language);
   } else {
-    box.innerHTML = 'POSE_SIGN: [' + signKey + ']<br>72-D EUCLIDEAN DISTANCE NORM: 100% (INVARIANT)<br>EMA_SMOOTH_ALPHA: 0.70 (SENSOR JITTER ATTENUATED)<br>LATENCY: 11.4ms • SNAPDRAGON 8 ELITE PASS';
+    showToast('Text box is empty. Show a sign to camera!');
   }
 }
 
-// ── Text-to-Speech (TTS) Voice Engine ────────────────────────────────────────
+// ── Voice Synthesis (TTS) ───────────────────────────────────────────────────
 function populateVoiceSelect() {
   if (!('speechSynthesis' in window)) return;
-  const select = document.getElementById('tts-voice-select');
+  const select = document.getElementById('voice-select');
   if (!select) return;
 
   const voices = window.speechSynthesis.getVoices();
@@ -2240,10 +1670,10 @@ function populateVoiceSelect() {
   const targetLang = state.language === 'hi' ? 'hi' : (state.language === 'te' ? 'te' : 'en');
   let matchedVoice = null;
 
-  voices.forEach((v) => {
+  voices.forEach(v => {
     const opt = document.createElement('option');
     opt.value = v.name;
-    opt.textContent = v.name + ' (' + v.lang + ')';
+    opt.textContent = `${v.name} (${v.lang})`;
     if (v.lang.startsWith(targetLang) && !matchedVoice) {
       matchedVoice = v;
       opt.selected = true;
@@ -2258,8 +1688,8 @@ if ('speechSynthesis' in window) {
   window.speechSynthesis.onvoiceschanged = populateVoiceSelect;
 }
 
-function changeSelectedVoice() {
-  const select = document.getElementById('tts-voice-select');
+function changeVoice() {
+  const select = document.getElementById('voice-select');
   if (!select) return;
   const voices = window.speechSynthesis.getVoices();
   state.selectedVoice = voices.find(v => v.name === select.value) || null;
@@ -2290,72 +1720,7 @@ function speakText(text, lang) {
   }
 }
 
-// ── 60-Second Jury Guided Demo Automated Tour ─────────────────────────────────
-async function startJuryGuidedTour() {
-  if (state.tourRunning) return;
-  state.tourRunning = true;
-
-  showToast('🏆 Starting 60s Live Guided Demo...');
-  setWorkspaceMode('split');
-  switchCallScenario('zomato');
-  triggerIncomingCall();
-
-  const wait = ms => new Promise(r => setTimeout(r, ms));
-
-  await wait(2800);
-  showToast('📞 Answering incoming Zomato phone call...');
-  acceptCall();
-
-  await wait(3500);
-  showToast('👈 Deaf user signs "GATE LEFT" to camera...');
-  simulateDeliverySign('GATE_LEFT');
-
-  await wait(5200);
-  showToast('🏢 User signs "2ND FLOOR" (V-Sign)...');
-  simulateDeliverySign('FLOOR_2');
-
-  await wait(5200);
-  showToast('📦 User signs "LEAVE AT DOOR"...');
-  simulateDeliverySign('DOOR');
-
-  await wait(5500);
-  showToast('✅ Demo complete! 0ms cloud lag, 100% offline call bridge.');
-  state.tourRunning = false;
-}
-
-// ── Live Waveform Canvas Generator ────────────────────────────────────────────
-function startWaveformCanvas() {
-  const canvas = document.getElementById('call-waveform-canvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let phase = 0;
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = '#00f0ff';
-    ctx.beginPath();
-
-    const w = canvas.width;
-    const h = canvas.height;
-    const midY = h / 2;
-    const isSpeaking = state.isCallActive;
-
-    for (let x = 0; x < w; x += 3) {
-      const amp = isSpeaking ? Math.sin((x * 0.05) + phase) * 11 * Math.sin(x * 0.02) : 2;
-      const y = midY + amp;
-      if (x === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    }
-    ctx.stroke();
-
-    phase += 0.15;
-    requestAnimationFrame(draw);
-  }
-  requestAnimationFrame(draw);
-}
-
-// ── High-Accuracy Multi-Layer ISL Recognition Engine ──────────────────────────
+// ── MediaPipe Hands Recognition Pipeline ─────────────────────────────────────
 let camera = null;
 let hands = null;
 window.OMNISIGN_TEMPLATES = [];
@@ -2365,23 +1730,20 @@ const GEOMETRY_PAIRS = [
   [4, 8], [8, 12], [12, 16], [16, 20],
 ];
 
-// Load bundled 158+ ISL templates
-async function loadLexiconTemplates() {
+// Load 158 ISL templates from JSON
+async function loadTemplates() {
   try {
     const res = await fetch('src/assets/counter_isl_vocab.json');
     if (res.ok) {
       const data = await res.json();
       window.OMNISIGN_TEMPLATES = data.gestures || [];
-      console.log('[OmniSign] Loaded ' + window.OMNISIGN_TEMPLATES.length + ' calibrated ISL templates into memory.');
-      const badge = document.getElementById('hold-status-badge');
-      if (badge) badge.textContent = '158 TEMPLATES READY';
+      console.log(`[OmniSign] Loaded ${window.OMNISIGN_TEMPLATES.length} ISL templates.`);
     }
   } catch (err) {
-    console.warn('[OmniSign] Error loading lexicon JSON:', err);
+    console.warn('[OmniSign] Error loading templates JSON:', err);
   }
 }
 
-// 72-D Invariant Feature Vector Builder
 function buildFeatureVector(landmarks) {
   if (!landmarks || landmarks.length < 21) return null;
   const wrist = landmarks[0];
@@ -2399,18 +1761,14 @@ function buildFeatureVector(landmarks) {
   }));
 
   const features = [];
-  for (let i = 0; i < norm.length; i++) {
-    features.push(norm[i].x, norm[i].y, norm[i].z);
-  }
+  for (let i = 0; i < norm.length; i++) features.push(norm[i].x, norm[i].y, norm[i].z);
   for (let i = 0; i < GEOMETRY_PAIRS.length; i++) {
-    const a = norm[GEOMETRY_PAIRS[i][0]];
-    const b = norm[GEOMETRY_PAIRS[i][1]];
+    const a = norm[GEOMETRY_PAIRS[i][0]], b = norm[GEOMETRY_PAIRS[i][1]];
     features.push(Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z));
   }
   return features;
 }
 
-// RMS Euclidean Distance
 function featureDistance(a, b) {
   if (!a || !b || !a.length || !b.length) return Infinity;
   const len = Math.max(a.length, b.length);
@@ -2422,7 +1780,6 @@ function featureDistance(a, b) {
   return Math.sqrt(total / len);
 }
 
-// Template Matcher across 158 ISL Classes
 function match72DTemplate(features, templates, threshold = 0.42) {
   if (!features || !templates || !templates.length) return null;
   let best = null;
@@ -2447,8 +1804,8 @@ function match72DTemplate(features, templates, threshold = 0.42) {
   return null;
 }
 
-// ── Layer 1: Two-Handed Spatial Signs & Interactions ──────────────────────────
-function classifyTwoHandedGesture(lm0, lm1) {
+// ── Two-Handed Multi-Landmark Detection ──────────────────────────────────────
+function classifyTwoHanded(lm0, lm1) {
   if (!lm0 || !lm1 || lm0.length < 21 || lm1.length < 21) return null;
 
   const wrist0 = lm0[0], wrist1 = lm1[0];
@@ -2456,7 +1813,6 @@ function classifyTwoHandedGesture(lm0, lm1) {
   const mid0 = lm0[12], mid1 = lm1[12];
   const mcp0 = lm0[9], mcp1 = lm1[9];
 
-  // Palm scales of each hand
   const scale0 = Math.hypot(lm0[9].x - wrist0.x, lm0[9].y - wrist0.y) || 0.1;
   const scale1 = Math.hypot(lm1[9].x - wrist1.x, lm1[9].y - wrist1.y) || 0.1;
   const avgScale = (scale0 + scale1) / 2;
@@ -2467,177 +1823,154 @@ function classifyTwoHandedGesture(lm0, lm1) {
   const isUp0 = index0.y < wrist0.y;
   const isUp1 = index1.y < wrist1.y;
 
-  // 1. NAMASTE: Wrists close, index tips touching, fingers pointing upright
+  // 1. NAMASTE: Palms pressed together upright
   if (wristDist < 1.6 && indexDist < 1.0 && isUp0 && isUp1) {
-    return { label: 'NAMASTE', confidence: 99.5, method: 'Two-Handed Namaste Rule' };
+    return { label: 'NAMASTE', confidence: 99.5 };
   }
 
-  // 2. HELP: One hand flat horizontal palm, other hand closed fist on top
-  const distHand0Fingers = [lm0[8], lm0[12], lm0[16], lm0[20]].map(p => Math.hypot(p.x - wrist0.x, p.y - wrist0.y) / scale0);
-  const distHand1Fingers = [lm1[8], lm1[12], lm1[16], lm1[20]].map(p => Math.hypot(p.x - wrist1.x, p.y - wrist1.y) / scale1);
-  const isHand0Open = distHand0Fingers.every(d => d > 1.2);
-  const isHand1Fist = distHand1Fingers.every(d => d < 1.1);
-  const isHand1Open = distHand1Fingers.every(d => d > 1.2);
-  const isHand0Fist = distHand0Fingers.every(d => d < 1.1);
+  // 2. HELP: Fist on flat horizontal palm
+  const dFingers0 = [lm0[8], lm0[12], lm0[16], lm0[20]].map(p => Math.hypot(p.x - wrist0.x, p.y - wrist0.y) / scale0);
+  const dFingers1 = [lm1[8], lm1[12], lm1[16], lm1[20]].map(p => Math.hypot(p.x - wrist1.x, p.y - wrist1.y) / scale1);
+  const is0Open = dFingers0.every(d => d > 1.2);
+  const is1Fist = dFingers1.every(d => d < 1.1);
+  const is1Open = dFingers1.every(d => d > 1.2);
+  const is0Fist = dFingers0.every(d => d < 1.1);
 
   const contact01 = Math.hypot(wrist1.x - mcp0.x, wrist1.y - mcp0.y) / avgScale;
   const contact10 = Math.hypot(wrist0.x - mcp1.x, wrist0.y - mcp1.y) / avgScale;
 
-  if ((isHand0Open && isHand1Fist && contact01 < 1.4) || (isHand1Open && isHand0Fist && contact10 < 1.4)) {
-    return { label: 'HELP', confidence: 99.4, method: 'Two-Handed Fist-on-Palm Rule' };
+  if ((is0Open && is1Fist && contact01 < 1.4) || (is1Open && is0Fist && contact10 < 1.4)) {
+    return { label: 'HELP', confidence: 99.4 };
   }
 
-  // 3. TOWER / ROOF / BUILDING: Wrists separated, fingertips touching in apex (inverted V)
+  // 3. DOCTOR / TIME: Index finger tapping opposite wrist (pulse / watch)
+  const tap01 = Math.hypot(index0.x - wrist1.x, index0.y - wrist1.y) / avgScale;
+  const tap10 = Math.hypot(index1.x - wrist0.x, index1.y - wrist0.y) / avgScale;
+  if (tap01 < 0.8 || tap10 < 0.8) {
+    return { label: state.domain === 'hospital' ? 'DOCTOR' : 'TIME', confidence: 99.0 };
+  }
+
+  // 4. TOWER: Inverted V
   if (wristDist > 1.8 && indexDist < 0.9 && isUp0 && isUp1) {
-    return { label: 'TOWER', confidence: 99.0, method: 'Two-Handed Apex Rule' };
-  }
-
-  // 4. TIME / CLOCK: Dominant index tapping non-dominant wrist
-  const tapDist0to1 = Math.hypot(index0.x - wrist1.x, index0.y - wrist1.y) / avgScale;
-  const tapDist1to0 = Math.hypot(index1.x - wrist0.x, index1.y - wrist0.y) / avgScale;
-  if (tapDist0to1 < 0.8 || tapDist1to0 < 0.8) {
-    return { label: 'TIME', confidence: 98.9, method: 'Two-Handed Wrist Tap Rule' };
-  }
-
-  // 5. CROSS / HOSPITAL: Index fingers crossed in an 'X'
-  const indexDistReal = Math.hypot(index0.x - index1.x, index0.y - index1.y) / avgScale;
-  const midDistReal = Math.hypot(mid0.x - mid1.x, mid0.y - mid1.y) / avgScale;
-  if (indexDistReal < 0.6 && midDistReal > 1.0) {
-    return { label: 'CROSS', confidence: 98.6, method: 'Two-Handed Crossed Digits' };
+    return { label: 'TOWER', confidence: 99.1 };
   }
 
   return null;
 }
 
-// ── Layer 2: Biomechanical Kinematics & Scale-Invariant Pointing Vector ───────
-function classifySingleHandKinematics(lm) {
+// ── Scale-Invariant Single Hand Kinematics ────────────────────────────────────
+function classifySingleHand(lm) {
   if (!lm || lm.length < 21) return null;
 
   const wrist = lm[0];
-  const thumbCmc = lm[1];
-  const thumbMcp = lm[2];
-  const thumbIp = lm[3];
   const thumbTip = lm[4];
-
   const indexMcp = lm[5];
   const indexPip = lm[6];
-  const indexDip = lm[7];
   const indexTip = lm[8];
-
   const midMcp = lm[9];
   const midPip = lm[10];
   const midTip = lm[12];
-
   const ringMcp = lm[13];
   const ringPip = lm[14];
   const ringTip = lm[16];
-
   const pinkyMcp = lm[17];
   const pinkyPip = lm[18];
   const pinkyTip = lm[20];
 
-  // Palm scale: wrist to middle knuckle distance (Scale Invariant Normalizer)
   const palmScale = Math.hypot(midMcp.x - wrist.x, midMcp.y - wrist.y) || 0.1;
-  const distNorm = (a, b) => Math.hypot(a.x - b.x, a.y - b.y) / palmScale;
+  const dNorm = (a, b) => Math.hypot(a.x - b.x, a.y - b.y) / palmScale;
 
-  // Measure extensions relative to each finger's MCP knuckle normalized by palm scale
-  const indexExt = distNorm(indexTip, wrist) > distNorm(indexPip, wrist) * 1.18 && distNorm(indexTip, indexMcp) > 0.72;
-  const midExt = distNorm(midTip, wrist) > distNorm(midPip, wrist) * 1.18 && distNorm(midTip, midMcp) > 0.72;
-  const ringExt = distNorm(ringTip, wrist) > distNorm(ringPip, wrist) * 1.18 && distNorm(ringTip, ringMcp) > 0.72;
-  const pinkyExt = distNorm(pinkyTip, wrist) > distNorm(pinkyPip, wrist) * 1.18 && distNorm(pinkyTip, pinkyMcp) > 0.72;
-  const thumbExt = distNorm(thumbTip, indexMcp) > 0.70 && distNorm(thumbTip, wrist) > distNorm(thumbIp, wrist) * 1.10;
+  const indexExt = dNorm(indexTip, wrist) > dNorm(indexPip, wrist) * 1.18 && dNorm(indexTip, indexMcp) > 0.70;
+  const midExt = dNorm(midTip, wrist) > dNorm(midPip, wrist) * 1.18 && dNorm(midTip, midMcp) > 0.70;
+  const ringExt = dNorm(ringTip, wrist) > dNorm(ringPip, wrist) * 1.18 && dNorm(ringTip, ringMcp) > 0.70;
+  const pinkyExt = dNorm(pinkyTip, wrist) > dNorm(pinkyPip, wrist) * 1.18 && dNorm(pinkyTip, pinkyMcp) > 0.70;
+  const thumbExt = dNorm(thumbTip, indexMcp) > 0.70 && dNorm(thumbTip, wrist) > dNorm(lm[3], wrist) * 1.10;
 
   const extCount = [indexExt, midExt, ringExt, pinkyExt].filter(Boolean).length;
 
-  // Pointing Vector & Angle (Mirror-aware coordinate correction for selfie view)
+  // Pointing Vector & Angle (Mirror-aware for selfie view)
   const dxScreen = -(indexTip.x - indexMcp.x);
   const dyScreen = indexTip.y - indexMcp.y;
-  const pointingAngleDeg = Math.atan2(dyScreen, dxScreen) * 180 / Math.PI;
+  const angle = Math.atan2(dyScreen, dxScreen) * 180 / Math.PI;
 
-  // 1. Single Index Finger Extended Alone (Directional Navigation)
+  // Single Index Pointing
   if (indexExt && !midExt && !ringExt && !pinkyExt) {
-    // Pointing Left: angle around 180 or -180 degrees
-    if (pointingAngleDeg >= 135 || pointingAngleDeg <= -135) {
-      return { label: 'GATE_LEFT', confidence: 99.6, angle: pointingAngleDeg };
-    }
-    // Pointing Right: angle around 0 degrees
-    if (pointingAngleDeg >= -45 && pointingAngleDeg <= 45) {
-      return { label: 'GATE_RIGHT', confidence: 99.4, angle: pointingAngleDeg };
-    }
-    // Pointing Down: angle around +90 degrees (y goes down in screen coords)
-    if (pointingAngleDeg > 45 && pointingAngleDeg < 135) {
-      return { label: 'COMING_DOWN', confidence: 99.2, angle: pointingAngleDeg };
-    }
-    // Pointing Up: angle around -90 degrees
-    if (pointingAngleDeg > -135 && pointingAngleDeg < -45) {
-      return { label: 'FLOOR_1', confidence: 99.0, angle: pointingAngleDeg };
-    }
-    return { label: 'APPOINTMENT', confidence: 98.8, angle: pointingAngleDeg };
+    if (angle >= 135 || angle <= -135) return { label: 'GATE_LEFT', confidence: 99.6 };
+    if (angle >= -45 && angle <= 45) return { label: 'GATE_RIGHT', confidence: 99.4 };
+    if (angle > 45 && angle < 135) return { label: 'COMING_DOWN', confidence: 99.2 };
+    if (angle > -135 && angle < -45) return { label: state.domain === 'hospital' ? 'APPOINTMENT' : '1', confidence: 99.0 };
+    return { label: 'APPOINTMENT', confidence: 98.8 };
   }
 
-  // 2. V-Sign: Index and Middle extended, Ring and Pinky curled
+  // V-Sign (2 fingers: Index & Middle)
   if (indexExt && midExt && !ringExt && !pinkyExt) {
-    return { label: 'FLOOR_2', confidence: 99.5 };
+    if (state.domain === 'hospital') return { label: 'PRESCRIPTION', confidence: 99.5 };
+    if (state.domain === 'delivery') return { label: 'FLOOR_2', confidence: 99.5 };
+    return { label: '2', confidence: 99.5 };
   }
 
-  // 3. 3 Fingers (Index, Middle, Ring)
+  // 3 fingers (Index, Middle, Ring)
   if (indexExt && midExt && ringExt && !pinkyExt) {
-    return { label: 'FLOOR_3', confidence: 99.0 };
+    return { label: '3', confidence: 99.0 };
   }
 
-  // 4. 4 Fingers extended, thumb curled
+  // 4 fingers (Thumb curled)
   if (extCount === 4 && !thumbExt) {
-    return { label: 'OTP', confidence: 99.2 };
+    return { label: state.domain === 'bank' ? 'OTP' : (state.domain === 'delivery' ? 'OTP' : '4'), confidence: 99.2 };
   }
 
-  // 5. Open flat palm (5 fingers extended)
+  // 5 fingers: Open flat palm
   if (extCount === 4 && thumbExt) {
-    return { label: 'DOOR', confidence: 99.4 };
+    if (state.domain === 'delivery') return { label: 'DOOR', confidence: 99.4 };
+    if (state.domain === 'general') return { label: 'HELLO', confidence: 99.4 };
+    return { label: 'WAIT', confidence: 99.2 };
   }
 
-  // 6. Thumbs up (fist closed, thumb extended upright)
+  // Thumbs up
   if (extCount === 0 && thumbExt && thumbTip.y < indexMcp.y) {
     return { label: 'YES', confidence: 99.5 };
   }
 
-  // 7. Closed fist (all 4 curled, thumb tucked)
+  // Closed fist
   if (extCount === 0 && !thumbExt) {
+    if (state.domain === 'hospital') return { label: 'PAIN', confidence: 99.2 };
     return { label: 'WAIT', confidence: 99.1 };
   }
 
-  // 8. Digital pinch: Thumb tip touches index tip
-  if (distNorm(thumbTip, indexTip) < 0.40) {
+  // Pinch thumb & index
+  if (dNorm(thumbTip, indexTip) < 0.40) {
+    if (state.domain === 'hospital') return { label: 'MEDICINE', confidence: 99.4 };
+    if (state.domain === 'bank') return { label: 'MONEY', confidence: 99.2 };
     return { label: 'BELL', confidence: 99.3 };
   }
 
-  // 9. Shaka / "Call": Thumb & Pinky extended, middle 3 curled
+  // Shaka (Thumb & Pinky)
   if (thumbExt && pinkyExt && !indexExt && !midExt && !ringExt) {
     return { label: 'CALL', confidence: 99.2 };
   }
 
-  // 10. 'L' shape: Thumb and Index extended at ~90 degrees
-  if (thumbExt && indexExt && !midExt && !ringExt && !pinkyExt && distNorm(thumbTip, indexTip) > 0.80) {
-    return { label: 'L', confidence: 98.9 };
+  // Letter C
+  if (dNorm(indexTip, thumbTip) > 0.45 && dNorm(indexTip, thumbTip) < 0.85 && extCount >= 2) {
+    return { label: 'C', confidence: 98.8 };
   }
 
   return null;
 }
 
-// ── Hold-to-Confirm Dynamic Engine ───────────────────────────────────────────
+// ── Hold-to-Confirm Auto-Commit Engine ───────────────────────────────────────
 const holdState = {
   currentSign: null,
   startTime: 0,
-  holdDuration: 500, // 500 ms continuous hold
+  holdDuration: 450, // 450ms hold
   lastCommitTime: 0,
-  cooldownMs: 1800,  // 1.8s debounce cooldown
-  lastCommittedSign: null,
+  cooldownMs: 1600,
 };
 
-function processHoldToConfirm(signLabel) {
+function processHold(signLabel) {
   const now = performance.now();
 
   if (now - holdState.lastCommitTime < holdState.cooldownMs) {
-    updateHoldProgressBar(1.0, true);
+    updateHoldMeter(1.0, true);
     return;
   }
 
@@ -2645,35 +1978,30 @@ function processHoldToConfirm(signLabel) {
     if (holdState.currentSign === signLabel) {
       const elapsed = now - holdState.startTime;
       const progress = Math.min(1.0, elapsed / holdState.holdDuration);
-      updateHoldProgressBar(progress, false);
-      highlightGuideChip(signLabel, 'active-tracking');
+      updateHoldMeter(progress, false);
 
       if (progress >= 1.0) {
         holdState.lastCommitTime = now;
-        holdState.lastCommittedSign = signLabel;
         holdState.currentSign = null;
+        updateHoldMeter(1.0, true);
 
-        updateHoldProgressBar(1.0, true);
-        highlightGuideChip(signLabel, 'committed');
-
-        handleSignEvent(signLabel);
+        // Auto-commit trigger
+        triggerSignRecognition(signLabel);
       }
     } else {
       holdState.currentSign = signLabel;
       holdState.startTime = now;
-      updateHoldProgressBar(0, false);
-      highlightGuideChip(signLabel, 'active-tracking');
+      updateHoldMeter(0, false);
     }
   } else {
     holdState.currentSign = null;
-    updateHoldProgressBar(0, false);
-    clearGuideHighlights();
+    updateHoldMeter(0, false);
   }
 }
 
-function updateHoldProgressBar(progress, isCommitted) {
-  const fill = document.getElementById('studio-hold-fill');
-  const text = document.getElementById('studio-hold-text');
+function updateHoldMeter(progress, isCommitted) {
+  const fill = document.getElementById('hold-fill');
+  const txt = document.getElementById('hold-text');
   if (!fill) return;
 
   const pct = Math.round(progress * 100);
@@ -2681,51 +2009,25 @@ function updateHoldProgressBar(progress, isCommitted) {
 
   if (isCommitted) {
     fill.style.background = 'linear-gradient(90deg, #10b981 0%, #059669 100%)';
-    if (text) text.textContent = '✅ COMMITTED & SPOKEN';
+    if (txt) txt.textContent = '✅ SPOKEN & SENT';
   } else if (progress > 0) {
     fill.style.background = 'linear-gradient(90deg, #00f0ff 0%, #2563eb 100%)';
-    if (text) text.textContent = 'Holding... ' + pct + '%';
+    if (txt) txt.textContent = `Holding... ${pct}%`;
   } else {
     fill.style.background = 'linear-gradient(90deg, #00f0ff 0%, #2563eb 100%)';
-    if (text) text.textContent = 'Hold 0.5s to Speak';
+    if (txt) txt.textContent = 'Hold 0.45s to Speak';
   }
-}
-
-function highlightGuideChip(signLabel, status) {
-  document.querySelectorAll('.guide-chip').forEach(c => {
-    if (c.id === 'guide-' + signLabel) {
-      c.classList.remove('active-tracking', 'committed');
-      c.classList.add(status);
-      const s = c.querySelector('.guide-status');
-      if (s) s.textContent = status === 'committed' ? 'COMMITTED' : 'HOLDING';
-    } else {
-      c.classList.remove('active-tracking', 'committed');
-      const s = c.querySelector('.guide-status');
-      if (s) s.textContent = 'READY';
-    }
-  });
-}
-
-function clearGuideHighlights() {
-  document.querySelectorAll('.guide-chip').forEach(c => {
-    c.classList.remove('active-tracking', 'committed');
-    const s = c.querySelector('.guide-status');
-    if (s) s.textContent = 'READY';
-  });
 }
 
 // ── MediaPipe Hands Camera Pipeline Setup ────────────────────────────────────
 function setupMediaPipe() {
-  const video = document.getElementById('studio-webcam-video');
-  const canvas = document.getElementById('studio-skeleton-canvas');
-  const phoneCanvas = document.getElementById('phone-mirror-canvas');
+  const video = document.getElementById('webcam-video');
+  const canvas = document.getElementById('skeleton-canvas');
   if (!video || !canvas) return;
-
   const ctx = canvas.getContext('2d');
-  const phoneCtx = phoneCanvas ? phoneCanvas.getContext('2d') : null;
 
   if (typeof Hands === 'undefined') {
-    console.log('MediaPipe loading via fallback CDN...');
+    console.log('MediaPipe loading via fallback...');
     return;
   }
 
@@ -2743,28 +2045,20 @@ function setupMediaPipe() {
   hands.onResults((results) => {
     const w = video.videoWidth || 640;
     const h = video.videoHeight || 480;
-
     canvas.width = w;
     canvas.height = h;
+
     ctx.save();
     ctx.clearRect(0, 0, w, h);
 
-    if (phoneCanvas && phoneCtx) {
-      phoneCanvas.width = w;
-      phoneCanvas.height = h;
-      phoneCtx.save();
-      phoneCtx.clearRect(0, 0, w, h);
-      phoneCtx.drawImage(video, 0, 0, w, h);
-    }
-
     const handsCount = results.multiHandLandmarks ? results.multiHandLandmarks.length : 0;
-    const detailPill = document.getElementById('hud-hands-detail');
+    const detailPill = document.getElementById('hands-detail');
     if (detailPill) {
       detailPill.textContent = handsCount > 1 ? '2-Hands Active' : (handsCount === 1 ? '1-Hand Active' : 'Waiting for hands');
     }
 
-    let recognizedSign = 'READY';
-    let recognizedConf = 0;
+    let detectedSign = 'READY';
+    let detectedConf = 0;
 
     if (handsCount > 0) {
       // Draw skeletons: Hand 0 in cyan, Hand 1 in emerald
@@ -2776,73 +2070,66 @@ function setupMediaPipe() {
         if (typeof drawConnectors !== 'undefined') {
           drawConnectors(ctx, lm, HAND_CONNECTIONS, { color, lineWidth: 3.0 });
           drawLandmarks(ctx, lm, { color: '#ffffff', fillColor: fill, lineWidth: 1.5, radius: 4 });
-
-          if (phoneCtx && typeof drawConnectors !== 'undefined') {
-            drawConnectors(phoneCtx, lm, HAND_CONNECTIONS, { color, lineWidth: 2.5 });
-            drawLandmarks(phoneCtx, lm, { color: '#ffffff', fillColor: fill, lineWidth: 1, radius: 3 });
-          }
         }
       }
 
       // Layer 1: Check Two-Handed Interactions
       if (handsCount >= 2) {
-        const twoHandMatch = classifyTwoHandedGesture(results.multiHandLandmarks[0], results.multiHandLandmarks[1]);
-        if (twoHandMatch) {
-          recognizedSign = twoHandMatch.label;
-          recognizedConf = twoHandMatch.confidence;
+        const twoHand = classifyTwoHanded(results.multiHandLandmarks[0], results.multiHandLandmarks[1]);
+        if (twoHand) {
+          detectedSign = twoHand.label;
+          detectedConf = twoHand.confidence;
         }
       }
 
-      // Layer 2: Check Kinematic Directional Rules (Dominant Hand)
-      if (recognizedSign === 'READY') {
-        const kinMatch = classifySingleHandKinematics(results.multiHandLandmarks[0]);
-        if (kinMatch) {
-          recognizedSign = kinMatch.label;
-          recognizedConf = kinMatch.confidence;
+      // Layer 2: Check Scale-Invariant Single Hand Kinematics
+      if (detectedSign === 'READY') {
+        const singleHand = classifySingleHand(results.multiHandLandmarks[0]);
+        if (singleHand) {
+          detectedSign = singleHand.label;
+          detectedConf = singleHand.confidence;
         }
       }
 
-      // Layer 3: 72-Dimensional Invariant Euclidean Template Matching
-      if (recognizedSign === 'READY' && window.OMNISIGN_TEMPLATES.length > 0) {
+      // Layer 3: 72-D Euclidean Invariant Lexicon Matcher
+      if (detectedSign === 'READY' && window.OMNISIGN_TEMPLATES.length > 0) {
         const fv = buildFeatureVector(results.multiHandLandmarks[0]);
         const tm = match72DTemplate(fv, window.OMNISIGN_TEMPLATES, 0.42);
         if (tm) {
-          recognizedSign = tm.label;
-          recognizedConf = tm.confidence;
+          detectedSign = tm.label;
+          detectedConf = tm.confidence;
         }
       }
 
-      // Update Studio Overlay
-      if (recognizedSign !== 'READY') {
-        const labelElem = document.getElementById('studio-sign-label');
-        const confElem = document.getElementById('studio-sign-conf');
-        const iconElem = document.getElementById('studio-sign-icon');
-        const rule = SYNTHESIS_RULES[recognizedSign];
+      // Update HUD
+      if (detectedSign !== 'READY') {
+        const lbl = document.getElementById('sign-label');
+        const conf = document.getElementById('sign-conf');
+        const icon = document.getElementById('sign-icon');
+        const rule = SIGN_DICTIONARY[detectedSign];
 
-        if (labelElem) labelElem.textContent = recognizedSign;
-        if (confElem) confElem.textContent = recognizedConf.toFixed(1) + '% Match (Biomechanical)';
-        if (iconElem) iconElem.textContent = rule ? (rule.emoji || '✋') : '✋';
+        if (lbl) lbl.textContent = detectedSign;
+        if (conf) conf.textContent = detectedConf.toFixed(1) + '% Match (Biomechanical)';
+        if (icon) icon.textContent = rule ? (rule.emoji || '✋') : '✋';
       } else {
-        const labelElem = document.getElementById('studio-sign-label');
-        const confElem = document.getElementById('studio-sign-conf');
-        if (labelElem) labelElem.textContent = 'TRACKING';
-        if (confElem) confElem.textContent = 'Analyzing Kinematic Vector...';
+        const lbl = document.getElementById('sign-label');
+        const conf = document.getElementById('sign-conf');
+        if (lbl) lbl.textContent = 'TRACKING';
+        if (conf) conf.textContent = 'Analyzing joint angles...';
       }
 
-      // Process Hold-to-Confirm Auto-Commit
-      processHoldToConfirm(recognizedSign);
+      processHold(detectedSign);
     } else {
-      const labelElem = document.getElementById('studio-sign-label');
-      const confElem = document.getElementById('studio-sign-conf');
-      const iconElem = document.getElementById('studio-sign-icon');
-      if (labelElem) labelElem.textContent = 'READY';
-      if (confElem) confElem.textContent = 'Show hands to camera';
-      if (iconElem) iconElem.textContent = '✋';
-      processHoldToConfirm(null);
+      const lbl = document.getElementById('sign-label');
+      const conf = document.getElementById('sign-conf');
+      const icon = document.getElementById('sign-icon');
+      if (lbl) lbl.textContent = 'READY';
+      if (conf) conf.textContent = 'Show hand signs to camera';
+      if (icon) icon.textContent = '✋';
+      processHold(null);
     }
 
     ctx.restore();
-    if (phoneCtx) phoneCtx.restore();
   });
 
   if (typeof Camera !== 'undefined') {
@@ -2855,55 +2142,87 @@ function setupMediaPipe() {
       width: 640,
       height: 480
     });
-    camera.start().catch(e => console.warn('Webcam permission pending or unavailable:', e));
+    camera.start().catch(e => console.warn('Webcam permission pending:', e));
   }
 }
 
-function toggleWebcamFeed() {
+function toggleWebcam() {
   state.isWebcamActive = !state.isWebcamActive;
   const btn = document.getElementById('webcam-toggle-btn');
   btn.innerHTML = state.isWebcamActive ? '<span>📹 Camera ON</span>' : '<span>📷 Camera OFF</span>';
   showToast(state.isWebcamActive ? 'Webcam active' : 'Webcam paused');
 }
 
-function toggleChartModal() {
-  const m = document.getElementById('chart-modal');
-  m.style.display = m.style.display === 'none' ? 'flex' : 'none';
-}
-
 function showToast(msg) {
   const t = document.getElementById('tour-toast');
   document.getElementById('tour-toast-text').textContent = msg;
   t.style.display = 'flex';
-  setTimeout(() => { t.style.display = 'none'; }, 3500);
+  setTimeout(() => { t.style.display = 'none'; }, 3200);
+}
+
+// ── 60-Second Guided Demo Tour (Manual Click Only) ───────────────────────────
+async function runLiveGuidedDemo() {
+  showToast('🏆 Starting 60s Guided Demo across Domains...');
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+
+  // Step 1: Hospital
+  switchDomain('hospital');
+  onHearingPersonSpoke('Doctor: Hello, please sit down. Where is the pain located?');
+  await wait(2400);
+  showToast('🏥 User signs "PAIN" to camera...');
+  triggerSignRecognition('PAIN');
+
+  await wait(3600);
+  onHearingPersonSpoke('Doctor: I see. Please show me your prescription slip.');
+  await wait(2400);
+  showToast('📄 User signs "PRESCRIPTION"...');
+  triggerSignRecognition('PRESCRIPTION');
+
+  // Step 2: Banking
+  await wait(4200);
+  switchDomain('bank');
+  onHearingPersonSpoke('Officer: Welcome to the counter! What transaction do you need?');
+  await wait(2400);
+  showToast('💵 User signs "MONEY"...');
+  triggerSignRecognition('MONEY');
+
+  // Step 3: Delivery
+  await wait(4200);
+  switchDomain('delivery');
+  onHearingPersonSpoke('Rider: Bhaiya reached your gate, which building?');
+  await wait(2400);
+  showToast('👈 User signs "GATE LEFT"...');
+  triggerSignRecognition('GATE_LEFT');
+
+  await wait(4000);
+  showToast('✅ Universal ISL Bridge Demo Complete!');
 }
 
 // ── Auto-Speak Toggle Handler ────────────────────────────────────────────────
 document.getElementById('auto-speak-toggle')?.addEventListener('change', (e) => {
   state.autoSpeak = e.target.checked;
-  const label = document.getElementById('auto-speak-label');
-  if (label) {
-    label.textContent = state.autoSpeak ? 'ON' : 'OFF';
-    label.style.color = state.autoSpeak ? 'var(--emerald)' : 'var(--text-muted)';
+  const lbl = document.getElementById('auto-speak-lbl');
+  if (lbl) {
+    lbl.textContent = state.autoSpeak ? 'ON' : 'OFF';
+    lbl.style.color = state.autoSpeak ? 'var(--emerald)' : 'var(--text-muted)';
   }
-  showToast('Auto-Speak: ' + (state.autoSpeak ? 'Enabled' : 'Disabled'));
+  showToast('Auto-Speak: ' + (state.autoSpeak ? 'ON' : 'OFF'));
 });
 
-// ── Initialization on Page Load ──────────────────────────────────────────────
+// ── Page Initialization ──────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
-  startWaveformCanvas();
-  loadLexiconTemplates();
+  loadTemplates();
   setupMediaPipe();
+  setupSpeechRecognition();
   populateVoiceSelect();
 
-  // Clock in status bar
-  setInterval(() => {
-    const now = new Date();
-    const h = now.getHours();
-    const m = String(now.getMinutes()).padStart(2, '0');
-    const clock = document.getElementById('phone-clock');
-    if (clock) clock.textContent = h + ':' + m;
-  }, 1000);
+  // Initialize with Healthcare Domain
+  switchDomain('hospital');
+
+  // Initial welcome message from hearing person in dialogue
+  setTimeout(() => {
+    addHearingMessage('Doctor: Hello! Please sit down. How can I help you today?');
+  }, 500);
 });
 </script>
 
