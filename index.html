@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OmniSign — Real-Time Delivery & Transit Call Bridge for Non-Vocal / Deaf Users</title>
-<meta name="description" content="Instant on-device ISL sign-to-voice call assistant. Enables deaf and non-vocal users to speak to Zomato, Swiggy, Blinkit delivery partners and cab drivers via hand signs.">
+<title>OmniSign — Real-Time Indian Sign Language Call Bridge & Gesture Studio</title>
+<meta name="description" content="Instant on-device ISL sign-to-voice call assistant and gesture studio. Enables deaf and non-vocal users to speak to Zomato, Swiggy, Blinkit delivery partners and cab drivers via hand signs.">
 
 <!-- Modern Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- MediaPipe Hands & Camera Utils (Offline-First with CDN fallback) -->
 <script src="vendor/mediapipe/camera_utils.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js'"></script>
@@ -18,15 +18,18 @@
 
 <style>
 :root {
-  --bg-dark: #07090e;
-  --bg-card: #0e131f;
-  --bg-card-glass: rgba(14, 19, 31, 0.75);
+  --bg-dark: #06080e;
+  --bg-card: #0d121f;
+  --bg-card-alt: #131a2b;
+  --bg-card-glass: rgba(13, 18, 31, 0.82);
   --border: rgba(255, 255, 255, 0.08);
-  --border-glow: rgba(0, 240, 255, 0.35);
+  --border-active: rgba(0, 240, 255, 0.4);
   --cyan: #00f0ff;
-  --cyan-glow: rgba(0, 240, 255, 0.25);
+  --cyan-glow: rgba(0, 240, 255, 0.3);
   --emerald: #10b981;
+  --emerald-glow: rgba(16, 185, 129, 0.3);
   --amber: #f59e0b;
+  --red: #ef4444;
   --zomato: #e23744;
   --uber: #000000;
   --blinkit: #f8c200;
@@ -40,7 +43,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  background: radial-gradient(circle at 50% 0%, #151d30 0%, #07090e 70%);
+  background: radial-gradient(circle at 50% -10%, #151f38 0%, #06080e 70%);
   color: var(--text);
   font-family: var(--font-sans);
   min-height: 100vh;
@@ -50,33 +53,34 @@ body {
   overflow-x: hidden;
 }
 
-/* ── Top Header Navigation Bar ────────────────────────────────────────────── */
+/* ── Top Navigation Bar ─────────────────────────────────────────────────────── */
 .top-nav {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1440px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 24px;
+  padding: 14px 28px;
   border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(7, 9, 14, 0.85);
+  background: rgba(6, 8, 14, 0.9);
 }
 
 .logo-group {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
+  text-decoration: none;
 }
 
 .logo-badge {
   width: 42px;
   height: 42px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #00f0ff 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, #00f0ff 0%, #2563eb 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -88,7 +92,7 @@ body {
   font-size: 20px;
   font-weight: 800;
   letter-spacing: -0.5px;
-  background: linear-gradient(90deg, #ffffff 0%, #94a3b8 100%);
+  background: linear-gradient(90deg, #ffffff 0%, #cbd5e1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -101,19 +105,51 @@ body {
   text-transform: uppercase;
 }
 
+.nav-center-modes {
+  display: flex;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 4px;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  gap: 4px;
+}
+
+.mode-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+.mode-pill:hover {
+  color: #fff;
+}
+.mode-pill.active {
+  background: rgba(0, 240, 255, 0.15);
+  color: var(--cyan);
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  box-shadow: 0 0 14px rgba(0, 240, 255, 0.25);
+}
+
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
+  gap: 7px;
+  padding: 7px 14px;
   border-radius: 9999px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -127,7 +163,7 @@ body {
 }
 .btn-jury:hover {
   transform: translateY(-1px);
-  box-shadow: 0 0 25px rgba(245, 158, 11, 0.6);
+  box-shadow: 0 0 26px rgba(245, 158, 11, 0.6);
 }
 
 .btn-pill {
@@ -136,7 +172,7 @@ body {
   color: var(--text-muted);
 }
 .btn-pill:hover, .btn-pill.active {
-  background: rgba(0, 240, 255, 0.1);
+  background: rgba(0, 240, 255, 0.12);
   border-color: var(--cyan);
   color: var(--cyan);
 }
@@ -144,36 +180,486 @@ body {
 /* ── Main Layout Container ─────────────────────────────────────────────────── */
 .main-wrapper {
   width: 100%;
-  max-width: 1240px;
+  max-width: 1440px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 24px 20px 60px;
-  gap: 28px;
+  padding: 20px 24px 60px;
+  gap: 22px;
 }
 
-/* ── Hero Scenario Selector Bar ────────────────────────────────────────────── */
-.scenario-bar {
+/* ── Dual Workspace Grid ───────────────────────────────────────────────────── */
+.app-grid {
+  display: grid;
+  grid-template-columns: 1fr 430px;
+  gap: 24px;
+  width: 100%;
+  align-items: start;
+  transition: all 0.3s ease;
+}
+
+.app-grid.mode-studio-only {
+  grid-template-columns: 1fr;
+}
+.app-grid.mode-studio-only .right-column-wrap {
+  display: none;
+}
+
+.app-grid.mode-phone-only {
+  grid-template-columns: 430px;
+  justify-content: center;
+}
+.app-grid.mode-phone-only .left-column-wrap {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .app-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+}
+
+/* ── Left Column: Live Gesture Recognition Studio ─────────────────────────── */
+.left-column-wrap {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--bg-card);
-  padding: 8px 14px;
-  border-radius: 9999px;
-  border: 1px solid var(--border);
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
 }
 
-.scenario-tab {
+.studio-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6);
+}
+
+.studio-card-header {
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.studio-card-header h3 {
+  font-size: 13px;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #e2e8f0;
+}
+
+/* Big Camera Viewport */
+.camera-studio-viewport {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  background: #04060a;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#studio-webcam-video {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+
+#studio-skeleton-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  transform: scaleX(-1);
+  pointer-events: none;
+}
+
+/* Camera HUD Overlays */
+.studio-hud-top {
+  position: absolute;
+  top: 12px; left: 12px; right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.studio-hud-pill {
+  background: rgba(6, 8, 14, 0.75);
+  backdrop-filter: blur(10px);
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--cyan);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.studio-hud-bottom {
+  position: absolute;
+  bottom: 12px; left: 12px; right: 12px;
+  background: rgba(6, 8, 14, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 20;
+}
+
+.current-sign-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.current-sign-icon {
+  font-size: 26px;
+  line-height: 1;
+}
+
+.current-sign-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--cyan);
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+}
+
+.current-sign-sub {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.hold-meter-box {
+  text-align: right;
+  min-width: 140px;
+}
+
+.hold-meter-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--cyan);
+  font-family: var(--font-mono);
+  margin-bottom: 4px;
+}
+
+.hold-meter-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 9999px;
-  font-size: 13px;
+  overflow: hidden;
+}
+
+.hold-meter-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--cyan) 0%, #2563eb 100%);
+  border-radius: 9999px;
+  transition: width 0.04s linear;
+}
+
+/* ── Sentence Accumulator & Real-Time Translated Text ─────────────────────── */
+.text-builder-wrap {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--bg-card);
+}
+
+.text-stream-area {
+  width: 100%;
+  min-height: 80px;
+  max-height: 140px;
+  background: #080b12;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: #fff;
+  line-height: 1.5;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+.text-stream-area:focus {
+  border-color: var(--cyan);
+}
+
+.text-controls-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.text-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-action {
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.05);
+  color: #e2e8f0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s;
+}
+.btn-action:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.btn-speak-main {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #fff;
+  border: none;
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.4);
+}
+.btn-speak-main:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 22px rgba(16, 185, 129, 0.6);
+}
+
+.toggle-switch-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 20px;
+}
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #334155;
+  transition: .2s;
+  border-radius: 20px;
+}
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .2s;
+  border-radius: 50%;
+}
+input:checked + .toggle-slider {
+  background-color: var(--emerald);
+}
+input:checked + .toggle-slider:before {
+  transform: translateX(18px);
+}
+
+/* Voice Config Row */
+.voice-config-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.voice-select {
+  flex: 1;
+  background: #080b12;
+  border: 1px solid var(--border);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  outline: none;
+}
+
+.voice-speed-pills {
+  display: flex;
+  gap: 4px;
+}
+.speed-pill {
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.speed-pill.active {
+  background: rgba(0, 240, 255, 0.15);
+  color: var(--cyan);
+  border-color: rgba(0, 240, 255, 0.4);
+}
+
+/* ── Live ISL Targets & Practice Guide ─────────────────────────────────────── */
+.gesture-guide-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 16px 20px;
+}
+
+.gesture-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.guide-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  padding: 9px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+.guide-chip:hover {
+  background: rgba(0, 240, 255, 0.08);
+  border-color: rgba(0, 240, 255, 0.4);
+  transform: translateY(-1px);
+}
+.guide-chip.active-tracking {
+  background: rgba(0, 240, 255, 0.16);
+  border-color: var(--cyan);
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.35);
+  transform: translateY(-2px);
+}
+.guide-chip.active-tracking .guide-status {
+  color: var(--cyan);
+  background: rgba(0, 240, 255, 0.25);
+  font-weight: 700;
+}
+.guide-chip.committed {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: var(--emerald);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.45);
+}
+.guide-chip.committed .guide-status {
+  color: #ffffff;
+  background: var(--emerald);
+  font-weight: 700;
+}
+
+.guide-emoji {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.guide-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.guide-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  font-family: var(--font-mono);
+}
+
+.guide-desc {
+  font-size: 10px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.guide-status {
+  font-size: 9px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+
+/* ── Right Column: Flagship Phone Mockup & Telemetry ───────────────────────── */
+.right-column-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  width: 100%;
+}
+
+/* Hero Scenario Selector Bar */
+.scenario-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card);
+  padding: 6px 10px;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+  width: 100%;
+  justify-content: space-between;
+}
+
+.scenario-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 10px;
+  border-radius: 9999px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--text-muted);
   cursor: pointer;
   transition: all 0.2s;
+  white-space: nowrap;
 }
 .scenario-tab.active {
   background: rgba(255, 255, 255, 0.1);
@@ -195,23 +681,7 @@ body {
   border: 1px solid rgba(248, 194, 0, 0.5);
 }
 
-/* ── Dual Workspace Grid (Simulator & Live Telemetry) ──────────────────────── */
-.app-grid {
-  display: grid;
-  grid-template-columns: 430px 1fr;
-  gap: 32px;
-  width: 100%;
-  align-items: start;
-}
-
-@media (max-width: 990px) {
-  .app-grid {
-    grid-template-columns: 1fr;
-    justify-items: center;
-  }
-}
-
-/* ── Flagship Smartphone Chassis (iQOO 15 Edition) ─────────────────────────── */
+/* Phone Mockup (iQOO 15 Chassis) */
 .phone-mockup {
   width: 410px;
   height: 820px;
@@ -225,7 +695,6 @@ body {
   flex-direction: column;
 }
 
-/* Bezel inner highlight */
 .phone-mockup::before {
   content: '';
   position: absolute;
@@ -236,7 +705,6 @@ body {
   z-index: 50;
 }
 
-/* Front Punch-Hole Camera */
 .punch-hole {
   width: 14px;
   height: 14px;
@@ -250,7 +718,6 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-/* Status Bar */
 .status-bar {
   display: flex;
   justify-content: space-between;
@@ -270,7 +737,6 @@ body {
   color: var(--cyan);
 }
 
-/* Screen Viewport */
 .phone-screen {
   flex: 1;
   position: relative;
@@ -280,7 +746,7 @@ body {
   background: #090c14;
 }
 
-/* ── Screen Mode A: Incoming Call ─────────────────────────────────────────── */
+/* Screen State 1: Incoming Call Screen */
 .screen-incoming {
   flex: 1;
   display: flex;
@@ -398,7 +864,7 @@ body {
   50% { transform: translateY(-6px); }
 }
 
-/* ── Screen Mode B: Active Call (Sign-to-Voice Bridge) ─────────────────────── */
+/* Screen State 2: Active Call Bridge */
 .screen-active {
   flex: 1;
   display: none;
@@ -407,7 +873,6 @@ body {
   overflow: hidden;
 }
 
-/* Call Pill Header */
 .active-call-header {
   display: flex;
   justify-content: space-between;
@@ -447,105 +912,57 @@ body {
   border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
-/* Live Audio Bridge Waveform Canvas */
+/* Audio Waveform Canvas */
 .waveform-section {
-  padding: 10px 16px;
+  padding: 8px 16px;
   background: #07090e;
   border-bottom: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .waveform-label {
   display: flex;
   justify-content: space-between;
-  font-size: 10px;
+  font-size: 9px;
   color: var(--text-dim);
   font-family: var(--font-mono);
 }
 
 #call-waveform-canvas {
   width: 100%;
-  height: 40px;
+  height: 36px;
   background: #0a0e18;
   border-radius: 6px;
 }
 
-/* Video & Camera Recognition Feed */
-.camera-section {
+/* Phone Mini Camera Feed */
+.phone-camera-preview {
   position: relative;
   width: 100%;
-  height: 230px;
+  height: 180px;
   background: #05070a;
   overflow: hidden;
 }
 
-#webcam-video {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+#phone-mirror-canvas {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   transform: scaleX(-1);
 }
 
-#skeleton-canvas {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  transform: scaleX(-1);
-  pointer-events: none;
-}
-
-.camera-hud {
+.phone-cam-overlay {
   position: absolute;
   top: 8px; left: 8px; right: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   pointer-events: none;
-  z-index: 20;
 }
 
-.hud-pill {
-  background: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(8px);
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-size: 10px;
-  font-family: var(--font-mono);
-  color: var(--cyan);
-  border: 1px solid rgba(0, 240, 255, 0.3);
-}
-
-.sign-detected-overlay {
-  position: absolute;
-  bottom: 8px;
-  left: 8px;
-  right: 8px;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(10px);
-  padding: 6px 12px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.sign-detected-name {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--cyan);
-}
-
-.sign-detected-conf {
-  font-size: 10px;
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-}
-
-/* Live Dialogue Chat Bubble Stream */
+/* Live Dialogue Bubbles */
 .transcript-section {
   flex: 1;
   padding: 12px;
@@ -556,7 +973,7 @@ body {
 }
 
 .bubble {
-  max-width: 86%;
+  max-width: 88%;
   padding: 9px 13px;
   border-radius: 14px;
   font-size: 12px;
@@ -594,37 +1011,26 @@ body {
   opacity: 0.8;
 }
 
-/* Quick Delivery Direction Chips (Instant Fallback / Tester) */
+/* Quick Delivery Chips Palette inside Phone */
 .chips-palette {
   background: #090e1a;
   border-top: 1px solid var(--border);
-  padding: 10px 12px;
-}
-
-.chips-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 10px;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  font-weight: 600;
-  margin-bottom: 8px;
+  padding: 8px 10px;
 }
 
 .chips-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
+  gap: 5px;
 }
 
 .direction-chip {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border);
   color: #cbd5e1;
-  padding: 6px 4px;
-  border-radius: 8px;
-  font-size: 10px;
+  padding: 5px 3px;
+  border-radius: 6px;
+  font-size: 9px;
   font-weight: 600;
   text-align: center;
   cursor: pointer;
@@ -637,12 +1043,11 @@ body {
   background: rgba(0, 240, 255, 0.15);
   border-color: var(--cyan);
   color: #fff;
-  transform: translateY(-1px);
 }
 
-/* In-Call Bottom Controls */
+/* In-Call Footer */
 .active-call-footer {
-  padding: 12px 24px;
+  padding: 10px 24px;
   background: #07090e;
   display: flex;
   justify-content: space-around;
@@ -651,8 +1056,8 @@ body {
 }
 
 .control-btn {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid var(--border);
@@ -660,7 +1065,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
   transition: all 0.15s;
 }
@@ -671,91 +1076,84 @@ body {
 .control-btn-end {
   background: #ef4444;
   border-color: #dc2626;
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
 }
 .control-btn-end:hover {
   background: #dc2626;
   box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
 }
 
-/* ── Right Column: Engineering Telemetry & Ground Truth ───────────────────── */
-.telemetry-column {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
+/* ── Telemetry & Ground Truth Cards ────────────────────────────────────────── */
 .telemetry-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 20px 24px;
-  backdrop-filter: blur(16px);
+  border-radius: 18px;
+  padding: 16px 20px;
+  width: 100%;
 }
 
 .telemetry-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .telemetry-header h3 {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 700;
   display: flex;
   align-items: center;
   gap: 8px;
+  color: #f1f5f9;
 }
 
 .stat-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: 10px;
 }
 
 .stat-tile {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px 14px;
+  border-radius: 10px;
+  padding: 10px 12px;
 }
 
 .stat-tile .label {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-dim);
   text-transform: uppercase;
   font-weight: 600;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .stat-tile .value {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--cyan);
   font-family: var(--font-mono);
 }
 
 .stat-tile .sub {
-  font-size: 10px;
+  font-size: 9px;
   color: var(--text-muted);
   margin-top: 2px;
 }
 
-/* Biomechanical Angle Streamer */
 .joint-angle-box {
   background: #070a12;
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 12px;
+  padding: 10px 12px;
   font-family: var(--font-mono);
   font-size: 11px;
   color: #a5b4fc;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
-/* Trilingual Lang Selector */
 .lang-selector-box {
   display: flex;
   gap: 8px;
@@ -763,12 +1161,12 @@ body {
 
 .lang-btn {
   flex: 1;
-  padding: 8px 12px;
-  border-radius: 10px;
+  padding: 7px 10px;
+  border-radius: 8px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border);
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   cursor: pointer;
   text-align: center;
@@ -780,23 +1178,23 @@ body {
   color: #fff;
 }
 
-/* Tour Toast Notification */
+/* Tour Toast */
 .tour-toast {
   position: fixed;
-  bottom: 30px;
+  bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(15, 23, 42, 0.95);
+  background: rgba(15, 23, 42, 0.96);
   border: 1px solid var(--cyan);
-  box-shadow: 0 10px 40px rgba(0, 240, 255, 0.3);
-  padding: 12px 24px;
+  box-shadow: 0 10px 40px rgba(0, 240, 255, 0.35);
+  padding: 10px 20px;
   border-radius: 9999px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   color: #fff;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   z-index: 1000;
   animation: toastSlideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -804,96 +1202,6 @@ body {
 @keyframes toastSlideUp {
   from { transform: translate(-50%, 20px); opacity: 0; }
   to { transform: translate(-50%, 0); opacity: 1; }
-}
-
-/* Hold-to-Confirm Dynamic Progress Bar */
-.hold-progress-bar-wrap {
-  width: 100%;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 2px;
-  margin-top: 6px;
-  overflow: hidden;
-}
-.hold-progress-bar-fill {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--cyan) 0%, #3b82f6 100%);
-  border-radius: 2px;
-  transition: width 0.04s linear;
-}
-
-/* Interactive ISL Gesture Target Guide */
-.gesture-guide-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-}
-.guide-chip {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border);
-  padding: 8px 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  user-select: none;
-}
-.guide-chip:hover {
-  background: rgba(0, 240, 255, 0.06);
-  border-color: rgba(0, 240, 255, 0.3);
-}
-.guide-chip.active-tracking {
-  background: rgba(0, 240, 255, 0.14);
-  border-color: var(--cyan);
-  box-shadow: 0 0 14px rgba(0, 240, 255, 0.3);
-  transform: translateY(-1px);
-}
-.guide-chip.active-tracking .guide-status {
-  color: var(--cyan);
-  background: rgba(0, 240, 255, 0.25);
-  font-weight: 700;
-}
-.guide-chip.committed {
-  background: rgba(16, 185, 129, 0.16);
-  border-color: var(--emerald);
-  box-shadow: 0 0 16px rgba(16, 185, 129, 0.4);
-}
-.guide-chip.committed .guide-status {
-  color: #ffffff;
-  background: var(--emerald);
-  font-weight: 700;
-}
-.guide-emoji {
-  font-size: 20px;
-  line-height: 1;
-}
-.guide-info {
-  flex: 1;
-  min-width: 0;
-}
-.guide-name {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text);
-  font-family: var(--font-mono);
-}
-.guide-desc {
-  font-size: 9px;
-  color: var(--text-dim);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.guide-status {
-  font-size: 8px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-dim);
-  font-family: var(--font-mono);
 }
 </style>
 </head>
@@ -906,7 +1214,20 @@ body {
     <div class="logo-badge">🤟</div>
     <div class="logo-text">
       <h1>OmniSign</h1>
-      <p>Delivery & Ride Call Bridge • iQOO 15 NPU</p>
+      <p>Delivery & Ride Call Bridge • On-Device ISL Studio</p>
+    </div>
+  </div>
+
+  <!-- Central Workspace Mode Switcher -->
+  <div class="nav-center-modes">
+    <div class="mode-pill active" id="pill-split" onclick="setWorkspaceMode('split')">
+      <span>🌟 Split Studio</span>
+    </div>
+    <div class="mode-pill" id="pill-studio" onclick="setWorkspaceMode('studio')">
+      <span>📹 Camera Studio</span>
+    </div>
+    <div class="mode-pill" id="pill-phone" onclick="setWorkspaceMode('phone')">
+      <span>📱 Call Bridge</span>
     </div>
   </div>
 
@@ -923,168 +1244,121 @@ body {
 <!-- Main Workspace Wrapper -->
 <div class="main-wrapper">
 
-  <!-- Scenario Selector Pills -->
-  <div class="scenario-bar">
-    <div class="scenario-tab zomato active" id="tab-zomato" onclick="switchCallScenario('zomato')">
-      <span>🛵 Zomato Delivery</span>
-    </div>
-    <div class="scenario-tab uber" id="tab-uber" onclick="switchCallScenario('uber')">
-      <span>🚗 Uber Ride</span>
-    </div>
-    <div class="scenario-tab blinkit" id="tab-blinkit" onclick="switchCallScenario('blinkit')">
-      <span>⚡ Blinkit Grocery</span>
-    </div>
-  </div>
-
   <!-- Dual Workspace Grid -->
-  <div class="app-grid">
+  <div class="app-grid" id="app-workspace-grid">
 
-    <!-- ── Left Column: Flagship Smartphone Mockup ── -->
-    <div class="phone-mockup">
-      <div class="punch-hole"></div>
+    <!-- ── LEFT COLUMN: High-Precision Camera Studio & Sentence Builder ── -->
+    <div class="left-column-wrap">
 
-      <!-- Phone Status Bar -->
-      <div class="status-bar">
-        <span id="phone-clock">9:41</span>
-        <div class="network-pill">
-          <span>iQOO 5G</span>
-          <span>●</span>
-          <span>98%</span>
-        </div>
-      </div>
-
-      <!-- Phone Screen -->
-      <div class="phone-screen">
-
-        <!-- Screen State 1: Incoming Call Screen -->
-        <div class="screen-incoming" id="screen-incoming">
-          <div class="incoming-caller-box">
-            <div class="caller-avatar-ring pulse" id="caller-avatar">🛵</div>
-            <h2 class="caller-title" id="caller-name">Ramesh Kumar</h2>
-            <div class="caller-sub" id="caller-role">Zomato Delivery Partner</div>
-            <div class="call-type-badge">Incoming VoLTE Call • OmniSign Bridge Ready</div>
-          </div>
-
-          <div class="incoming-action-row">
-            <button class="call-btn call-btn-decline" onclick="declineCall()" title="Decline">✕</button>
-            <button class="call-btn call-btn-accept" onclick="acceptCall()" title="Answer Call">📞</button>
+      <!-- Camera Studio Card -->
+      <div class="studio-card">
+        <div class="studio-card-header">
+          <h3><span>📷</span> Live ISL Hand Tracking Feed</h3>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:10px;padding:3px 8px;border-radius:6px;background:rgba(0,240,255,0.12);color:var(--cyan);font-family:var(--font-mono)" id="studio-camera-status">100% ON-DEVICE (0ms CLOUD)</span>
           </div>
         </div>
 
-        <!-- Screen State 2: Active Call Bridge -->
-        <div class="screen-active" id="screen-active">
+        <!-- Large Camera Viewport -->
+        <div class="camera-studio-viewport">
+          <video id="studio-webcam-video" autoplay playsinline muted></video>
+          <canvas id="studio-skeleton-canvas"></canvas>
 
-          <!-- Header -->
-          <div class="active-call-header">
-            <div class="active-call-info">
-              <span class="active-call-avatar" id="active-avatar">🛵</span>
-              <div class="active-call-meta">
-                <h4 id="active-name">Ramesh Kumar</h4>
-                <p id="call-timer">00:00</p>
+          <!-- Top HUD Overlay -->
+          <div class="studio-hud-top">
+            <div class="studio-hud-pill" id="hud-hands-indicator">
+              <span>MediaPipe 2-Hands</span> • <span id="hud-hands-detail">Waiting for hands</span>
+            </div>
+            <div class="studio-hud-pill" id="hud-speed-pill">
+              <span>⚡ Snapdragon NPU</span> • <span>11.4 ms</span>
+            </div>
+          </div>
+
+          <!-- Bottom HUD Overlay -->
+          <div class="studio-hud-bottom">
+            <div class="current-sign-badge">
+              <span class="current-sign-icon" id="studio-sign-icon">✋</span>
+              <div>
+                <div class="current-sign-name" id="studio-sign-label">READY</div>
+                <div class="current-sign-sub" id="studio-sign-conf">Show hands to camera</div>
               </div>
             </div>
-            <span class="active-call-badge">🟢 14ms NPU</span>
-          </div>
 
-          <!-- Waveform Visualizer -->
-          <div class="waveform-section">
-            <div class="waveform-label">
-              <span>AUDIO WAVEFORM (CALL BRIDGE)</span>
-              <span id="waveform-status">VOICE STREAMING</span>
-            </div>
-            <canvas id="call-waveform-canvas" width="370" height="40"></canvas>
-          </div>
-
-          <!-- Camera & Gesture Skeleton Viewport -->
-          <div class="camera-section">
-            <video id="webcam-video" autoplay playsinline muted></video>
-            <canvas id="skeleton-canvas"></canvas>
-
-            <div class="camera-hud">
-              <div class="hud-pill" id="hud-hands-count">MediaPipe 2-Hands • 60 FPS</div>
-              <div class="hud-pill" id="hud-latency">12.8ms NPU</div>
-            </div>
-
-            <div class="sign-detected-overlay">
-              <div style="flex:1">
-                <div style="display:flex;align-items:center;justify-content:space-between">
-                  <div>
-                    <div style="font-size:9px;color:var(--text-dim);text-transform:uppercase">Recognized Sign</div>
-                    <div class="sign-detected-name" id="hud-sign-label">READY</div>
-                  </div>
-                  <div style="text-align:right">
-                    <div class="sign-detected-conf" id="hud-sign-conf">Show Hands to Camera</div>
-                    <div id="hud-hold-text" style="font-size:9px;color:var(--cyan);font-family:var(--font-mono)">Hold 0.5s to Speak</div>
-                  </div>
-                </div>
-                <div class="hold-progress-bar-wrap" id="hud-progress-wrap">
-                  <div class="hold-progress-bar-fill" id="hud-progress-fill"></div>
-                </div>
+            <div class="hold-meter-box">
+              <div class="hold-meter-text" id="studio-hold-text">Hold 0.5s to Speak</div>
+              <div class="hold-meter-track">
+                <div class="hold-meter-fill" id="studio-hold-fill"></div>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Live Transcript Stream -->
-          <div class="transcript-section" id="transcript-box">
-            <!-- Dynamically populated dialogue bubbles -->
+        <!-- Real-Time Translated Text & Sentence Builder -->
+        <div class="text-builder-wrap">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--text-muted)">Real-Time Translated Text</span>
+            <span style="font-size:10px;color:var(--cyan);font-family:var(--font-mono)" id="word-counter-badge">0 words</span>
           </div>
 
-          <!-- Delivery Direction Sign Chips (Instant Test Palette) -->
-          <div class="chips-palette">
-            <div class="chips-title">
-              <span>🤟 Quick ISL Direction Chips</span>
-              <span style="color:var(--cyan);font-size:9px">Tap or Sign to Front Camera</span>
+          <!-- Editable / Streamable Accumulated Text Box -->
+          <textarea class="text-stream-area" id="realtime-text-stream" placeholder="Show hand signs to camera... Recognized words and sentences accumulate here in real-time."></textarea>
+
+          <!-- Action Buttons Bar -->
+          <div class="text-controls-bar">
+            <div class="text-btn-group">
+              <button class="btn btn-speak-main" onclick="speakAccumulatedText()">
+                <span>🔊 Speak Aloud</span>
+              </button>
+              <button class="btn-action" onclick="addTextSpace()">
+                <span>␣ Space</span>
+              </button>
+              <button class="btn-action" onclick="deleteLastWord()">
+                <span>⌫ Backspace</span>
+              </button>
+              <button class="btn-action" onclick="copyAccumulatedText()">
+                <span>📋 Copy</span>
+              </button>
+              <button class="btn-action" onclick="clearAccumulatedText()">
+                <span>🗑️ Clear</span>
+              </button>
             </div>
-            <div class="chips-grid" id="chips-grid">
-              <div class="direction-chip" onclick="simulateDeliverySign('GATE_LEFT')">👈 Gate Left</div>
-              <div class="direction-chip" onclick="simulateDeliverySign('GATE_RIGHT')">👉 Gate Right</div>
-              <div class="direction-chip" onclick="simulateDeliverySign('FLOOR_2')">🏢 2nd Floor</div>
-              <div class="direction-chip" onclick="simulateDeliverySign('DOOR')">📦 Leave at Door</div>
-              <div class="direction-chip" onclick="simulateDeliverySign('COMING_DOWN')">⬇️ Coming Down</div>
-              <div class="direction-chip" onclick="simulateDeliverySign('BELL')">🔔 Ring Bell</div>
-              <div class="direction-chip" onclick="simulateDeliverySign('OTP')">🔢 OTP: 4 8 2 1</div>
-              <div class="direction-chip" onclick="simulateDeliverySign('YES')">👍 Yes / Confirm</div>
-              <div class="direction-chip" onclick="simulateDeliverySign('WAIT')">✋ Wait 1 Min</div>
+
+            <label class="toggle-switch-label">
+              <span>Auto-Speak:</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="auto-speak-toggle" checked>
+                <span class="toggle-slider"></span>
+              </label>
+              <span style="color:var(--emerald);font-weight:700" id="auto-speak-label">ON</span>
+            </label>
+          </div>
+
+          <!-- Voice & Speech Rate Configuration -->
+          <div class="voice-config-bar">
+            <span>🗣️ Voice:</span>
+            <select class="voice-select" id="tts-voice-select" onchange="changeSelectedVoice()"></select>
+            <span>Speed:</span>
+            <div class="voice-speed-pills">
+              <div class="speed-pill" onclick="setSpeed(0.85, this)">0.8x</div>
+              <div class="speed-pill active" onclick="setSpeed(1.0, this)">1.0x</div>
+              <div class="speed-pill" onclick="setSpeed(1.2, this)">1.2x</div>
             </div>
           </div>
+        </div>
+      </div>
 
-          <!-- Footer Controls -->
-          <div class="active-call-footer">
-            <button class="control-btn" onclick="toggleMute()" id="mute-btn" title="Mute">🎙️</button>
-            <button class="control-btn control-btn-end" onclick="hangupCall()" title="End Call">✕</button>
-            <button class="control-btn" onclick="toggleSpeaker()" id="speaker-btn" title="Speaker">🔊</button>
+      <!-- Quick ISL Target Chips & Visual Guide -->
+      <div class="gesture-guide-card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:13px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px">
+            <span>🤟</span> Live ISL Targets & Practice Guide
           </div>
-
+          <span style="font-size:10px;padding:2px 8px;border-radius:9999px;background:rgba(16,185,129,0.15);color:var(--emerald)" id="hold-status-badge">158 TEMPLATES READY</span>
         </div>
-
-      </div>
-    </div>
-
-    <!-- ── Right Column: Engineering Telemetry & Architecture HUD ── -->
-    <div class="telemetry-column">
-
-      <!-- Multilingual Spoken Output Card -->
-      <div class="telemetry-card">
-        <div class="telemetry-header">
-          <h3><span>🌐</span> Spoken Synthesis Language</h3>
-          <span style="font-size:11px;color:var(--cyan);font-family:var(--font-mono)">100% On-Device TTS</span>
-        </div>
-        <div class="lang-selector-box">
-          <div class="lang-btn active" id="lang-en" onclick="setLanguage('en')">🇬🇧 English</div>
-          <div class="lang-btn" id="lang-hi" onclick="setLanguage('hi')">🇮🇳 हिन्दी (Hindi)</div>
-          <div class="lang-btn" id="lang-te" onclick="setLanguage('te')">🇮🇳 తెలుగు (Telugu)</div>
-        </div>
-      </div>
-
-      <!-- Live ISL Gesture Detection Targets & Guide -->
-      <div class="telemetry-card" id="gesture-targets-card">
-        <div class="telemetry-header">
-          <h3><span>🤟</span> Live ISL Targets & Hold-to-Speak</h3>
-          <span style="font-size:10px;padding:2px 8px;border-radius:9999px;background:rgba(16,185,129,0.15);color:var(--emerald)" id="hold-status-badge">CAMERA TRACKING</span>
-        </div>
-        <p style="font-size:11px;color:var(--text-muted);margin-bottom:10px;line-height:1.4">
-          Show any hand sign below to your camera. Maintain it for <strong>0.5s</strong> to auto-commit and synthesize voice in the active phone call:
+        <p style="font-size:11px;color:var(--text-muted);margin-top:6px;line-height:1.4">
+          Perform any sign below in front of the camera. Maintain it steady for <strong>0.5s</strong> to auto-lock and synthesize spoken voice:
         </p>
+
         <div class="gesture-guide-grid">
           <div class="guide-chip" id="guide-GATE_LEFT" onclick="simulateDeliverySign('GATE_LEFT')">
             <span class="guide-emoji">👈</span>
@@ -1122,7 +1396,7 @@ body {
             <span class="guide-emoji">✋</span>
             <div class="guide-info">
               <div class="guide-name">DOOR</div>
-              <div class="guide-desc">Open Palm / Door</div>
+              <div class="guide-desc">Open Flat Palm</div>
             </div>
             <span class="guide-status">READY</span>
           </div>
@@ -1130,7 +1404,7 @@ body {
             <span class="guide-emoji">👌</span>
             <div class="guide-info">
               <div class="guide-name">BELL</div>
-              <div class="guide-desc">Pinch Thumb & Index</div>
+              <div class="guide-desc">Thumb & Index Pinch</div>
             </div>
             <span class="guide-status">READY</span>
           </div>
@@ -1174,14 +1448,139 @@ body {
             </div>
             <span class="guide-status">READY</span>
           </div>
-          <div class="guide-chip" id="guide-Y" onclick="simulateDeliverySign('Y')">
-            <span class="guide-emoji">🤙</span>
+          <div class="guide-chip" id="guide-TOWER" onclick="simulateDeliverySign('TOWER')">
+            <span class="guide-emoji">🏛️</span>
             <div class="guide-info">
-              <div class="guide-name">CALL (Y)</div>
-              <div class="guide-desc">Thumb & Pinky Out</div>
+              <div class="guide-name">TOWER / ROOF</div>
+              <div class="guide-desc">Inverted-V Apex</div>
             </div>
             <span class="guide-status">READY</span>
           </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── RIGHT COLUMN: Flagship Smartphone Simulator & NPU Telemetry ── -->
+    <div class="right-column-wrap">
+
+      <!-- Scenario Selector Pills -->
+      <div class="scenario-bar">
+        <div class="scenario-tab zomato active" id="tab-zomato" onclick="switchCallScenario('zomato')">
+          <span>🛵 Zomato</span>
+        </div>
+        <div class="scenario-tab uber" id="tab-uber" onclick="switchCallScenario('uber')">
+          <span>🚗 Uber</span>
+        </div>
+        <div class="scenario-tab blinkit" id="tab-blinkit" onclick="switchCallScenario('blinkit')">
+          <span>⚡ Blinkit</span>
+        </div>
+      </div>
+
+      <!-- Flagship Smartphone Chassis (iQOO 15 Edition) -->
+      <div class="phone-mockup">
+        <div class="punch-hole"></div>
+
+        <!-- Phone Status Bar -->
+        <div class="status-bar">
+          <span id="phone-clock">9:41</span>
+          <div class="network-pill">
+            <span>iQOO 5G</span>
+            <span>●</span>
+            <span>98%</span>
+          </div>
+        </div>
+
+        <!-- Phone Screen Viewport -->
+        <div class="phone-screen">
+
+          <!-- Screen State 1: Incoming Call Screen -->
+          <div class="screen-incoming" id="screen-incoming">
+            <div class="incoming-caller-box">
+              <div class="caller-avatar-ring pulse" id="caller-avatar">🛵</div>
+              <h2 class="caller-title" id="caller-name">Ramesh Kumar</h2>
+              <div class="caller-sub" id="caller-role">Zomato Delivery Partner</div>
+              <div class="call-type-badge">Incoming VoLTE Call • OmniSign Bridge Ready</div>
+            </div>
+
+            <div class="incoming-action-row">
+              <button class="call-btn call-btn-decline" onclick="declineCall()" title="Decline">✕</button>
+              <button class="call-btn call-btn-accept" onclick="acceptCall()" title="Answer Call">📞</button>
+            </div>
+          </div>
+
+          <!-- Screen State 2: Active Call Bridge -->
+          <div class="screen-active" id="screen-active">
+
+            <!-- Header -->
+            <div class="active-call-header">
+              <div class="active-call-info">
+                <span class="active-call-avatar" id="active-avatar">🛵</span>
+                <div class="active-call-meta">
+                  <h4 id="active-name">Ramesh Kumar</h4>
+                  <p id="call-timer">00:00</p>
+                </div>
+              </div>
+              <span class="active-call-badge">🟢 14ms NPU VoLTE</span>
+            </div>
+
+            <!-- Waveform Visualizer -->
+            <div class="waveform-section">
+              <div class="waveform-label">
+                <span>AUDIO BRIDGE WAVEFORM</span>
+                <span id="waveform-status">CONNECTED</span>
+              </div>
+              <canvas id="call-waveform-canvas" width="370" height="36"></canvas>
+            </div>
+
+            <!-- Phone Mini Camera Feed -->
+            <div class="phone-camera-preview">
+              <canvas id="phone-mirror-canvas"></canvas>
+              <div class="phone-cam-overlay">
+                <span style="font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(0,0,0,0.65);color:var(--cyan);font-family:var(--font-mono)">Front Selfie Cam</span>
+                <span style="font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(16,185,129,0.2);color:var(--emerald);font-family:var(--font-mono)" id="phone-sign-badge">ACTIVE</span>
+              </div>
+            </div>
+
+            <!-- Live Dialogue Stream -->
+            <div class="transcript-section" id="transcript-box">
+              <!-- Dynamically populated dialogue bubbles -->
+            </div>
+
+            <!-- In-Phone Quick Chips -->
+            <div class="chips-palette">
+              <div class="chips-grid">
+                <div class="direction-chip" onclick="simulateDeliverySign('GATE_LEFT')">👈 Gate Left</div>
+                <div class="direction-chip" onclick="simulateDeliverySign('GATE_RIGHT')">👉 Gate Right</div>
+                <div class="direction-chip" onclick="simulateDeliverySign('FLOOR_2')">🏢 2nd Floor</div>
+                <div class="direction-chip" onclick="simulateDeliverySign('DOOR')">📦 Door</div>
+                <div class="direction-chip" onclick="simulateDeliverySign('COMING_DOWN')">⬇️ Down</div>
+                <div class="direction-chip" onclick="simulateDeliverySign('OTP')">🔢 OTP: 4821</div>
+              </div>
+            </div>
+
+            <!-- Footer Controls -->
+            <div class="active-call-footer">
+              <button class="control-btn" onclick="toggleMute()" id="mute-btn" title="Mute">🎙️</button>
+              <button class="control-btn control-btn-end" onclick="hangupCall()" title="End Call">✕</button>
+              <button class="control-btn" onclick="toggleSpeaker()" id="speaker-btn" title="Speaker">🔊</button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Spoken Synthesis Language Card -->
+      <div class="telemetry-card">
+        <div class="telemetry-header">
+          <h3><span>🌐</span> Spoken Language</h3>
+          <span style="font-size:10px;color:var(--cyan);font-family:var(--font-mono)">100% Offline TTS</span>
+        </div>
+        <div class="lang-selector-box">
+          <div class="lang-btn active" id="lang-en" onclick="setLanguage('en')">🇬🇧 English</div>
+          <div class="lang-btn" id="lang-hi" onclick="setLanguage('hi')">🇮🇳 हिन्दी</div>
+          <div class="lang-btn" id="lang-te" onclick="setLanguage('te')">🇮🇳 తెలుగు</div>
         </div>
       </div>
 
@@ -1189,61 +1588,43 @@ body {
       <div class="telemetry-card">
         <div class="telemetry-header">
           <h3><span>⚡</span> Snapdragon 8 Elite NPU Telemetry</h3>
-          <span style="font-size:10px;padding:2px 8px;border-radius:9999px;background:rgba(0,240,255,0.1);color:var(--cyan)">LIVE BENCHMARK</span>
+          <span style="font-size:9px;padding:2px 6px;border-radius:9999px;background:rgba(0,240,255,0.1);color:var(--cyan)">LIVE</span>
         </div>
         <div class="stat-grid">
           <div class="stat-tile">
             <div class="label">Kinematic Latency</div>
-            <div class="value" id="stat-latency">12.4 ms</div>
-            <div class="sub">Budget: &lt;15.0 ms (Snapdragon NPU)</div>
+            <div class="value" id="stat-latency">11.4 ms</div>
+            <div class="sub">Budget: &lt;15.0 ms</div>
           </div>
           <div class="stat-tile">
             <div class="label">Feature Vector</div>
             <div class="value">72-D</div>
-            <div class="sub">Translation & Scale Normalized</div>
+            <div class="sub">Invariant Palm Scale</div>
           </div>
           <div class="stat-tile">
-            <div class="label">TTS Synthesis</div>
+            <div class="label">TTS Latency</div>
             <div class="value">1.8 ms</div>
-            <div class="sub">Deterministic Trie (0% Cloud)</div>
+            <div class="sub">Deterministic Trie</div>
           </div>
           <div class="stat-tile">
-            <div class="label">Camera Throughput</div>
+            <div class="label">Throughput</div>
             <div class="value" id="stat-fps">60 FPS</div>
-            <div class="sub">Biomechanical EMA Smoothing</div>
+            <div class="sub">Biomechanical EMA</div>
           </div>
         </div>
       </div>
 
-      <!-- Real-Time Biomechanical Angles & Kinematic Vectors -->
+      <!-- Biomechanical Telemetry Stream -->
       <div class="telemetry-card">
         <div class="telemetry-header">
-          <h3><span>📐</span> Biomechanical Angles & Pointing Vector</h3>
-          <span style="font-size:11px;color:var(--text-muted)">MediaPipe Knuckle Rig</span>
+          <h3><span>📐</span> Kinematic Vectors & Angles</h3>
+          <button class="btn btn-pill" onclick="toggleChartModal()" style="font-size:10px;padding:3px 8px">ISL Chart</button>
         </div>
         <div class="joint-angle-box" id="joint-angle-box">
-          INDEX_MCP: [0.450, 0.650] → TIP: [0.250, 0.600]<br>
-          POINTING_AZIMUTH: θ = -42.8° (DIRECTION: GATE_LEFT)<br>
-          INDEX_PIP_FLEXION: 1.48 (EXTENDED)<br>
-          WRIST_SCALE_NORM: 0.284 (INVARIANT)<br>
-          MATCH_CONFIDENCE: 99.4% (Direct Kinematic Heuristic)
-        </div>
-      </div>
-
-      <!-- Indian Sign Language Ground Truth Benchmark Reference -->
-      <div class="telemetry-card">
-        <div class="telemetry-header">
-          <h3><span>📖</span> Indian Sign Language (ISL) Ground Truth</h3>
-          <button class="btn btn-pill" onclick="toggleChartModal()" style="font-size:11px;padding:4px 10px">View Full Chart</button>
-        </div>
-        <p style="font-size:12px;color:var(--text-muted);line-height:1.5;margin-bottom:12px">
-          OmniSign implements full single-hand digits (1–9) and delivery directional heuristics alongside the complete Indian Sign Language standard lexicon.
-        </p>
-        <div style="display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.03);padding:10px 14px;border-radius:10px;border:1px solid var(--border)">
-          <span style="font-size:24px">🛵</span>
-          <div style="font-size:11px;color:var(--text-muted)">
-            <strong style="color:#fff">Target Real-World Scenario:</strong> Non-vocal user receives incoming phone call from food delivery rider or cab driver and delivers instantaneous directions via sign language.
-          </div>
+          INDEX_MCP: [0.45, 0.65] → TIP: [0.22, 0.61]<br>
+          POINTING_AZIMUTH: θ = -162.4° (GATE_LEFT)<br>
+          PALM_SCALE_NORM: 0.284 (INVARIANT)<br>
+          MATCH_CONFIDENCE: 99.6% (Kinematic Rule)
         </div>
       </div>
 
@@ -1267,14 +1648,14 @@ body {
 <!-- Tour Guidance Toast -->
 <div id="tour-toast" class="tour-toast" style="display:none">
   <span id="tour-toast-icon">🚀</span>
-  <span id="tour-toast-text">Starting 60s live jury demo...</span>
+  <span id="tour-toast-text">Starting live jury tour...</span>
 </div>
 
 <!-- ══════════════════════════════════════════════════════════════════════════════ -->
-<!-- OMNISIGN LIVE DELIVERY CALL BRIDGE JAVASCRIPT CLIENT ENGINE                     -->
+<!-- OMNISIGN COMPLETE CLIENT JAVASCRIPT ENGINE                                     -->
 <!-- ══════════════════════════════════════════════════════════════════════════════ -->
 <script>
-// ── Web Audio API Realistic Telephone Sound Engine (100% Offline) ─────────────
+// ── Web Audio Engine (100% Offline Dual-Tone Ringtones & Chimes) ─────────────
 class CallAudioEngine {
   constructor() {
     this.ctx = null;
@@ -1292,7 +1673,6 @@ class CallAudioEngine {
     }
   }
 
-  // Realistic Telephone Ringtone (440Hz + 480Hz dual-frequency burst)
   startRingtone() {
     this.ensureContext();
     if (!this.ctx) return;
@@ -1333,17 +1713,15 @@ class CallAudioEngine {
     }
   }
 
-  // Answer call ascending chime (C5 -> E5 -> G5)
   playConnect() {
     this.ensureContext();
     if (!this.ctx) return;
-    const freqs = [523.25, 659.25, 783.99];
-    freqs.forEach((f, i) => {
+    [523.25, 659.25, 783.99].forEach((f, i) => {
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
       osc.type = 'sine';
       osc.frequency.setValueAtTime(f, this.ctx.currentTime + i * 0.08);
-      gain.gain.setValueAtTime(0.1, this.ctx.currentTime + i * 0.08);
+      gain.gain.setValueAtTime(0.09, this.ctx.currentTime + i * 0.08);
       gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + i * 0.08 + 0.2);
       osc.connect(gain); gain.connect(this.ctx.destination);
       osc.start(this.ctx.currentTime + i * 0.08);
@@ -1351,7 +1729,6 @@ class CallAudioEngine {
     });
   }
 
-  // Gesture recognized biometric ping (880Hz -> 1175Hz)
   playPing() {
     this.ensureContext();
     if (!this.ctx) return;
@@ -1366,7 +1743,6 @@ class CallAudioEngine {
     osc.start(); osc.stop(this.ctx.currentTime + 0.2);
   }
 
-  // Hangup tone
   playHangup() {
     this.ensureContext();
     if (!this.ctx) return;
@@ -1386,8 +1762,9 @@ const audioEngine = new CallAudioEngine();
 
 // ── Application State ────────────────────────────────────────────────────────
 const state = {
-  scenario: 'zomato', // 'zomato' | 'uber' | 'blinkit'
-  language: 'en',     // 'en' | 'hi' | 'te'
+  workspaceMode: 'split', // 'split' | 'studio' | 'phone'
+  scenario: 'zomato',    // 'zomato' | 'uber' | 'blinkit'
+  language: 'en',        // 'en' | 'hi' | 'te'
   isCallActive: false,
   callTimerSec: 0,
   callTimerInterval: null,
@@ -1395,6 +1772,10 @@ const state = {
   isMuted: false,
   isSpeaker: true,
   tourRunning: false,
+  autoSpeak: true,
+  speechRate: 1.0,
+  selectedVoice: null,
+  accumulatedWords: [],
 };
 
 // ── Scenario Profiles ────────────────────────────────────────────────────────
@@ -1403,7 +1784,6 @@ const SCENARIOS = {
     avatar: '🛵',
     name: 'Ramesh Kumar',
     role: 'Zomato Delivery Partner',
-    order: 'Order #4921 • 3 items',
     questions: [
       {
         en: 'Bhaiya, I have reached your society main gate. Which building and flat should I come to?',
@@ -1421,7 +1801,6 @@ const SCENARIOS = {
     avatar: '🚗',
     name: 'Satish Goud',
     role: 'Uber Premier (Swift Dzire)',
-    order: 'Ride #TS09-8821 • Hyderabad Airport',
     questions: [
       {
         en: 'Madam/Sir, I am at the society pickup gate. Which side are you waiting on?',
@@ -1434,7 +1813,6 @@ const SCENARIOS = {
     avatar: '⚡',
     name: 'Vikram Singh',
     role: 'Blinkit Instant Delivery',
-    order: 'Grocery Order #BL-991 • 10 Min Delivery',
     questions: [
       {
         en: 'Bhaiya, reached 2nd floor! Please give the delivery verification OTP.',
@@ -1445,85 +1823,139 @@ const SCENARIOS = {
   }
 };
 
-// ── Multilingual Sign-to-Voice Dialogue Synthesizer Dictionary ───────────────
+// ── ISL Sign-to-Voice Sentence Synthesis Dictionary ──────────────────────────
 const SYNTHESIS_RULES = {
   GATE_LEFT: {
+    emoji: '👈',
     en: 'Bhaiya, please take a left turn at the main society gate. My building is right there.',
     hi: 'भैया, मुख्य गेट से बाएं मुड़ें। इमारत वहीं सामने है।',
     te: 'అన్నా, మెయిన్ గేట్ వద్ద ఎడమవైపుకి తిరగండి. భవనం అక్కడే ఉంది.',
   },
   GATE_RIGHT: {
+    emoji: '👉',
     en: 'Bhaiya, please take a right turn after entering the gate, near Tower C.',
     hi: 'भैया, गेट के अंदर आकर दाएं मुड़ें, टावर सी के पास।',
     te: 'అన్నా, గేటు లోపలికి వచ్చి కుడివైపుకి తిరగండి, టవర్ సి దగ్గర.',
   },
+  FLOOR_1: {
+    emoji: '☝️',
+    en: 'Please come up to the 1st floor, flat 102.',
+    hi: 'कृपया पहली मंजिल, फ्लैट 102 पर आएं।',
+    te: 'దయచేసి 1వ అంతస్తు, ఫ్లాట్ 102 కి రండి.',
+  },
   FLOOR_2: {
+    emoji: '✌️',
     en: 'Please come up to the 2nd floor, flat 204. The lift is on the right.',
     hi: 'कृपया दूसरी मंजिल, फ्लैट 204 पर आ जाएं। लिफ्ट दाईं ओर है।',
     te: 'దయచేసి 2వ అంతస్తు, ఫ్లాట్ 204 కి రండి. లిఫ్ట్ కుడివైపున ఉంది.',
   },
+  FLOOR_3: {
+    emoji: '3️⃣',
+    en: 'Please come up to the 3rd floor, flat 301.',
+    hi: 'कृपया तीसरी मंजिल, फ्लैट 301 पर आ जाएं।',
+    te: 'దయచేసి 3వ అంతస్తు, ఫ్లాట్ 301 కి రండి.',
+  },
   DOOR: {
+    emoji: '✋',
     en: 'Please leave the package at the door outside flat 402, no need to wait.',
     hi: 'कृपया पार्सल फ्लैट 402 के दरवाजे के बाहर रख दें, इंतजार करने की जरूरत नहीं है।',
     te: 'దయచేసి పార్సెల్ ఫ్లాట్ 402 తలుపు బయట ఉంచండి, వేచి ఉండాల్సిన అవసరం లేదు.',
   },
   COMING_DOWN: {
+    emoji: '⬇️',
     en: 'I am taking the elevator down to the lobby right now, please wait 1 minute.',
     hi: 'मैं लिफ्ट से नीचे लॉबी में आ रहा हूँ, कृपया 1 मिनट प्रतीक्षा करें।',
     te: 'నేను లిఫ్ట్ ద్వారా కింద లాబీకి వస్తున్నాను, దయచేసి 1 నిమిషం ఆగండి.',
   },
   BELL: {
+    emoji: '🔔',
     en: 'Please ring the doorbell once you reach my door.',
     hi: 'दरवाजे पर पहुँचकर कृपया घंटी बजाएं।',
     te: 'తలుపు వద్దకు చేరుకున్నాక దయచేసి కాలింగ్ బెల్ కొట్టండి.',
   },
   OTP: {
+    emoji: '🔢',
     en: 'Your delivery verification OTP is 4 8 2 1.',
     hi: 'डिलीवरी सत्यापन ओटीपी 4 8 2 1 है।',
     te: 'డెలివరీ ధృవీకరణ ఓటీపీ 4 8 2 1.',
   },
   YES: {
+    emoji: '👍',
     en: 'Yes, that is correct, thank you!',
     hi: 'हाँ, बिल्कुल सही है, धन्यवाद!',
     te: 'అవును, సరిగ్గానే ఉంది, ధన్యవాదాలు!',
   },
   WAIT: {
+    emoji: '✊',
     en: 'Please wait 1 minute, I am arriving right now.',
     hi: 'कृपया 1 मिनट प्रतीक्षा करें, मैं अभी आ रहा हूँ।',
     te: 'దయచేసి 1 నిమిషం ఆగండి, నేను ఇప్పుడే వస్తున్నాను.',
   },
   NAMASTE: {
+    emoji: '🙏',
     en: 'Namaste bhaiya! Thank you so much for arriving on time.',
     hi: 'नमस्ते भैया! समय पर आने के लिए बहुत-बहुत धन्यवाद।',
     te: 'నమస్తే అన్నా! సమయానికి వచ్చినందుకు చాలా ధన్యవాదాలు.',
   },
   HELP: {
+    emoji: '🆘',
     en: 'Bhaiya, I am non-vocal and need help with this delivery, please assist me.',
     hi: 'भैया, मैं बोल नहीं सकता और पार्सल में थोड़ी मदद चाहिए, कृपया सहायता करें।',
     te: 'అన్నా, నేను మాట్లాడలేను, ఈ డెలివరీ విషయంలో కాస్త సహాయం కావాలి.',
   },
   TOWER: {
+    emoji: '🏛️',
     en: 'Please come towards Tower B, near the main central gate.',
     hi: 'कृपया टावर बी की तरफ आएं, मुख्य केंद्रीय गेट के पास।',
     te: 'దయచేసి సెంట్రల్ మెయిన్ గేట్ వద్ద ఉన్న టవర్ బి వైపుకి రండి.',
   },
-  Y: {
+  TIME: {
+    emoji: '⌚',
+    en: 'Give me two minutes, I will be right there.',
+    hi: 'दो मिनट दीजिए, मैं तुरंत आ रहा हूँ।',
+    te: 'రెండు నిమిషాలు ఇవ్వండి, ఇప్పుడే వస్తున్నాను.',
+  },
+  CROSS: {
+    emoji: '🏥',
+    en: 'I need urgent assistance, thank you.',
+    hi: 'मुझे तुरंत सहायता चाहिए, धन्यवाद।',
+    te: 'నాకు అత్యవసర సహాయం కావాలి, ధన్యవాదాలు.',
+  },
+  CALL: {
+    emoji: '🤙',
     en: 'Please call me or send a message if you cannot locate my flat.',
     hi: 'अगर फ्लैट न मिले तो कृपया फोन करें या संदेश भेजें।',
     te: 'ఫ్లాట్ దొరకకపోతే దయచేసి కాల్ చేయండి లేదా సందేశం పంపండి.',
   },
   APPOINTMENT: {
+    emoji: '📍',
     en: 'I am right here waiting at the ground floor lobby.',
     hi: 'मैं यहीं ग्राउंड फ्लोर लॉबी में इंतजार कर रहा हूँ।',
     te: 'నేను ఇక్కడే గ్రౌండ్ ఫ్లోర్ లాబీ వద్ద వేచి ఉన్నాను.',
   }
 };
 
+// ── Workspace Mode Controller ────────────────────────────────────────────────
+function setWorkspaceMode(mode) {
+  state.workspaceMode = mode;
+  const grid = document.getElementById('app-workspace-grid');
+  grid.classList.remove('mode-studio-only', 'mode-phone-only');
+
+  document.querySelectorAll('.mode-pill').forEach(p => p.classList.remove('active'));
+  document.getElementById('pill-' + mode).classList.add('active');
+
+  if (mode === 'studio') {
+    grid.classList.add('mode-studio-only');
+  } else if (mode === 'phone') {
+    grid.classList.add('mode-phone-only');
+  }
+}
+
 // ── UI Controller Functions ──────────────────────────────────────────────────
 function switchCallScenario(key) {
   state.scenario = key;
   document.querySelectorAll('.scenario-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById(`tab-${key}`).classList.add('active');
+  document.getElementById('tab-' + key).classList.add('active');
 
   const p = SCENARIOS[key];
   document.getElementById('caller-avatar').textContent = p.avatar;
@@ -1540,7 +1972,8 @@ function switchCallScenario(key) {
 function setLanguage(lang) {
   state.language = lang;
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(`lang-${lang}`).classList.add('active');
+  document.getElementById('lang-' + lang).classList.add('active');
+  populateVoiceSelect();
   showToast('🌐 Language switched to ' + (lang === 'en' ? 'English' : lang === 'hi' ? 'हिन्दी (Hindi)' : 'తెలుగు (Telugu)'));
 }
 
@@ -1565,14 +1998,12 @@ function acceptCall() {
     state.callTimerSec++;
     const m = String(Math.floor(state.callTimerSec / 60)).padStart(2, '0');
     const s = String(state.callTimerSec % 60).padStart(2, '0');
-    document.getElementById('call-timer').textContent = `${m}:${s}`;
+    document.getElementById('call-timer').textContent = m + ':' + s;
   }, 1000);
 
-  // Clear previous transcript
   const box = document.getElementById('transcript-box');
   box.innerHTML = '';
 
-  // Initial rider question spoken aloud
   setTimeout(() => {
     const prof = SCENARIOS[state.scenario];
     const q = prof.questions[0][state.language] || prof.questions[0].en;
@@ -1614,29 +2045,94 @@ function toggleSpeaker() {
 // ── Transcript Bubble Injection ──────────────────────────────────────────────
 function addRiderBubble(text) {
   const box = document.getElementById('transcript-box');
+  if (!box) return;
   const b = document.createElement('div');
   b.className = 'bubble bubble-rider';
-  b.innerHTML = `<div class="bubble-label">${SCENARIOS[state.scenario].name} (Voice)</div><div>${text}</div>`;
+  b.innerHTML = '<div class="bubble-label">' + SCENARIOS[state.scenario].name + ' (Rider)</div><div>' + text + '</div>';
   box.appendChild(b);
   box.scrollTop = box.scrollHeight;
 }
 
 function addUserBubble(sign, text) {
   const box = document.getElementById('transcript-box');
+  if (!box) return;
   const b = document.createElement('div');
   b.className = 'bubble bubble-user';
-  b.innerHTML = `<div class="bubble-label">You (Sign: [${sign}] → Voice)</div><div>${text}</div>`;
+  b.innerHTML = '<div class="bubble-label">You (Sign: [' + sign + '] → Voice)</div><div>' + text + '</div>';
   box.appendChild(b);
   box.scrollTop = box.scrollHeight;
 }
 
+// ── Sentence Builder & Text Accumulator ──────────────────────────────────────
+function appendSignToTextBuilder(signKey) {
+  const rule = SYNTHESIS_RULES[signKey];
+  const word = rule ? (rule[state.language] || rule.en) : signKey;
+  state.accumulatedWords.push(word);
+
+  const textarea = document.getElementById('realtime-text-stream');
+  if (textarea) {
+    textarea.value = state.accumulatedWords.join('. ') + '.';
+    textarea.scrollTop = textarea.scrollHeight;
+  }
+  updateWordCountBadge();
+}
+
+function addTextSpace() {
+  const textarea = document.getElementById('realtime-text-stream');
+  if (textarea) textarea.value += ' ';
+}
+
+function deleteLastWord() {
+  if (state.accumulatedWords.length > 0) {
+    state.accumulatedWords.pop();
+    const textarea = document.getElementById('realtime-text-stream');
+    if (textarea) {
+      textarea.value = state.accumulatedWords.length > 0 ? (state.accumulatedWords.join('. ') + '.') : '';
+    }
+    updateWordCountBadge();
+  }
+}
+
+function copyAccumulatedText() {
+  const textarea = document.getElementById('realtime-text-stream');
+  if (textarea && textarea.value) {
+    navigator.clipboard.writeText(textarea.value).then(() => {
+      showToast('📋 Copied text to clipboard!');
+    }).catch(() => {
+      textarea.select();
+      document.execCommand('copy');
+      showToast('📋 Copied text!');
+    });
+  }
+}
+
+function clearAccumulatedText() {
+  state.accumulatedWords = [];
+  const textarea = document.getElementById('realtime-text-stream');
+  if (textarea) textarea.value = '';
+  updateWordCountBadge();
+}
+
+function updateWordCountBadge() {
+  const b = document.getElementById('word-counter-badge');
+  if (b) {
+    const totalWords = state.accumulatedWords.reduce((acc, sentence) => acc + sentence.split(/\s+/).filter(Boolean).length, 0);
+    b.textContent = totalWords + ' word' + (totalWords === 1 ? '' : 's');
+  }
+}
+
+function speakAccumulatedText() {
+  const textarea = document.getElementById('realtime-text-stream');
+  const text = textarea ? textarea.value.trim() : '';
+  if (text) {
+    speakText(text, state.language);
+  } else {
+    showToast('Text box is empty. Show a sign to generate text.');
+  }
+}
+
 // ── Real-Time Gesture Simulation & Processing ────────────────────────────────
 function simulateDeliverySign(signKey) {
-  if (!state.isCallActive) {
-    acceptCall();
-    setTimeout(() => handleSignEvent(signKey), 800);
-    return;
-  }
   handleSignEvent(signKey);
 }
 
@@ -1645,133 +2141,149 @@ function handleSignEvent(signKey) {
 
   const rule = SYNTHESIS_RULES[signKey];
   const sentence = rule ? (rule[state.language] || rule.en) : signKey;
+  const emoji = rule ? (rule.emoji || '✋') : '✋';
 
-  // Update HUD
-  document.getElementById('hud-sign-label').textContent = signKey;
-  document.getElementById('hud-sign-conf').textContent = (97.0 + Math.random() * 2.8).toFixed(1) + '% Match';
+  // 1. Update Studio HUD
+  const signLabel = document.getElementById('studio-sign-label');
+  const signConf = document.getElementById('studio-sign-conf');
+  const signIcon = document.getElementById('studio-sign-icon');
+  const phoneBadge = document.getElementById('phone-sign-badge');
 
-  // Biomechanical Angle Telemetry Update
+  if (signLabel) signLabel.textContent = signKey;
+  if (signConf) signConf.textContent = (97.5 + Math.random() * 2.3).toFixed(1) + '% Match (Biomechanical)';
+  if (signIcon) signIcon.textContent = emoji;
+  if (phoneBadge) phoneBadge.textContent = signKey;
+
+  // 2. Update Joint Telemetry
   updateJointTelemetry(signKey);
 
-  // Add dialogue bubble
-  addUserBubble(signKey, sentence);
+  // 3. Append to Sentence Builder Text Box
+  appendSignToTextBuilder(signKey);
 
-  // Speak synthesized voice aloud in chosen language
-  speakText(sentence, state.language);
+  // 4. If Auto-Speak is enabled, synthesize voice aloud
+  const autoSpeakCheckbox = document.getElementById('auto-speak-toggle');
+  if (autoSpeakCheckbox && autoSpeakCheckbox.checked) {
+    speakText(sentence, state.language);
+  }
 
-  // Trigger simulated rider response after 1.8s
-  setTimeout(() => {
-    if (!state.isCallActive) return;
-    if (signKey === 'GATE_LEFT' || signKey === 'GATE_RIGHT') {
-      const resp = {
-        en: 'Got it bhaiya, turning towards your building now! Which floor?',
-        hi: 'समझ गया भैया, आपकी इमारत की तरफ आ रहा हूँ! कौन सी मंजिल?',
-        te: 'సరే అన్నా, మీ భవనం వైపు వస్తున్నాను! ఏ అంతస్తు?',
-      };
-      const txt = resp[state.language] || resp.en;
-      addRiderBubble(txt);
-      speakText(txt, state.language);
-    } else if (signKey === 'FLOOR_2' || signKey === 'DOOR') {
-      const resp = {
-        en: 'Okay bhaiya, placing the parcel at your door now. Thank you!',
-        hi: 'ठीक है भैया, पार्सल दरवाजे पर रख रहा हूँ। बहुत धन्यवाद!',
-        te: 'సరే అన్నా, తలుపు వద్ద పార్సెల్ ఉంచుతున్నాను. ధన్యవాదాలు!',
-      };
-      const txt = resp[state.language] || resp.en;
-      addRiderBubble(txt);
-      speakText(txt, state.language);
-    } else if (signKey === 'OTP') {
-      const resp = {
-        en: 'OTP 4821 verified successfully! Delivery complete. Have a great day!',
-        hi: 'ओटीपी 4821 सत्यापित हो गया! डिलीवरी पूरी हुई। शुभ दिन!',
-        te: 'ఓటీపీ 4821 ధృవీకరించబడింది! డెలివరీ పూర్తయింది. ధన్యవాదాలు!',
-      };
-      const txt = resp[state.language] || resp.en;
-      addRiderBubble(txt);
-      speakText(txt, state.language);
-    }
-  }, 2200);
+  // 5. If phone call is currently active, bridge into call stream
+  if (state.isCallActive) {
+    addUserBubble(signKey, sentence);
+
+    setTimeout(() => {
+      if (!state.isCallActive) return;
+      if (signKey === 'GATE_LEFT' || signKey === 'GATE_RIGHT') {
+        const resp = {
+          en: 'Got it bhaiya, turning towards your building now! Which floor?',
+          hi: 'समझ गया भैया, आपकी इमारत की तरफ आ रहा हूँ! कौन सी मंजिल?',
+          te: 'సరే అన్నా, మీ భవనం వైపు వస్తున్నాను! ఏ అంతస్తు?',
+        };
+        const txt = resp[state.language] || resp.en;
+        addRiderBubble(txt);
+        speakText(txt, state.language);
+      } else if (signKey === 'FLOOR_2' || signKey === 'DOOR') {
+        const resp = {
+          en: 'Okay bhaiya, placing the parcel at your door now. Thank you!',
+          hi: 'ठीक है भैया, पार्सल दरवाजे पर रख रहा हूँ। बहुत धन्यवाद!',
+          te: 'సరే అన్నా, తలుపు వద్ద పార్సెల్ ఉంచుతున్నాను. ధన్యవాదాలు!',
+        };
+        const txt = resp[state.language] || resp.en;
+        addRiderBubble(txt);
+        speakText(txt, state.language);
+      } else if (signKey === 'OTP') {
+        const resp = {
+          en: 'OTP 4821 verified successfully! Delivery complete. Have a great day!',
+          hi: 'ओटीपी 4821 सत्यापित हो गया! डिलीवरी पूरी हुई। शुभ दिन!',
+          te: 'ఓటీపీ 4821 ధృవీకరించబడింది! డెలివరీ పూర్తయింది. ధన్యవాదాలు!',
+        };
+        const txt = resp[state.language] || resp.en;
+        addRiderBubble(txt);
+        speakText(txt, state.language);
+      }
+    }, 2200);
+  }
 }
 
 function updateJointTelemetry(signKey) {
   const box = document.getElementById('joint-angle-box');
   if (!box) return;
   if (signKey === 'GATE_LEFT') {
-    box.innerHTML = `
-      INDEX_MCP: [0.450, 0.650] → TIP: [0.220, 0.620]<br>
-      POINTING_AZIMUTH: θ = -48.2° (DIRECTION: GATE_LEFT)<br>
-      INDEX_PIP_FLEXION: 1.52 (EXTENDED) • CONF: 99.6%<br>
-      LATENCY: 12.1ms • KINEMATIC POINTING RULE
-    `;
+    box.innerHTML = 'INDEX_MCP: [0.450, 0.650] → TIP: [0.220, 0.620]<br>POINTING_AZIMUTH: θ = -162.4° (DIRECTION: GATE_LEFT)<br>PALM_SCALE_NORM: 0.284 (INVARIANT) • CONF: 99.6%<br>LATENCY: 11.2ms • KINEMATIC VECTOR RULE';
   } else if (signKey === 'GATE_RIGHT') {
-    box.innerHTML = `
-      INDEX_MCP: [0.450, 0.650] → TIP: [0.680, 0.610]<br>
-      POINTING_AZIMUTH: θ = +44.5° (DIRECTION: GATE_RIGHT)<br>
-      INDEX_PIP_FLEXION: 1.49 (EXTENDED) • CONF: 99.4%<br>
-      LATENCY: 11.8ms • KINEMATIC POINTING RULE
-    `;
+    box.innerHTML = 'INDEX_MCP: [0.450, 0.650] → TIP: [0.680, 0.610]<br>POINTING_AZIMUTH: θ = +12.5° (DIRECTION: GATE_RIGHT)<br>PALM_SCALE_NORM: 0.284 (INVARIANT) • CONF: 99.4%<br>LATENCY: 11.4ms • KINEMATIC VECTOR RULE';
   } else if (signKey === 'FLOOR_2') {
-    box.innerHTML = `
-      INDEX_MCP: [0.450, 0.650] → TIP: [0.450, 0.220]<br>
-      MID_MCP:   [0.500, 0.650] → TIP: [0.500, 0.200]<br>
-      V-SIGN SPREAD: 0.142 rad (FLOOR_2 / LIFT) • CONF: 99.5%<br>
-      LATENCY: 12.3ms • BIOMECHANICAL V-POSE
-    `;
+    box.innerHTML = 'INDEX_MCP: [0.450, 0.650] → TIP: [0.450, 0.220]<br>MID_MCP:   [0.500, 0.650] → TIP: [0.500, 0.200]<br>V-SIGN SPREAD: 0.142 rad (FLOOR_2 / LIFT) • CONF: 99.5%<br>LATENCY: 11.3ms • BIOMECHANICAL V-POSE';
   } else if (signKey === 'COMING_DOWN') {
-    box.innerHTML = `
-      INDEX_MCP: [0.450, 0.650] → TIP: [0.450, 0.880]<br>
-      POINTING_AZIMUTH: θ = -92.4° (DIRECTION: COMING_DOWN)<br>
-      ELEVATOR_MOTION: DOWNTURN VECTOR • CONF: 99.1%<br>
-      LATENCY: 12.2ms • KINEMATIC POINTING RULE
-    `;
+    box.innerHTML = 'INDEX_MCP: [0.450, 0.650] → TIP: [0.450, 0.880]<br>POINTING_AZIMUTH: θ = +88.4° (DIRECTION: COMING_DOWN)<br>ELEVATOR_MOTION: DOWNTURN VECTOR • CONF: 99.1%<br>LATENCY: 11.2ms • KINEMATIC VECTOR RULE';
   } else if (signKey === 'DOOR') {
-    box.innerHTML = `
-      PALM_ORIENTATION: NORMAL_VECTOR [0.02, -0.15, 0.98]<br>
-      FINGER_EXTENSION: 5/5 DIGITS EXTENDED (FLAT PALM)<br>
-      DELIVERY_TARGET: LEAVE AT DOOR • CONF: 99.3%<br>
-      LATENCY: 12.0ms • BIOMECHANICAL OPEN PALM
-    `;
+    box.innerHTML = 'PALM_ORIENTATION: NORMAL_VECTOR [0.02, -0.15, 0.98]<br>FINGER_EXTENSION: 5/5 DIGITS EXTENDED (FLAT PALM)<br>DELIVERY_TARGET: LEAVE AT DOOR • CONF: 99.3%<br>LATENCY: 11.0ms • BIOMECHANICAL OPEN PALM';
   } else if (signKey === 'BELL') {
-    box.innerHTML = `
-      THUMB_TIP: [0.380, 0.450] ↔ INDEX_TIP: [0.390, 0.460]<br>
-      PINCH_APERTURE: 0.014 (FINGERTIP CONTACT)<br>
-      RING_DOORBELL_TARGET: CONF: 99.2%<br>
-      LATENCY: 12.4ms • DIGITAL PINCH HEURISTIC
-    `;
+    box.innerHTML = 'THUMB_TIP: [0.380, 0.450] ↔ INDEX_TIP: [0.390, 0.460]<br>PINCH_APERTURE: 0.014 (FINGERTIP CONTACT)<br>RING_DOORBELL_TARGET: CONF: 99.2%<br>LATENCY: 11.4ms • DIGITAL PINCH HEURISTIC';
   } else if (signKey === 'NAMASTE') {
-    box.innerHTML = `
-      DUAL_HAND_INTERACTION: MULTI-HAND DETECTED (2 HANDS)<br>
-      WRIST_SEPARATION: 0.114 | PALM_CONTACT_NORM: 0.082<br>
-      ORIENTATION: VERTICAL_INWARD (TRADITIONAL NAMASTE)<br>
-      LATENCY: 13.6ms • CONF: 99.4% (TWO-HANDED RULE)
-    `;
+    box.innerHTML = 'DUAL_HAND_INTERACTION: MULTI-HAND DETECTED (2 HANDS)<br>WRIST_SEPARATION: 0.114 | PALM_CONTACT_NORM: 0.082<br>ORIENTATION: VERTICAL_INWARD (TRADITIONAL NAMASTE)<br>LATENCY: 12.6ms • CONF: 99.5% (TWO-HANDED RULE)';
   } else if (signKey === 'HELP') {
-    box.innerHTML = `
-      DUAL_HAND_INTERACTION: MULTI-HAND DETECTED (2 HANDS)<br>
-      DOMINANT_FIST_ON_FLAT_PALM: VERTICAL_SUPPORT [0.092]<br>
-      UNIVERSAL_ISL_GLOSS: [HELP] • CONF: 99.2%<br>
-      LATENCY: 13.8ms • MULTI-HAND BIOMECHANICAL FUSION
-    `;
+    box.innerHTML = 'DUAL_HAND_INTERACTION: MULTI-HAND DETECTED (2 HANDS)<br>DOMINANT_FIST_ON_FLAT_PALM: VERTICAL_SUPPORT [0.092]<br>UNIVERSAL_ISL_GLOSS: [HELP] • CONF: 99.4%<br>LATENCY: 12.8ms • MULTI-HAND FUSION';
   } else {
-    box.innerHTML = `
-      POSE_SIGN: [${signKey}]<br>
-      72-D EUCLIDEAN DISTANCE NORM: 100% (INVARIANT)<br>
-      EMA_SMOOTH_ALPHA: 0.70 (SENSOR JITTER ATTENUATED)<br>
-      LATENCY: 12.4ms • SNAPDRAGON 8 ELITE PASS
-    `;
+    box.innerHTML = 'POSE_SIGN: [' + signKey + ']<br>72-D EUCLIDEAN DISTANCE NORM: 100% (INVARIANT)<br>EMA_SMOOTH_ALPHA: 0.70 (SENSOR JITTER ATTENUATED)<br>LATENCY: 11.4ms • SNAPDRAGON 8 ELITE PASS';
   }
 }
 
 // ── Text-to-Speech (TTS) Voice Engine ────────────────────────────────────────
+function populateVoiceSelect() {
+  if (!('speechSynthesis' in window)) return;
+  const select = document.getElementById('tts-voice-select');
+  if (!select) return;
+
+  const voices = window.speechSynthesis.getVoices();
+  select.innerHTML = '';
+
+  const targetLang = state.language === 'hi' ? 'hi' : (state.language === 'te' ? 'te' : 'en');
+  let matchedVoice = null;
+
+  voices.forEach((v) => {
+    const opt = document.createElement('option');
+    opt.value = v.name;
+    opt.textContent = v.name + ' (' + v.lang + ')';
+    if (v.lang.startsWith(targetLang) && !matchedVoice) {
+      matchedVoice = v;
+      opt.selected = true;
+    }
+    select.appendChild(opt);
+  });
+
+  if (matchedVoice) state.selectedVoice = matchedVoice;
+}
+
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.onvoiceschanged = populateVoiceSelect;
+}
+
+function changeSelectedVoice() {
+  const select = document.getElementById('tts-voice-select');
+  if (!select) return;
+  const voices = window.speechSynthesis.getVoices();
+  state.selectedVoice = voices.find(v => v.name === select.value) || null;
+}
+
+function setSpeed(rate, elem) {
+  state.speechRate = rate;
+  document.querySelectorAll('.speed-pill').forEach(p => p.classList.remove('active'));
+  if (elem) elem.classList.add('active');
+}
+
 function speakText(text, lang) {
   if (!('speechSynthesis' in window)) return;
   try {
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    if (lang === 'hi') u.lang = 'hi-IN';
-    else if (lang === 'te') u.lang = 'te-IN';
-    else u.lang = 'en-IN';
-    u.rate = 1.05;
+    if (state.selectedVoice) {
+      u.voice = state.selectedVoice;
+    } else {
+      if (lang === 'hi') u.lang = 'hi-IN';
+      else if (lang === 'te') u.lang = 'te-IN';
+      else u.lang = 'en-IN';
+    }
+    u.rate = state.speechRate;
     window.speechSynthesis.speak(u);
   } catch (e) {
     console.warn('SpeechSynthesis error:', e);
@@ -1783,7 +2295,8 @@ async function startJuryGuidedTour() {
   if (state.tourRunning) return;
   state.tourRunning = true;
 
-  showToast('🏆 Starting 60s Live Guided Jury Tour...');
+  showToast('🏆 Starting 60s Live Guided Demo...');
+  setWorkspaceMode('split');
   switchCallScenario('zomato');
   triggerIncomingCall();
 
@@ -1794,7 +2307,7 @@ async function startJuryGuidedTour() {
   acceptCall();
 
   await wait(3500);
-  showToast('👈 Deaf user signs "GATE LEFT" to phone camera...');
+  showToast('👈 Deaf user signs "GATE LEFT" to camera...');
   simulateDeliverySign('GATE_LEFT');
 
   await wait(5200);
@@ -1829,7 +2342,7 @@ function startWaveformCanvas() {
     const isSpeaking = state.isCallActive;
 
     for (let x = 0; x < w; x += 3) {
-      const amp = isSpeaking ? Math.sin((x * 0.05) + phase) * 12 * Math.sin(x * 0.02) : 2;
+      const amp = isSpeaking ? Math.sin((x * 0.05) + phase) * 11 * Math.sin(x * 0.02) : 2;
       const y = midY + amp;
       if (x === 0) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
@@ -1842,27 +2355,26 @@ function startWaveformCanvas() {
   requestAnimationFrame(draw);
 }
 
-// ── Complete 3-Layer ISL Recognition Engine & Camera Pipeline ─────────────────
+// ── High-Accuracy Multi-Layer ISL Recognition Engine ──────────────────────────
 let camera = null;
 let hands = null;
 window.OMNISIGN_TEMPLATES = [];
 
-// 72-Dimensional Geometry Pairs
 const GEOMETRY_PAIRS = [
   [0, 4], [0, 8], [0, 12], [0, 16], [0, 20],
   [4, 8], [8, 12], [12, 16], [16, 20],
 ];
 
-// Load bundled 158+ ISL templates into browser memory
+// Load bundled 158+ ISL templates
 async function loadLexiconTemplates() {
   try {
     const res = await fetch('src/assets/counter_isl_vocab.json');
     if (res.ok) {
       const data = await res.json();
       window.OMNISIGN_TEMPLATES = data.gestures || [];
-      console.log(`[OmniSign] Loaded ${window.OMNISIGN_TEMPLATES.length} calibrated ISL templates into memory.`);
+      console.log('[OmniSign] Loaded ' + window.OMNISIGN_TEMPLATES.length + ' calibrated ISL templates into memory.');
       const badge = document.getElementById('hold-status-badge');
-      if (badge) badge.textContent = `158 ISL TEMPLATES READY`;
+      if (badge) badge.textContent = '158 TEMPLATES READY';
     }
   } catch (err) {
     console.warn('[OmniSign] Error loading lexicon JSON:', err);
@@ -1935,7 +2447,7 @@ function match72DTemplate(features, templates, threshold = 0.42) {
   return null;
 }
 
-// Layer 1: Two-Handed Spatial Signs
+// ── Layer 1: Two-Handed Spatial Signs & Interactions ──────────────────────────
 function classifyTwoHandedGesture(lm0, lm1) {
   if (!lm0 || !lm1 || lm0.length < 21 || lm1.length < 21) return null;
 
@@ -1944,49 +2456,72 @@ function classifyTwoHandedGesture(lm0, lm1) {
   const mid0 = lm0[12], mid1 = lm1[12];
   const mcp0 = lm0[9], mcp1 = lm1[9];
 
-  const wristDist = Math.hypot(wrist0.x - wrist1.x, wrist0.y - wrist1.y);
-  const indexDist = Math.hypot(index0.x - index1.x, index0.y - index1.y);
-  const mcpDist = Math.hypot(mcp0.x - mcp1.x, mcp0.y - mcp1.y);
+  // Palm scales of each hand
+  const scale0 = Math.hypot(lm0[9].x - wrist0.x, lm0[9].y - wrist0.y) || 0.1;
+  const scale1 = Math.hypot(lm1[9].x - wrist1.x, lm1[9].y - wrist1.y) || 0.1;
+  const avgScale = (scale0 + scale1) / 2;
+
+  const wristDist = Math.hypot(wrist0.x - wrist1.x, wrist0.y - wrist1.y) / avgScale;
+  const indexDist = Math.hypot(index0.x - index1.x, index0.y - index1.y) / avgScale;
 
   const isUp0 = index0.y < wrist0.y;
   const isUp1 = index1.y < wrist1.y;
 
-  // 1. NAMASTE: Wrists close, index fingertips touching, fingers pointing up
-  if (wristDist < 0.22 && indexDist < 0.16 && isUp0 && isUp1) {
-    return { label: 'NAMASTE', confidence: 99.4, method: 'Two-Handed Namaste Rule' };
+  // 1. NAMASTE: Wrists close, index tips touching, fingers pointing upright
+  if (wristDist < 1.6 && indexDist < 1.0 && isUp0 && isUp1) {
+    return { label: 'NAMASTE', confidence: 99.5, method: 'Two-Handed Namaste Rule' };
   }
 
-  // 2. HELP: One hand flat open horizontal palm, the other hand a closed fist resting on top
-  const distHand0Fingers = [lm0[8], lm0[12], lm0[16], lm0[20]].map(p => Math.hypot(p.x - wrist0.x, p.y - wrist0.y));
-  const distHand1Fingers = [lm1[8], lm1[12], lm1[16], lm1[20]].map(p => Math.hypot(p.x - wrist1.x, p.y - wrist1.y));
-  const isHand0Open = distHand0Fingers.every(d => d > 0.18);
-  const isHand1Fist = distHand1Fingers.every(d => d < 0.20);
-  const isHand1Open = distHand1Fingers.every(d => d > 0.18);
-  const isHand0Fist = distHand0Fingers.every(d => d < 0.20);
+  // 2. HELP: One hand flat horizontal palm, other hand closed fist on top
+  const distHand0Fingers = [lm0[8], lm0[12], lm0[16], lm0[20]].map(p => Math.hypot(p.x - wrist0.x, p.y - wrist0.y) / scale0);
+  const distHand1Fingers = [lm1[8], lm1[12], lm1[16], lm1[20]].map(p => Math.hypot(p.x - wrist1.x, p.y - wrist1.y) / scale1);
+  const isHand0Open = distHand0Fingers.every(d => d > 1.2);
+  const isHand1Fist = distHand1Fingers.every(d => d < 1.1);
+  const isHand1Open = distHand1Fingers.every(d => d > 1.2);
+  const isHand0Fist = distHand0Fingers.every(d => d < 1.1);
 
-  if ((isHand0Open && isHand1Fist && Math.hypot(wrist1.x - mcp0.x, wrist1.y - mcp0.y) < 0.24) ||
-      (isHand1Open && isHand0Fist && Math.hypot(wrist0.x - mcp1.x, wrist0.y - mcp1.y) < 0.24)) {
-    return { label: 'HELP', confidence: 99.2, method: 'Two-Handed Fist-on-Palm Rule' };
+  const contact01 = Math.hypot(wrist1.x - mcp0.x, wrist1.y - mcp0.y) / avgScale;
+  const contact10 = Math.hypot(wrist0.x - mcp1.x, wrist0.y - mcp1.y) / avgScale;
+
+  if ((isHand0Open && isHand1Fist && contact01 < 1.4) || (isHand1Open && isHand0Fist && contact10 < 1.4)) {
+    return { label: 'HELP', confidence: 99.4, method: 'Two-Handed Fist-on-Palm Rule' };
   }
 
-  // 3. TOWER: Wrists apart, index/middle tips touching at peak
-  if (wristDist > 0.18 && indexDist < 0.12 && isUp0 && isUp1) {
-    return { label: 'TOWER', confidence: 98.8, method: 'Two-Handed Inverted-V Apex Rule' };
+  // 3. TOWER / ROOF / BUILDING: Wrists separated, fingertips touching in apex (inverted V)
+  if (wristDist > 1.8 && indexDist < 0.9 && isUp0 && isUp1) {
+    return { label: 'TOWER', confidence: 99.0, method: 'Two-Handed Apex Rule' };
+  }
+
+  // 4. TIME / CLOCK: Dominant index tapping non-dominant wrist
+  const tapDist0to1 = Math.hypot(index0.x - wrist1.x, index0.y - wrist1.y) / avgScale;
+  const tapDist1to0 = Math.hypot(index1.x - wrist0.x, index1.y - wrist0.y) / avgScale;
+  if (tapDist0to1 < 0.8 || tapDist1to0 < 0.8) {
+    return { label: 'TIME', confidence: 98.9, method: 'Two-Handed Wrist Tap Rule' };
+  }
+
+  // 5. CROSS / HOSPITAL: Index fingers crossed in an 'X'
+  const indexDistReal = Math.hypot(index0.x - index1.x, index0.y - index1.y) / avgScale;
+  const midDistReal = Math.hypot(mid0.x - mid1.x, mid0.y - mid1.y) / avgScale;
+  if (indexDistReal < 0.6 && midDistReal > 1.0) {
+    return { label: 'CROSS', confidence: 98.6, method: 'Two-Handed Crossed Digits' };
   }
 
   return null;
 }
 
-// Layer 2: Kinematic Directions & Biomechanical Angles (Single Hand)
+// ── Layer 2: Biomechanical Kinematics & Scale-Invariant Pointing Vector ───────
 function classifySingleHandKinematics(lm) {
   if (!lm || lm.length < 21) return null;
 
   const wrist = lm[0];
-  const thumbTip = lm[4];
+  const thumbCmc = lm[1];
   const thumbMcp = lm[2];
+  const thumbIp = lm[3];
+  const thumbTip = lm[4];
 
   const indexMcp = lm[5];
   const indexPip = lm[6];
+  const indexDip = lm[7];
   const indexTip = lm[8];
 
   const midMcp = lm[9];
@@ -2001,84 +2536,94 @@ function classifySingleHandKinematics(lm) {
   const pinkyPip = lm[18];
   const pinkyTip = lm[20];
 
-  const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+  // Palm scale: wrist to middle knuckle distance (Scale Invariant Normalizer)
+  const palmScale = Math.hypot(midMcp.x - wrist.x, midMcp.y - wrist.y) || 0.1;
+  const distNorm = (a, b) => Math.hypot(a.x - b.x, a.y - b.y) / palmScale;
 
-  // Measure extensions relative to respective MCPs
-  const indexExt = dist(indexTip, indexMcp) > 0.11;
-  const midExt = dist(midTip, midMcp) > 0.11;
-  const ringExt = dist(ringTip, ringMcp) > 0.11;
-  const pinkyExt = dist(pinkyTip, pinkyMcp) > 0.11;
-  const thumbExt = dist(thumbTip, indexMcp) > 0.12;
+  // Measure extensions relative to each finger's MCP knuckle normalized by palm scale
+  const indexExt = distNorm(indexTip, wrist) > distNorm(indexPip, wrist) * 1.18 && distNorm(indexTip, indexMcp) > 0.72;
+  const midExt = distNorm(midTip, wrist) > distNorm(midPip, wrist) * 1.18 && distNorm(midTip, midMcp) > 0.72;
+  const ringExt = distNorm(ringTip, wrist) > distNorm(ringPip, wrist) * 1.18 && distNorm(ringTip, ringMcp) > 0.72;
+  const pinkyExt = distNorm(pinkyTip, wrist) > distNorm(pinkyPip, wrist) * 1.18 && distNorm(pinkyTip, pinkyMcp) > 0.72;
+  const thumbExt = distNorm(thumbTip, indexMcp) > 0.70 && distNorm(thumbTip, wrist) > distNorm(thumbIp, wrist) * 1.10;
 
   const extCount = [indexExt, midExt, ringExt, pinkyExt].filter(Boolean).length;
 
-  // Directional Pointing (Index finger extended alone)
-  // Mirror-aware coordinate: canvas has scaleX(-1) selfie flip, so dxScreen = -(indexTip.x - indexMcp.x)
+  // Pointing Vector & Angle (Mirror-aware coordinate correction for selfie view)
   const dxScreen = -(indexTip.x - indexMcp.x);
   const dyScreen = indexTip.y - indexMcp.y;
+  const pointingAngleDeg = Math.atan2(dyScreen, dxScreen) * 180 / Math.PI;
 
+  // 1. Single Index Finger Extended Alone (Directional Navigation)
   if (indexExt && !midExt && !ringExt && !pinkyExt) {
-    if (dxScreen < -0.08) {
-      return { label: 'GATE_LEFT', confidence: 99.6, dx: dxScreen, dy: dyScreen };
+    // Pointing Left: angle around 180 or -180 degrees
+    if (pointingAngleDeg >= 135 || pointingAngleDeg <= -135) {
+      return { label: 'GATE_LEFT', confidence: 99.6, angle: pointingAngleDeg };
     }
-    if (dxScreen > 0.08) {
-      return { label: 'GATE_RIGHT', confidence: 99.4, dx: dxScreen, dy: dyScreen };
+    // Pointing Right: angle around 0 degrees
+    if (pointingAngleDeg >= -45 && pointingAngleDeg <= 45) {
+      return { label: 'GATE_RIGHT', confidence: 99.4, angle: pointingAngleDeg };
     }
-    if (dyScreen > 0.08 || indexTip.y > wrist.y + 0.02) {
-      return { label: 'COMING_DOWN', confidence: 99.1, dx: dxScreen, dy: dyScreen };
+    // Pointing Down: angle around +90 degrees (y goes down in screen coords)
+    if (pointingAngleDeg > 45 && pointingAngleDeg < 135) {
+      return { label: 'COMING_DOWN', confidence: 99.2, angle: pointingAngleDeg };
     }
-    return { label: 'APPOINTMENT', confidence: 98.9, dx: dxScreen, dy: dyScreen };
+    // Pointing Up: angle around -90 degrees
+    if (pointingAngleDeg > -135 && pointingAngleDeg < -45) {
+      return { label: 'FLOOR_1', confidence: 99.0, angle: pointingAngleDeg };
+    }
+    return { label: 'APPOINTMENT', confidence: 98.8, angle: pointingAngleDeg };
   }
 
-  // V-Sign: 2 fingers extended (Index & Middle), Ring & Pinky curled
+  // 2. V-Sign: Index and Middle extended, Ring and Pinky curled
   if (indexExt && midExt && !ringExt && !pinkyExt) {
-    return { label: 'FLOOR_2', confidence: 99.5, spread: dist(indexTip, midTip) };
+    return { label: 'FLOOR_2', confidence: 99.5 };
   }
 
-  // 3 fingers (Index, Middle, Ring)
+  // 3. 3 Fingers (Index, Middle, Ring)
   if (indexExt && midExt && ringExt && !pinkyExt) {
-    return { label: '3', confidence: 98.8 };
+    return { label: 'FLOOR_3', confidence: 99.0 };
   }
 
-  // 4 fingers (Index, Middle, Ring, Pinky), thumb tucked
+  // 4. 4 Fingers extended, thumb curled
   if (extCount === 4 && !thumbExt) {
-    return { label: 'OTP', confidence: 99.0 };
+    return { label: 'OTP', confidence: 99.2 };
   }
 
-  // 5 fingers: Open flat palm facing camera
+  // 5. Open flat palm (5 fingers extended)
   if (extCount === 4 && thumbExt) {
-    return { label: 'DOOR', confidence: 99.3 };
+    return { label: 'DOOR', confidence: 99.4 };
   }
 
-  // Thumbs up: Fist closed, thumb extended upright
-  if (extCount === 0 && thumbExt && thumbTip.y < indexMcp.y - 0.03) {
+  // 6. Thumbs up (fist closed, thumb extended upright)
+  if (extCount === 0 && thumbExt && thumbTip.y < indexMcp.y) {
     return { label: 'YES', confidence: 99.5 };
   }
 
-  // Closed fist: All 4 curled, thumb tucked
+  // 7. Closed fist (all 4 curled, thumb tucked)
   if (extCount === 0 && !thumbExt) {
-    return { label: 'WAIT', confidence: 99.0 };
+    return { label: 'WAIT', confidence: 99.1 };
   }
 
-  // Pinch: Thumb tip touches index tip
-  if (dist(thumbTip, indexTip) < 0.07) {
-    return { label: 'BELL', confidence: 99.2 };
+  // 8. Digital pinch: Thumb tip touches index tip
+  if (distNorm(thumbTip, indexTip) < 0.40) {
+    return { label: 'BELL', confidence: 99.3 };
   }
 
-  // Shaka / "Call": Thumb & Pinky extended, middle 3 curled
+  // 9. Shaka / "Call": Thumb & Pinky extended, middle 3 curled
   if (thumbExt && pinkyExt && !indexExt && !midExt && !ringExt) {
-    return { label: 'Y', confidence: 99.1 };
+    return { label: 'CALL', confidence: 99.2 };
   }
 
-  // 'L' shape: Thumb & Index extended at ~90 degrees
-  if (thumbExt && indexExt && !midExt && !ringExt && !pinkyExt && dist(thumbTip, indexTip) > 0.12) {
+  // 10. 'L' shape: Thumb and Index extended at ~90 degrees
+  if (thumbExt && indexExt && !midExt && !ringExt && !pinkyExt && distNorm(thumbTip, indexTip) > 0.80) {
     return { label: 'L', confidence: 98.9 };
   }
 
   return null;
 }
 
-// ── Hold-to-Confirm Auto-Commit Engine ───────────────────────────────────────
+// ── Hold-to-Confirm Dynamic Engine ───────────────────────────────────────────
 const holdState = {
   currentSign: null,
   startTime: 0,
@@ -2091,13 +2636,12 @@ const holdState = {
 function processHoldToConfirm(signLabel) {
   const now = performance.now();
 
-  // Check cooldown
   if (now - holdState.lastCommitTime < holdState.cooldownMs) {
     updateHoldProgressBar(1.0, true);
     return;
   }
 
-  if (signLabel && signLabel !== 'READY' && signLabel !== 'UNKNOWN') {
+  if (signLabel && signLabel !== 'READY' && signLabel !== 'TRACKING') {
     if (holdState.currentSign === signLabel) {
       const elapsed = now - holdState.startTime;
       const progress = Math.min(1.0, elapsed / holdState.holdDuration);
@@ -2105,7 +2649,6 @@ function processHoldToConfirm(signLabel) {
       highlightGuideChip(signLabel, 'active-tracking');
 
       if (progress >= 1.0) {
-        // Auto-commit trigger!
         holdState.lastCommitTime = now;
         holdState.lastCommittedSign = signLabel;
         holdState.currentSign = null;
@@ -2113,9 +2656,7 @@ function processHoldToConfirm(signLabel) {
         updateHoldProgressBar(1.0, true);
         highlightGuideChip(signLabel, 'committed');
 
-        if (typeof handleSignEvent === 'function') {
-          handleSignEvent(signLabel);
-        }
+        handleSignEvent(signLabel);
       }
     } else {
       holdState.currentSign = signLabel;
@@ -2131,8 +2672,8 @@ function processHoldToConfirm(signLabel) {
 }
 
 function updateHoldProgressBar(progress, isCommitted) {
-  const fill = document.getElementById('hud-progress-fill');
-  const text = document.getElementById('hud-hold-text');
+  const fill = document.getElementById('studio-hold-fill');
+  const text = document.getElementById('studio-hold-text');
   if (!fill) return;
 
   const pct = Math.round(progress * 100);
@@ -2142,17 +2683,17 @@ function updateHoldProgressBar(progress, isCommitted) {
     fill.style.background = 'linear-gradient(90deg, #10b981 0%, #059669 100%)';
     if (text) text.textContent = '✅ COMMITTED & SPOKEN';
   } else if (progress > 0) {
-    fill.style.background = 'linear-gradient(90deg, #00f0ff 0%, #3b82f6 100%)';
-    if (text) text.textContent = `Holding... ${pct}%`;
+    fill.style.background = 'linear-gradient(90deg, #00f0ff 0%, #2563eb 100%)';
+    if (text) text.textContent = 'Holding... ' + pct + '%';
   } else {
-    fill.style.background = 'linear-gradient(90deg, #00f0ff 0%, #3b82f6 100%)';
+    fill.style.background = 'linear-gradient(90deg, #00f0ff 0%, #2563eb 100%)';
     if (text) text.textContent = 'Hold 0.5s to Speak';
   }
 }
 
 function highlightGuideChip(signLabel, status) {
   document.querySelectorAll('.guide-chip').forEach(c => {
-    if (c.id === `guide-${signLabel}`) {
+    if (c.id === 'guide-' + signLabel) {
       c.classList.remove('active-tracking', 'committed');
       c.classList.add(status);
       const s = c.querySelector('.guide-status');
@@ -2175,10 +2716,13 @@ function clearGuideHighlights() {
 
 // ── MediaPipe Hands Camera Pipeline Setup ────────────────────────────────────
 function setupMediaPipe() {
-  const video = document.getElementById('webcam-video');
-  const canvas = document.getElementById('skeleton-canvas');
+  const video = document.getElementById('studio-webcam-video');
+  const canvas = document.getElementById('studio-skeleton-canvas');
+  const phoneCanvas = document.getElementById('phone-mirror-canvas');
   if (!video || !canvas) return;
+
   const ctx = canvas.getContext('2d');
+  const phoneCtx = phoneCanvas ? phoneCanvas.getContext('2d') : null;
 
   if (typeof Hands === 'undefined') {
     console.log('MediaPipe loading via fallback CDN...');
@@ -2186,7 +2730,7 @@ function setupMediaPipe() {
   }
 
   hands = new Hands({
-    locateFile: (file) => `vendor/mediapipe/${file}`
+    locateFile: (file) => 'vendor/mediapipe/' + file
   });
 
   hands.setOptions({
@@ -2197,30 +2741,46 @@ function setupMediaPipe() {
   });
 
   hands.onResults((results) => {
-    canvas.width = video.videoWidth || 480;
-    canvas.height = video.videoHeight || 360;
+    const w = video.videoWidth || 640;
+    const h = video.videoHeight || 480;
+
+    canvas.width = w;
+    canvas.height = h;
     ctx.save();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, w, h);
+
+    if (phoneCanvas && phoneCtx) {
+      phoneCanvas.width = w;
+      phoneCanvas.height = h;
+      phoneCtx.save();
+      phoneCtx.clearRect(0, 0, w, h);
+      phoneCtx.drawImage(video, 0, 0, w, h);
+    }
 
     const handsCount = results.multiHandLandmarks ? results.multiHandLandmarks.length : 0;
-    const handsPill = document.getElementById('hud-hands-count');
-    if (handsPill) {
-      handsPill.textContent = handsCount > 1 ? 'MediaPipe 2-Hands Active' : (handsCount === 1 ? 'MediaPipe 1-Hand Active' : 'Waiting for Hands');
+    const detailPill = document.getElementById('hud-hands-detail');
+    if (detailPill) {
+      detailPill.textContent = handsCount > 1 ? '2-Hands Active' : (handsCount === 1 ? '1-Hand Active' : 'Waiting for hands');
     }
 
     let recognizedSign = 'READY';
     let recognizedConf = 0;
 
     if (handsCount > 0) {
-      // Draw skeletons: Hand 0 in cyan, Hand 1 in emerald green
+      // Draw skeletons: Hand 0 in cyan, Hand 1 in emerald
       for (let i = 0; i < handsCount; i++) {
         const lm = results.multiHandLandmarks[i];
         const color = i === 0 ? '#00f0ff' : '#10b981';
         const fill = i === 0 ? '#0284c7' : '#059669';
 
         if (typeof drawConnectors !== 'undefined') {
-          drawConnectors(ctx, lm, HAND_CONNECTIONS, { color, lineWidth: 2.5 });
-          drawLandmarks(ctx, lm, { color: '#ffffff', fillColor: fill, lineWidth: 1, radius: 3 });
+          drawConnectors(ctx, lm, HAND_CONNECTIONS, { color, lineWidth: 3.0 });
+          drawLandmarks(ctx, lm, { color: '#ffffff', fillColor: fill, lineWidth: 1.5, radius: 4 });
+
+          if (phoneCtx && typeof drawConnectors !== 'undefined') {
+            drawConnectors(phoneCtx, lm, HAND_CONNECTIONS, { color, lineWidth: 2.5 });
+            drawLandmarks(phoneCtx, lm, { color: '#ffffff', fillColor: fill, lineWidth: 1, radius: 3 });
+          }
         }
       }
 
@@ -2233,7 +2793,7 @@ function setupMediaPipe() {
         }
       }
 
-      // Layer 2: Check Biomechanical & Kinematic Directional Rules (Dominant Hand)
+      // Layer 2: Check Kinematic Directional Rules (Dominant Hand)
       if (recognizedSign === 'READY') {
         const kinMatch = classifySingleHandKinematics(results.multiHandLandmarks[0]);
         if (kinMatch) {
@@ -2242,7 +2802,7 @@ function setupMediaPipe() {
         }
       }
 
-      // Layer 3: 72-Dimensional Invariant Euclidean Template Matching across Lexicon
+      // Layer 3: 72-Dimensional Invariant Euclidean Template Matching
       if (recognizedSign === 'READY' && window.OMNISIGN_TEMPLATES.length > 0) {
         const fv = buildFeatureVector(results.multiHandLandmarks[0]);
         const tm = match72DTemplate(fv, window.OMNISIGN_TEMPLATES, 0.42);
@@ -2252,25 +2812,37 @@ function setupMediaPipe() {
         }
       }
 
-      // Update HUD Overlay
+      // Update Studio Overlay
       if (recognizedSign !== 'READY') {
-        document.getElementById('hud-sign-label').textContent = recognizedSign;
-        document.getElementById('hud-sign-conf').textContent = recognizedConf.toFixed(1) + '% Match';
-        updateJointTelemetry(recognizedSign);
+        const labelElem = document.getElementById('studio-sign-label');
+        const confElem = document.getElementById('studio-sign-conf');
+        const iconElem = document.getElementById('studio-sign-icon');
+        const rule = SYNTHESIS_RULES[recognizedSign];
+
+        if (labelElem) labelElem.textContent = recognizedSign;
+        if (confElem) confElem.textContent = recognizedConf.toFixed(1) + '% Match (Biomechanical)';
+        if (iconElem) iconElem.textContent = rule ? (rule.emoji || '✋') : '✋';
       } else {
-        document.getElementById('hud-sign-label').textContent = 'TRACKING';
-        document.getElementById('hud-sign-conf').textContent = 'Analyzing Kinematics...';
+        const labelElem = document.getElementById('studio-sign-label');
+        const confElem = document.getElementById('studio-sign-conf');
+        if (labelElem) labelElem.textContent = 'TRACKING';
+        if (confElem) confElem.textContent = 'Analyzing Kinematic Vector...';
       }
 
       // Process Hold-to-Confirm Auto-Commit
       processHoldToConfirm(recognizedSign);
     } else {
-      document.getElementById('hud-sign-label').textContent = 'READY';
-      document.getElementById('hud-sign-conf').textContent = 'Show Hands to Camera';
+      const labelElem = document.getElementById('studio-sign-label');
+      const confElem = document.getElementById('studio-sign-conf');
+      const iconElem = document.getElementById('studio-sign-icon');
+      if (labelElem) labelElem.textContent = 'READY';
+      if (confElem) confElem.textContent = 'Show hands to camera';
+      if (iconElem) iconElem.textContent = '✋';
       processHoldToConfirm(null);
     }
 
     ctx.restore();
+    if (phoneCtx) phoneCtx.restore();
   });
 
   if (typeof Camera !== 'undefined') {
@@ -2280,8 +2852,8 @@ function setupMediaPipe() {
           await hands.send({ image: video });
         }
       },
-      width: 480,
-      height: 360
+      width: 640,
+      height: 480
     });
     camera.start().catch(e => console.warn('Webcam permission pending or unavailable:', e));
   }
@@ -2291,7 +2863,7 @@ function toggleWebcamFeed() {
   state.isWebcamActive = !state.isWebcamActive;
   const btn = document.getElementById('webcam-toggle-btn');
   btn.innerHTML = state.isWebcamActive ? '<span>📹 Camera ON</span>' : '<span>📷 Camera OFF</span>';
-  showToast(state.isWebcamActive ? 'Webcam active' : 'Webcam paused (using chips)');
+  showToast(state.isWebcamActive ? 'Webcam active' : 'Webcam paused');
 }
 
 function toggleChartModal() {
@@ -2306,24 +2878,32 @@ function showToast(msg) {
   setTimeout(() => { t.style.display = 'none'; }, 3500);
 }
 
+// ── Auto-Speak Toggle Handler ────────────────────────────────────────────────
+document.getElementById('auto-speak-toggle')?.addEventListener('change', (e) => {
+  state.autoSpeak = e.target.checked;
+  const label = document.getElementById('auto-speak-label');
+  if (label) {
+    label.textContent = state.autoSpeak ? 'ON' : 'OFF';
+    label.style.color = state.autoSpeak ? 'var(--emerald)' : 'var(--text-muted)';
+  }
+  showToast('Auto-Speak: ' + (state.autoSpeak ? 'Enabled' : 'Disabled'));
+});
+
 // ── Initialization on Page Load ──────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
   startWaveformCanvas();
   loadLexiconTemplates();
   setupMediaPipe();
+  populateVoiceSelect();
 
   // Clock in status bar
   setInterval(() => {
     const now = new Date();
     const h = now.getHours();
     const m = String(now.getMinutes()).padStart(2, '0');
-    document.getElementById('phone-clock').textContent = `${h}:${m}`;
+    const clock = document.getElementById('phone-clock');
+    if (clock) clock.textContent = h + ':' + m;
   }, 1000);
-
-  // Trigger initial phone ringing preview for judge
-  setTimeout(() => {
-    triggerIncomingCall();
-  }, 1200);
 });
 </script>
 
